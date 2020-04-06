@@ -10,7 +10,7 @@ INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-
 
 ## Installation
 
-Dcker:
+Docker:
 
 * Install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) in your linux server;
 * Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
