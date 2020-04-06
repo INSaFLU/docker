@@ -10,26 +10,24 @@ INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-
 
 ## Installation
 
-	docker:
-	* Install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) in your linux server;
-	* Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
+Dcker:
 
-		```
-		$ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
-		$ chmod a+x install.sh
+* Install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) in your linux server;
+* Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
 
-		### centos
-		$ sudo ./install.sh
+	$ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
+	$ chmod a+x install.sh
 
-		### ubuntu
-		$ sudo ./install.sh --upstart
-		```
+	### centos
+	$ sudo ./install.sh
+
+	### ubuntu
+	$ sudo ./install.sh --upstart
 
 :warning: If you're uncomfortable running a script you downloaded off the internet with sudo, you can extract any of the steps out of the install.sh script and run them manually.
 
-	INSaFLU:
+INSaFLU:
 
-	```
 	$ git clone git@github.com:INSaFLU/docker.git
 	$ cd docker
 	## to define web port exposed and path where the data will be saved
@@ -38,27 +36,23 @@ INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-
 	$ ./up
 	## create an user, in other terminal or you can use 'screen' in previous steps
 	$ docker exec -it insaflu-server create-user
-	```
 
 Now, you can go to a web explorer and link to the address "127.0.0.1:<port defined in .env>"
 
-	To stop:
+To stop:
 
-	```
 	$ docker stop insaflu-server
-	```
 
-	To start again:
+To start again:
 
-	```
 	$ ./up
-	```
 
 ## Commands available
 
 With these commands you can interact with INSaFLU image to do several taks.
 
-	Commands:
+Commands:
+
 	* confirm-email-account
 	* create-user			## to create an user in insaflu
 	* list-all-users		## list all users in insaflu
