@@ -1,0 +1,16 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+hostname              insaflu
+load_scaling          NONE
+complex_values        NONE
+load_values           arch=lx-amd64,num_proc=32,mem_total=64261.968750M,swap_total=0.000000M,virtual_total=64261.968750M,m_topology=SCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSCSC,m_socket=32,m_core=32,m_thread=32
+processors            32
+reschedule_unknown_list NONE
+user_lists            NONE
+xuser_lists           NONE
+projects              NONE
+xprojects             NONE
+usage_scaling         NONE
+report_variables      NONE

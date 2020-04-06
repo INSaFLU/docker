@@ -1,0 +1,12 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+name        np_load_medium
+shortcut    nlm
+type        DOUBLE
+relop       >=
+requestable NO
+consumable  NO
+default     0
+urgency     0

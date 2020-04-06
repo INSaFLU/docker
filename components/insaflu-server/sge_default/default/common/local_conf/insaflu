@@ -1,0 +1,9 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+conf_name                    insaflu
+conf_version                 1
+mailer                       /bin/mail
+xterm                        /usr/bin/xterm
+

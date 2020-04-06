@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+echo "---> Unlock upload multiple files process  ..."
+cd /insaflu_web/INSaFLU;
+python3 manage.py unlock_upload_files

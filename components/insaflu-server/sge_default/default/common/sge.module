@@ -1,0 +1,19 @@
+#%Module1.0                         -*-tcl-*-
+
+proc ModulesHelp { } {
+    puts stderr "\tSets up the Grid Engine batch system"
+}
+
+module-whatis "Grid Engine batch system"
+
+set sge_root "/opt/sge"
+set sge_cell "default"
+set sge_arch "lx-amd64"
+
+setenv SGE_ROOT "$sge_root"
+setenv SGE_CELL "$sge_cell"
+setenv SGE_CLUSTER_NAME "p6444"
+setenv DRMAA_LIBRARY_PATH "$sge_root/lib/$sge_arch/libdrmaa.so"
+prepend-path PATH "$sge_root/bin/$sge_arch"
+prepend-path PATH "$sge_root/bin"
+prepend-path MANPATH "$sge_root/man"

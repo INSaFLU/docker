@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+echo "---> Download tbl2asn from ncbi  ..."
+cd /software/extra_software;
+wget -O tbl2asn.gz ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux64.tbl2asn.gz
+
+## test exist previous file
+if [ -e tbl2asn ]; then
+	rm tbl2asn
+fi
+
+gunzip tbl2asn.gz
+chmod +x tbl2asn
+
+echo "---> Test new version ..."
+./tbl2asn --help
+
+echo "---> Preserve old version  ..."
+cp /software/prokka/binaries/linux/tbl2asn /software/prokka/binaries/linux/tbl2asn_old
+
+echo "---> Update old by new  ..."
+cp tbl2asn /software/prokka/binaries/linux
+
+## run again prokka
+echo "---> Update old by new  ..."
+/software/prokka/bin/prokka /insaflu_web/INSaFLU/static/tests/managing_files/TwoGenesJoined.fasta --kingdom Viruses --locustag locus --genus Influenzavirus --species Influenzavirus --strain ref_PREFIX_FILES_OUT --gcode 11 --outdir temp --prefix prefix_out --force
+
+rm -rf /software/extra_software;
+echo "---> Done  ..."

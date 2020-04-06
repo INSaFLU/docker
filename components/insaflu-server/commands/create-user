@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "---> Create an account in InsaFLu  ..."
+cd /insaflu_web/INSaFLU;
+python3 manage.py createsuperuser
+
+## activate email
+echo "---> Set flag on database 'Confirm email account'  ..."
+python3 manage.py confirm_email_account last_account_created

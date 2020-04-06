@@ -1,0 +1,10 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+qname                 queue_1.q
+hostname              insaflu
+state                 0
+pending_signal        0
+pending_signal_del    0
+version               1

@@ -1,0 +1,12 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+name        tmpdir
+shortcut    tmp
+type        STRING
+relop       ==
+requestable NO
+consumable  NO
+default     NONE
+urgency     0

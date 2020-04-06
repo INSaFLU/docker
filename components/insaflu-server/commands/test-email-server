@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+echo "---> Test smtp email server configuration  ..."
+cd /insaflu_web/INSaFLU;
+python3 manage.py test tests_insaflu.tests_send_email

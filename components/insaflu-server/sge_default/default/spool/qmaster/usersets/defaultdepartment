@@ -1,0 +1,9 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+name    defaultdepartment
+type    DEPT
+fshare  0
+oticket 0
+entries NONE

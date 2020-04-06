@@ -1,0 +1,15 @@
+# Version: 8.1.9
+#
+admin_user              sgeadmin
+default_domain          none
+ignore_fqdn             true
+spooling_method         classic
+spooling_lib            libspoolc
+spooling_params         /opt/sge/default/common;/opt/sge/default/spool/qmaster
+binary_path             /opt/sge/bin
+qmaster_spool_dir       /opt/sge/default/spool/qmaster
+security_mode           none
+listener_threads        2
+worker_threads          2
+scheduler_threads       1
+jvm_threads             0

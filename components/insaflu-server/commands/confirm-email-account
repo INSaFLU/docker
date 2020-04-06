@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+if [ $# -ne 1 ] 
+then 
+	echo "use: confirm-email-account <user name> "
+	exit 1
+fi
+
+echo "---> Set flag on database 'Confirm email account'  ..."
+## activate email
+python3 manage.py confirm_email_account $1

@@ -1,0 +1,39 @@
+03/29/2020 14:53:34|  main|insaflu|I|read job database with 0 entries in 0 seconds
+03/29/2020 14:53:34|  main|insaflu|E|error opening file "/opt/sge/default/common/./sched_configuration" for reading: No such file or directory
+03/29/2020 14:53:34|  main|insaflu|E|error opening file "/opt/sge/default/spool/qmaster/./sharetree" for reading: No such file or directory
+03/29/2020 14:53:34|  main|insaflu|I|qmaster hard descriptor limit is set to 1048576
+03/29/2020 14:53:34|  main|insaflu|I|qmaster soft descriptor limit is set to 1048576
+03/29/2020 14:53:34|  main|insaflu|I|qmaster will use max. 1003 file descriptors for communication
+03/29/2020 14:53:34|  main|insaflu|I|qmaster will accept max. 950 dynamic event clients
+03/29/2020 14:53:34|  main|insaflu|I|starting up SGE 8.1.9 (lx-amd64)
+03/29/2020 14:53:34|  main|insaflu|W|can't open job sequence number file "jobseqnum": for reading: No such file or directory -- guessing next number
+03/29/2020 14:53:34|  main|insaflu|W|can't open ar sequence number file "arseqnum": for reading: No such file or directory -- guessing next number
+03/29/2020 21:26:22|  main|insaflu|I|read job database with 0 entries in 0 seconds
+03/29/2020 21:26:22|  main|insaflu|E|error opening file "/opt/sge/default/spool/qmaster/./sharetree" for reading: No such file or directory
+03/29/2020 21:26:22|  main|insaflu|I|qmaster hard descriptor limit is set to 1048576
+03/29/2020 21:26:22|  main|insaflu|I|qmaster soft descriptor limit is set to 1048576
+03/29/2020 21:26:22|  main|insaflu|I|qmaster will use max. 1003 file descriptors for communication
+03/29/2020 21:26:22|  main|insaflu|I|qmaster will accept max. 950 dynamic event clients
+03/29/2020 21:26:22|  main|insaflu|I|starting up SGE 8.1.9 (lx-amd64)
+03/29/2020 21:30:51|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:30:56|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:01|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:06|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:11|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:16|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:21|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:26|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:31|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:36|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:41|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:46|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:51|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:31:56|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:32:01|worker|insaflu|E|denied: host "insaflu" is not a submit host
+03/29/2020 21:32:40|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration
+03/29/2020 21:32:45|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration
+03/29/2020 21:32:50|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration
+03/29/2020 21:32:55|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration
+03/29/2020 21:33:00|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration
+03/29/2020 21:33:05|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration
+03/29/2020 21:33:10|worker|insaflu|E|job rejected: your user id 0 is lower than minimum user id 100 of cluster configuration

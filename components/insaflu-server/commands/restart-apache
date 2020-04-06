@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+echo "---> Restart apache server  ..."
+/usr/sbin/httpd -k restart

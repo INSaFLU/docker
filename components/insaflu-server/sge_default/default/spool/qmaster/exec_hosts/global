@@ -1,0 +1,16 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+hostname              global
+load_scaling          NONE
+complex_values        NONE
+load_values           NONE
+processors            0
+reschedule_unknown_list NONE
+user_lists            NONE
+xuser_lists           NONE
+projects              NONE
+xprojects             NONE
+usage_scaling         NONE
+report_variables      NONE

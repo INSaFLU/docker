@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+echo "---> Upload refences dbs  ..."
+cd /insaflu_web/INSaFLU;
+python3 manage.py load_default_files

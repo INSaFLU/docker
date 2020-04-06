@@ -1,0 +1,13 @@
+# Version: 8.1.9
+# 
+# DO NOT MODIFY THIS FILE MANUALLY!
+# 
+name flu_user
+oticket 0
+fshare 0
+delete_time 1585604823
+usage cpu=7.447393 mem=0.004177 io=0.000000 iow=0.000000 vmem=31492067.338481 ru_wallclock=1679.831530 ru_utime=1.775984 ru_stime=5.341938 ru_maxrss=26245.368083 ru_ixrss=0.000000 ru_ismrss=0.000000 ru_idrss=0.000000 ru_isrss=0.000000 ru_minflt=300087.904953 ru_majflt=0.000000 ru_nswap=0.000000 ru_inblock=0.000000 ru_oublock=335.966306 ru_msgsnd=0.000000 ru_msgrcv=0.000000 ru_nsignals=0.000000 ru_nvcsw=2490.750286 ru_nivcsw=744.925048 acct_cpu=7.117922 acct_mem=0.003911 acct_io=0.000000 acct_iow=0.000000 acct_maxvmem=29398140.085381 finished_jobs=0.000000
+usage_time_stamp 1585518427
+long_term_usage cpu=7.448637 mem=0.004178 io=0.000000 iow=0.000000 vmem=31498240.000000 ru_wallclock=1680.000000 ru_utime=1.776162 ru_stime=5.342475 ru_maxrss=26248.000000 ru_ixrss=0.000000 ru_ismrss=0.000000 ru_idrss=0.000000 ru_isrss=0.000000 ru_minflt=300118.000000 ru_majflt=0.000000 ru_nswap=0.000000 ru_inblock=0.000000 ru_oublock=336.000000 ru_msgsnd=0.000000 ru_msgrcv=0.000000 ru_nsignals=0.000000 ru_nvcsw=2491.000000 ru_nivcsw=745.000000 acct_cpu=7.118637 acct_mem=0.003911 acct_io=0.000000 acct_iow=0.000000 acct_maxvmem=29401088.000000 finished_jobs=14.000000
+default_project NONE
+debited_job_usage 22 cpu=0.330000,mem=0.000267,io=0.000000,iow=0.000000,vmem=2097152.000000;

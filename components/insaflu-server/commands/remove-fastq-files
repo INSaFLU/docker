@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+echo "---> Remove fastq files that are not necessary anymore..."
+cd /insaflu_web/INSaFLU;
+python3 manage.py run_remove_files
