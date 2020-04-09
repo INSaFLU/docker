@@ -15,8 +15,8 @@ Docker:
 * Install [docker](https://docs.docker.com/engine/install/) in your linux server;
 * Install [docker-compose](https://docs.docker.com/compose/install/) in your linux server;
 
-	# Sugestion	
 	$ sudo curl –L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	
 	$ sudo chmod +x /usr/local/bin/docker-compose
 
 * Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
@@ -25,7 +25,6 @@ Docker:
 	
 	$ chmod a+x install.sh
 
-	### centos/ubuntu
 	$ sudo ./install.sh
 
 :warning: If you're uncomfortable running a script you downloaded off the internet with sudo, you can extract any of the steps out of the install.sh script and run them manually.
