@@ -12,28 +12,31 @@ INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-
 
 Dcker:
 
-* Install [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/) in your linux server;
+* Install [docker](https://docs.docker.com/engine/install/) in your linux server;
+* Install [docker-compose](https://docs.docker.com/compose/install/) in your linux server;
+
+	# Sugestion	
+	$ sudo curl –L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	$ sudo chmod +x /usr/local/bin/docker-compose
+
 * Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
 
 	$ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
 	$ chmod a+x install.sh
 
-	### centos
+	### centos/ubuntu
 	$ sudo ./install.sh
-
-	### ubuntu
-	$ sudo ./install.sh --upstart
 
 :warning: If you're uncomfortable running a script you downloaded off the internet with sudo, you can extract any of the steps out of the install.sh script and run them manually.
 
 INSaFLU:
 
-	$ git clone git@github.com:INSaFLU/docker.git
+	$ git clone https://github.com/INSaFLU/docker.git
 	$ cd docker
 	## to define web port exposed and path where the data will be saved
 	$ vi .env
-	$ ./build
-	$ ./up
+	$ sudo ./build
+	$ sudo ./up
 	## create an user, in other terminal or you can use 'screen' in previous steps
 	$ docker exec -it insaflu-server create-user
 
@@ -41,11 +44,11 @@ Now, you can go to a web explorer and link to the address "127.0.0.1:<port defin
 
 To stop:
 
-	$ docker stop insaflu-server
+	$ sudo ./stop
 
 To start again:
 
-	$ ./up
+	$ sudo ./up
 
 ## Commands available
 
@@ -57,8 +60,8 @@ Commands:
 	* create-user			## to create an user in insaflu
 	* list-all-users		## list all users in insaflu
 	* remove-fastq-files		
-	* restart-apache		## restart web server, for example, after change something in insaflu.env file
-	* test-email-server		## test you smtp server, change parameters first in insaflu.env file
+	* restart-apache		## restart web server, for example, after change something in insaflu/env/insaflu.env file
+	* test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file
 	* unlock-upload-files		
 	* update-tbl2asn		## every year is necessary update the tbl2asn ncbi software
 	* upload-reference-dbs		## place new references in db/references and you can update them
@@ -68,7 +71,7 @@ How to run it:
 ```
 $ docker exec -it insaflu-server create-user
 $ docker exec -it insaflu-server update-tbl2asn
-$ docker exec -it insaflu-server update-tbl2asn
+$ docker exec -it insaflu-server restart-apache
 ```
 
 ## Update references
