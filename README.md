@@ -10,7 +10,7 @@ INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-
 
 ## Installation
 
-Dcker:
+Docker:
 
 * Install [docker](https://docs.docker.com/engine/install/) in your linux server;
 * Install [docker-compose](https://docs.docker.com/compose/install/) in your linux server;
@@ -22,6 +22,7 @@ Dcker:
 * Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
 
 	$ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
+	
 	$ chmod a+x install.sh
 
 	### centos/ubuntu
@@ -74,7 +75,7 @@ $ docker exec -it insaflu-server update-tbl2asn
 $ docker exec -it insaflu-server restart-apache
 ```
 
-## Update references
+## Update database for rapid assignment of segments/references to contigs
 
 
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
