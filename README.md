@@ -5,7 +5,14 @@
 
 
 # INSaFLU - docker installation
+
 INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-based platform for an effective and timely whole-genome-sequencing-based influenza laboratory surveillance.
+
+## Hardware Requirements
+
+* Processor: 8 cores (4 minimal);
+* RAM: 32GB of memory (16GB minimal);
+* Disk Space: 512GB;
 
 
 ## Installation
