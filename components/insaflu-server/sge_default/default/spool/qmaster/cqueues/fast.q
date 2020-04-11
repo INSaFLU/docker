@@ -16,7 +16,7 @@ qtype                 BATCH INTERACTIVE
 ckpt_list             NONE
 pe_list               make
 rerun                 FALSE
-slots                 2
+slots                 1
 tmpdir                /tmp
 shell                 /bin/bash
 prolog                NONE
