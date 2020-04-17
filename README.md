@@ -63,9 +63,9 @@ To start again:
 	
 ## Commands available
 
-With these commands you can interact with INSaFLU image to do several taks.
+With these commands you can interact with INSaFLU image to do several tasks.
 
-How to run it:
+How to run:
 	
 	$ docker exec -it insaflu-server <<command>>
 
@@ -94,7 +94,7 @@ $ docker exec -it insaflu-server restart-apache
 
 You can customize your environment by changing the "insaflu/env/insaflu.env" located in the directory where your data is being saved.
 
-For instance, users can change the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be or not downsized after upload (DOWN_SIZE_FASTQ_FILES = True/False) or indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), etc.
+For instance, users can change the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), etc.
 
 After editing the "insaflu.env" file, restart the web server:
 ```
