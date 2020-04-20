@@ -40,13 +40,16 @@ INSaFLU:
 
 	$ git clone https://github.com/INSaFLU/docker.git
 	$ cd docker
-	## to define web port exposed and path where the data will be saved
+	
+	## to define the directory where the data will be saved and the web port exposed, edit the .env file: 
 	$ vi .env
+	
 	$ sudo ./build
 	$ sudo ./up
+	
 	## create an user, in other terminal or you can use 'screen' in previous steps
 	$ docker exec -it insaflu-server create-user
-
+	
 Now, you can go to a web explorer and link to the address "127.0.0.1:<port defined in .env>"
 
 To stop:
@@ -56,10 +59,15 @@ To stop:
 To start again:
 
 	$ sudo ./up
-
+	
+	
 ## Commands available
 
-With these commands you can interact with INSaFLU image to do several taks.
+With these commands you can interact with INSaFLU image to do several tasks.
+
+How to run:
+	
+	$ docker exec -it insaflu-server <<command>>
 
 Commands:
 
@@ -73,11 +81,23 @@ Commands:
 	* update-tbl2asn		## every year is necessary update the tbl2asn ncbi software
 	* upload-reference-dbs		## place new references in db/references and you can update them
  
-How to run it:
 
+Examples:
 ```
 $ docker exec -it insaflu-server create-user
 $ docker exec -it insaflu-server update-tbl2asn
+$ docker exec -it insaflu-server restart-apache
+```
+
+
+## Change variables in your local environment
+
+You can customize your environment by changing the "insaflu/env/insaflu.env" located in the directory where your data is being saved.
+
+For instance, users can change the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), etc.
+
+After editing the "insaflu.env" file, restart the web server:
+```
 $ docker exec -it insaflu-server restart-apache
 ```
 
