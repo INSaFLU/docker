@@ -16,7 +16,7 @@ qtype                 BATCH INTERACTIVE
 ckpt_list             NONE
 pe_list               make smp mpi
 rerun                 FALSE
-slots                 1
+slots                 4
 tmpdir                /tmp
 shell                 /bin/sh
 prolog                NONE

@@ -31,7 +31,8 @@ RUN cpan CJFIELDS/BioPerl-1.6.924.tar.gz
 ### EMBOSS-6.6.0
 RUN mkdir -p /software/extra_software
 WORKDIR /software/extra_software
-RUN wget ftp://emboss.open-bio.org/pub/EMBOSS/EMBOSS-6.6.0.tar.gz; tar -zxvf EMBOSS-6.6.0.tar.gz
+COPY software/EMBOSS-6.6.0/EMBOSS-6.6.0.tar.gz /software/extra_software
+RUN tar -zxvf EMBOSS-6.6.0.tar.gz
 WORKDIR /software/extra_software/EMBOSS-6.6.0
 RUN ./configure --without-x; make; make install;
 RUN ln -s /usr/local/bin/seqret /usr/bin/seqret
@@ -68,8 +69,7 @@ ARG SGE_ROOT=/opt/sge
 RUN groupadd -g 58 gridware; useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin; chmod 0755 ${SGE_ROOT}
 RUN mkdir /insaflu_sge_source
 WORKDIR /insaflu_sge_source
-RUN wget https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/sge_8.1.9.tar.xz
-RUN tar -xJvf sge_8.1.9.tar.xz
+RUN wget https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/sge_8.1.9.tar.xz; tar -xJvf sge_8.1.9.tar.xz
 RUN yum -y install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel
 WORKDIR /insaflu_sge_source/sge-8.1.9/source
 RUN scripts/bootstrap.sh -no-java -no-jni
@@ -90,8 +90,7 @@ COPY sge_default/sun-grid-engine.sh /etc/profile.d/
 COPY sge_default/sgeexecd.p6444 /etc/init.d/
 COPY sge_default/sgemaster.p6444 /etc/init.d/
 COPY sge_default/root.cshrc /root/.cshrc
-RUN chmod a+x /etc/profile.d/sun-grid-engine.sh
-RUN rm -rf /insaflu_sge_source*
+RUN chmod a+x /etc/profile.d/sun-grid-engine.sh; rm -rf /insaflu_sge_source*
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:${PATH}"
 ### END SGE
 
