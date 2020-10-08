@@ -174,6 +174,8 @@ RUN git clone --branch v3.2 https://github.com/tseemann/snippy.git
 RUN ln -s snippy/perl5 perl5
 COPY software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/
 RUN chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq
+COPY software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/
+RUN chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence
 RUN sed 's/,     4.3, qr/,     4.1, qr/' /software/snippy/bin/snippy > /software/snippy/bin/snippy_temp
 RUN mv snippy/bin/snippy_temp snippy/bin/snippy; chmod a+x /software/snippy/bin/snippy
 
