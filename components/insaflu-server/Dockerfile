@@ -53,14 +53,12 @@ RUN ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36
 RUN mkdir /insaflu_web/INSaFLU/env
 ## is going to be linked in "/insaflu_web/INSaFLU/env"
 COPY configs/insaflu.env /insaflu_web/INSaFLU/.env
-RUN chown -R ${APP_USER}:${APP_USER} *
-RUN mkdir /var/log/insaFlu
+RUN chown -R ${APP_USER}:${APP_USER} *; mkdir /var/log/insaFlu
 
 ### apache server
 RUN usermod -a -G ${APP_USER} apache
 COPY configs/insaflu.conf /etc/httpd/conf.d
-RUN rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf
-RUN echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf
+RUN rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf; echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf
 RUN sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf_temp
 RUN mv /etc/httpd/conf/httpd.conf_temp /etc/httpd/conf/httpd.conf
 
@@ -112,16 +110,13 @@ RUN cmake3 ..; make
 RUN mkdir -p /software/FastQC/0.11.9
 WORKDIR /software/FastQC/0.11.9
 RUN wget -O fastqc_v0.11.9.zip https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
-RUN unzip fastqc_v0.11.9.zip
-RUN rm fastqc_v0.11.9.zip
+RUN unzip fastqc_v0.11.9.zip; rm fastqc_v0.11.9.zip
 RUN chmod a+x /software/FastQC/0.11.9/FastQC/fastqc
 
 ### fastq-tools
 WORKDIR /software
 RUN wget -O fastq-tools-0.8.tar.gz https://github.com/dcjones/fastq-tools/archive/v0.8.tar.gz
-RUN tar -zxvf fastq-tools-0.8.tar.gz
-RUN rm fastq-tools-0.8.tar.gz
-RUN mv fastq-tools-0.8 fastq-tools
+RUN tar -zxvf fastq-tools-0.8.tar.gz; rm fastq-tools-0.8.tar.gz; mv fastq-tools-0.8 fastq-tools
 WORKDIR /software/fastq-tools
 RUN ./autogen.sh && ./configure && make
 
@@ -129,8 +124,7 @@ RUN ./autogen.sh && ./configure && make
 WORKDIR /software
 RUN mkdir fasttree
 WORKDIR /software/fasttree
-RUN wget -O FastTreeDbl http://microbesonline.org/fasttree/FastTreeDbl
-RUN chmod a+x /software/fasttree/FastTreeDbl
+RUN wget -O FastTreeDbl http://microbesonline.org/fasttree/FastTreeDbl; chmod a+x /software/fasttree/FastTreeDbl
 
 ### freebayes
 WORKDIR /software
@@ -176,6 +170,8 @@ COPY software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/
 RUN chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq
 COPY software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/
 RUN chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence
+COPY software/snippy/msa_masker.py /software/snippy/bin/
+RUN chmod a+x /software/snippy/bin/msa_masker.py
 RUN sed 's/,     4.3, qr/,     4.1, qr/' /software/snippy/bin/snippy > /software/snippy/bin/snippy_temp
 RUN mv snippy/bin/snippy_temp snippy/bin/snippy; chmod a+x /software/snippy/bin/snippy
 

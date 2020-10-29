@@ -54,7 +54,7 @@ if ($gff) {
 
 my @ANNO = qw(FTYPE STRAND NT_POS AA_POS EFFECT LOCUS_TAG GENE PRODUCT);
 my $count=0;
-print join("\t", qw(CHROM POS TYPE REF ALT FREQ COVERAGE), @ANNO), "\n";
+print join("\t", qw(CHROM POS TYPE REF ALT FREQ COVERAGE EVIDENCE), @ANNO), "\n";
 
 print STDERR "Parsing variants: $vcf\n";
 open VCF, '<', $vcf;
@@ -100,14 +100,14 @@ while (<VCF>) {
   my @evid;
   # freebayes VCF seems to use different tags when TYPE=indel ...
   my $RO = $tag->{RO} || '0';
-  my $AO = $tag->{AO} || '0';  
-  my $FREQ = $tag->{FREQ} || '0';  
-  my $DP = $tag->{DP} || '0';  
+  my $AO = $tag->{AO} || '0';
+  my $FREQ = $tag->{FREQ} || '0';
+  my $DP = $tag->{DP} || '0';
   push @evid, "$alt_base:$AO", "$ref_base:$RO";
   my $evid = join(' ', @evid);
 
   print join("\t", 
-    $chr, $pos, $tag->{TYPE}, $ref_base, $alt_base, $FREQ, $DP, (map { $anno{$_} || '' } @ANNO)
+    $chr, $pos, $tag->{TYPE}, $ref_base, $alt_base, $FREQ, $DP, $evid, (map { $anno{$_} || '' } @ANNO)
   ), "\n";
   $count++;  
 }
