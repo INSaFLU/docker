@@ -109,7 +109,7 @@ Some influenza sequences of the abricate database for "contigs2sequences" assign
 
 ## Update INSaFLU for older deploys
 
-This steps are for the users that already have previous docker instalations of INSaFLU. This re-instaltion doesn't remove previous data that are in older instalations.
+This steps are for the users that already have previous docker installations of INSaFLU. This re-installation doesn't remove previous data that are in older installations.
 
 ```
 $ cd <move to the previous instalation of insaflu docker>
