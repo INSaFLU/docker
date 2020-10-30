@@ -88,6 +88,7 @@ Examples:
 $ docker exec -it insaflu-server create-user
 $ docker exec -it insaflu-server update-tbl2asn
 $ docker exec -it insaflu-server restart-apache
+$ docker exec -it insaflu-server update-password <some login>
 ```
 
 
