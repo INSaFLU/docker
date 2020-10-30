@@ -107,9 +107,9 @@ $ docker exec -it insaflu-server restart-apache
 
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
 
-## Update INSaFLU for older deploys
+## Update INSaFLU docker installation (keeping your previous data)
 
-This steps are for the users that already have previous docker installations of INSaFLU. This re-installation doesn't remove previous data that are in older installations.
+This steps are for the users that already have previous docker installations of INSaFLU. This re-installation maintains all previous data that were generated in older installations.
 
 ```
 $ cd <move to the previous instalation of insaflu docker>
