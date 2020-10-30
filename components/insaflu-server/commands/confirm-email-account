@@ -3,7 +3,7 @@ set -e
 
 if [ $# -ne 1 ] 
 then 
-	echo "use: confirm-email-account <user name> "
+	echo "use: confirm-email-account <user name>"
 	exit 1
 fi
 
