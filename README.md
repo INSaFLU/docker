@@ -107,35 +107,35 @@ $ docker exec -it insaflu-server restart-apache
 
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
 
-## Re-instalation
+## Update INSaFLU for older deploys
 
-This steps are for the users that already have previous docker instaltions of INSaFLU. This re-instaltion doesn't remove previous data that are in older instalations.
+This steps are for the users that already have previous docker instalations of INSaFLU. This re-instaltion doesn't remove previous data that are in older instalations.
 
 ```
-	$ cd <move to the previous instalation of insaflu docker>
-	$ ./stop.sh
-	$ git pull
-	$ docker image ls
+$ cd <move to the previous instalation of insaflu docker>
+$ ./stop.sh
+$ git pull
+$ docker image ls
 
-	REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
-	bioinformatics_unit                     insaflu-server      637475d74da0        16 hours ago        8.38GB
-	docker_db_insaflu                       latest              30f7aa670a79        16 hours ago        331MB
-	prodrigestivill/postgres-backup-local   latest              5ff2ca2295f1        25 hours ago        326MB
-	postgres                                10                  3cfd168e7b61        2 weeks ago         200MB
-	centos                                  7                   7e6257c9f8d8        2 months ago        203MB
+REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
+bioinformatics_unit                     insaflu-server      637475d74da0        16 hours ago        8.38GB
+docker_db_insaflu                       latest              30f7aa670a79        16 hours ago        331MB
+prodrigestivill/postgres-backup-local   latest              5ff2ca2295f1        25 hours ago        326MB
+postgres                                10                  3cfd168e7b61        2 weeks ago         200MB
+centos                                  7                   7e6257c9f8d8        2 months ago        203MB
 
-	$ docker image rm -f <id for the image that exist in your docker for insaflu-server image>
+$ docker image rm -f <id for the image that exist in your docker for insaflu-server image>
 
-	In my case:
-	$ docker image rm -f 637475d74da0
-	$ ./build.sh
-	$ ./up.sh
-	
-	It wiil give an error,
-	Recreating insaflu-server ... error
-	.....
-	.....
-	Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
+In my case:
+$ docker image rm -f 637475d74da0
+$ ./build.sh
+$ ./up.sh
+
+It will give an error,
+Recreating insaflu-server ... error
+.....
+.....
+Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
 ```
 
 
