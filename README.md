@@ -94,14 +94,23 @@ $ docker exec -it insaflu-server update-password <some login>
 
 ## Change variables in your local environment
 
-You can customize your environment by changing the "insaflu/env/insaflu.env" located in the directory where your data is being saved.
+You can customize your environment.
 
 For instance, users can change the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), etc.
 
-After editing the "insaflu.env" file, restart the web server:
 ```
+#### get into INSaFLU docker
+$ docker exec -it insaflu-server /bin/bash
+#### change the values here
+$ vi /insaflu_web/INSaFLU/.env
+### get out INSaFLU  docker
+$ Ctrl^D
+### restart apache
 $ docker exec -it insaflu-server restart-apache
 ```
+
+If you want to perpetuate the changes in future updates of INSaFLU webserver you also need to update "insaflu/env/insaflu.env".
+
 
 ## Update database for rapid assignment of segments/references to contigs
 
