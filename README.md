@@ -6,7 +6,9 @@
 
 # INSaFLU - docker installation
 
-INSaFLU (“INSide the FLU”) is an influenza-oriented bioinformatics free web-based platform for an effective and timely whole-genome-sequencing-based influenza laboratory surveillance.
+INSaFLU (“INSide the FLU”) is a bioinformatics free web-based suite (https://insaflu.insa.pt/) that deals with primary data (reads) towards the automatic generation of the output data that are the core first-line “genetic requests” for effective and timely viral influenza and SARS-CoV-2 laboratory surveillance (e.g., type and sub-type, gene and whole-genome consensus sequences, variants annotation, alignments and phylogenetic trees). Data integration is continuously scalable, fitting the need for a real-time epidemiological surveillance during the flu and COVID-19 epidemics.
+
+**Here, you can find how to easily set up your local INSaFLU instance.**
 
 ## Hardware Requirements
 
@@ -22,7 +24,7 @@ Docker:
 * Install [docker](https://docs.docker.com/engine/install/) in your linux server;
 * Install [docker-compose](https://docs.docker.com/compose/install/) in your linux server;
 
-	$ sudo curl –L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+	$ sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 	
 	$ sudo chmod +x /usr/local/bin/docker-compose
 
