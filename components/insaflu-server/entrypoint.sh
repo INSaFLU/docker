@@ -4,14 +4,14 @@ set -e
 # build DBs and launch frontend
 if [ "$1" = "init_all" ]; then
 
-	echo "---> Wait 30 seconds for all pgsql services  ..."
-    sleep 30	## wait for postgis extension
+	echo "---> Wait 45 seconds for all pgsql services  ..."
+    sleep 45	## wait for postgis extension
 
 	### set all default insaflu data
 	echo "---> Collect static data  ..."
 	cd /insaflu_web/INSaFLU; python3 manage.py collectstatic --noinput;
 
-	echo "---> Create databse if necessary  ..."
+	echo "---> Create/Update database if necessary  ..."
 	cd /insaflu_web/INSaFLU; python3 manage.py migrate;
 
 	echo "---> Load default files  ..."
@@ -39,6 +39,7 @@ if [ "$1" = "init_all" ]; then
 	/etc/init.d/sgeexecd.p6444
 
 	### some files/paths are made by "root" account and need to be accessed by "flu_user"
+	### It's done by tmpfiles.d
 	rm -rf /tmp/insaFlu/*
 	if [ -d "/tmp/insaFlu" ]; then
 		chmod -R 0777 /tmp/insaFlu

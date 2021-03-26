@@ -1,0 +1,3 @@
+hs38d1 /software/dehumanizer/GCA_000786075.2_hs38d1_genomic.mmi
+GRCh38 /software/dehumanizer/GCF_000001405.39_GRCh38.p13_genomic.mmi
+HLA /software/dehumanizer/ipd-imgt-3_39_0.hla_gen.mmi

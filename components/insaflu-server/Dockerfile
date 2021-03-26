@@ -11,15 +11,14 @@ LABEL vendor=INSA\
 
 # Install package dependencies
 RUN yum -y install epel-release
-RUN yum -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql-client httpd httpd-tools httpd-devel mod_wsgi bash file binutils bgzip2 gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* python3 python3-pip gcc zlib-devel bzip2-devel xz-devel python3-devel cmake cmake3 gcc-c++ autoconf automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+RUN yum -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql-client httpd httpd-tools httpd-devel mod_wsgi bash file binutils bgzip2 gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* python3 python3-pip gcc zlib-devel bzip2-devel xz-devel python3-devel cmake cmake3 gcc-c++ autoconf bgzip2 bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
 
 #### create a apache
 # Create a group and user to run insaflu
 ARG APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
 
-### general software
-#RUN mkdir /software
+### general software on /software
 
 ### install EMBOSS and bioperl
 RUN mkdir -p /root/.cpan/CPAN
@@ -34,20 +33,17 @@ WORKDIR /software/extra_software
 COPY software/EMBOSS-6.6.0/EMBOSS-6.6.0.tar.gz /software/extra_software
 RUN tar -zxvf EMBOSS-6.6.0.tar.gz
 WORKDIR /software/extra_software/EMBOSS-6.6.0
-RUN ./configure --without-x; make; make install;
-RUN ln -s /usr/local/bin/seqret /usr/bin/seqret
+RUN ./configure --without-x; make; make install; ln -s /usr/local/bin/seqret /usr/bin/seqret
 WORKDIR /software/extra_software
 RUN rm -rf /software/extra_software/*
 
 ### web site
 RUN mkdir /insaflu_web
 WORKDIR /insaflu_web
-RUN pip3 install Cython
-RUN git clone https://github.com/INSaFLU/INSaFLU.git
+RUN pip3 install Cython; git clone https://github.com/INSaFLU/INSaFLU.git
+#RUN pip3 install Cython; git clone --branch different_type_of_fastq https://github.com/INSaFLU/INSaFLU.git
 WORKDIR /insaflu_web/INSaFLU
-RUN pip3 install -r requirements.txt
-RUN pip3 install mod_wsgi-standalone
-RUN rm /etc/httpd/modules/mod_wsgi.so
+RUN pip3 install -r requirements.txt; pip3 install mod_wsgi-standalone; rm /etc/httpd/modules/mod_wsgi.so
 RUN ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
 
 RUN mkdir /insaflu_web/INSaFLU/env
@@ -61,6 +57,9 @@ COPY configs/insaflu.conf /etc/httpd/conf.d
 RUN rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf; echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf
 RUN sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf_temp
 RUN mv /etc/httpd/conf/httpd.conf_temp /etc/httpd/conf/httpd.conf
+
+### Temp Directory /usr/lib/tmpfiles.d
+COPY configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_path.conf
 
 #### SGE
 ARG SGE_ROOT=/opt/sge
@@ -154,8 +153,16 @@ RUN ln -s /software/mauve/linux-x64/progressiveMauve /software/mauve/progressive
 WORKDIR /software
 RUN git clone --branch v1.12 https://github.com/tseemann/prokka.git
 # install a fresh a tbl2asn
-WORKDIR /software/extra_software;
+WORKDIR /software/extra_software
 RUN wget -O tbl2asn.gz ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux64.tbl2asn.gz; gunzip tbl2asn.gz; chmod +x tbl2asn; mv tbl2asn /software/prokka/binaries/linux
+
+### dehumanizer
+# WORKDIR /software
+# RUN mkdir dehumanizer
+# WORKDIR /software/dehumanizer
+# RUN wget https://sam.s3.climb.ac.uk/dehumanizer/20200421/GCA_000786075.2_hs38d1_genomic.mmi
+# RUN wget https://sam.s3.climb.ac.uk/dehumanizer/20200421/GCF_000001405.39_GRCh38.p13_genomic.mmi
+# RUN wget https://sam.s3.climb.ac.uk/dehumanizer/20200421/ipd-imgt-3_39_0.hla_gen.mmi
 
 ### final scripts
 WORKDIR /software/
@@ -164,35 +171,35 @@ COPY software/scripts /software/scripts
 
 ### snippy
 WORKDIR /software
-RUN git clone --branch v3.2 https://github.com/tseemann/snippy.git
-RUN ln -s snippy/perl5 perl5
+RUN git clone --branch v3.2 https://github.com/tseemann/snippy.git; ln -s snippy/perl5 perl5
 COPY software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/
 RUN chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq
 COPY software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/
 RUN chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence
 COPY software/snippy/msa_masker.py /software/snippy/bin/
-RUN chmod a+x /software/snippy/bin/msa_masker.py
-RUN sed 's/,     4.3, qr/,     4.1, qr/' /software/snippy/bin/snippy > /software/snippy/bin/snippy_temp
+RUN chmod a+x /software/snippy/bin/msa_masker.py; sed 's/,     4.3, qr/,     4.1, qr/' /software/snippy/bin/snippy > /software/snippy/bin/snippy_temp
 RUN mv snippy/bin/snippy_temp snippy/bin/snippy; chmod a+x /software/snippy/bin/snippy
 
 # make several links
-RUN ln -s /software/snippy/binaries/linux/bgzip /software/snippy/bin/bgzip
-RUN ln -s /software/snippy/binaries/linux/bwa /software/snippy/bin/bwa
-RUN ln -s /software/freebayes/bin/freebayes /software/snippy/bin/freebayes
-RUN ln -s /software/snippy/binaries/linux/samtools /software/snippy/bin/samtools
-RUN ln -s /software/snippy/binaries/linux/tabix /software/snippy/bin/tabix
-RUN ln -s /software/snippy/binaries/linux/vcfallelicprimitives /software/snippy/bin/vcfallelicprimitives
+COPY software/make_links_snippy.sh /software
+RUN /software/make_links_snippy.sh
+# RUN ln -s /software/snippy/binaries/linux/bgzip /software/snippy/bin/bgzip
+# RUN ln -s /software/snippy/binaries/linux/bwa /software/snippy/bin/bwa
+# RUN ln -s /software/freebayes/bin/freebayes /software/snippy/bin/freebayes
+# RUN ln -s /software/snippy/binaries/linux/samtools /software/snippy/bin/samtools
+# RUN ln -s /software/snippy/binaries/linux/tabix /software/snippy/bin/tabix
+# RUN ln -s /software/snippy/binaries/linux/vcfallelicprimitives /software/snippy/bin/vcfallelicprimitives
 
-RUN ln -s /software/snippy/binaries/noarch/fasta_generate_regions.py /software/snippy/bin/fasta_generate_regions.py
-RUN ln -s /software/snippy/binaries/noarch/freebayes-parallel /software/snippy/bin/freebayes-parallel
-RUN ln -s /software/snippy/binaries/noarch/vcf-consensus /software/snippy/bin/vcf-consensus
-RUN ln -s /software/snippy/binaries/noarch/vcffirstheader /software/snippy/bin/vcffirstheader
-RUN ln -s /software/snippy/binaries/noarch/parallel /software/snippy/bin/parallel
+# RUN ln -s /software/snippy/binaries/noarch/fasta_generate_regions.py /software/snippy/bin/fasta_generate_regions.py
+# RUN ln -s /software/snippy/binaries/noarch/freebayes-parallel /software/snippy/bin/freebayes-parallel
+# RUN ln -s /software/snippy/binaries/noarch/vcf-consensus /software/snippy/bin/vcf-consensus
+# RUN ln -s /software/snippy/binaries/noarch/vcffirstheader /software/snippy/bin/vcffirstheader
+# RUN ln -s /software/snippy/binaries/noarch/parallel /software/snippy/bin/parallel
 
-RUN ln -s /software/freebayes/bin/freebayes /usr/local/bin/freebayes
-RUN ln -s /software/snippy/binaries/noarch/vcffirstheader /usr/local/bin/vcffirstheader
-RUN ln -s /software/snippy/binaries/linux/vcfstreamsort /usr/local/bin/vcfstreamsort
-RUN ln -s /software/snippy/binaries/linux/vcfuniq /usr/local/bin/vcfuniq
+# RUN ln -s /software/freebayes/bin/freebayes /usr/local/bin/freebayes
+# RUN ln -s /software/snippy/binaries/noarch/vcffirstheader /usr/local/bin/vcffirstheader
+# RUN ln -s /software/snippy/binaries/linux/vcfstreamsort /usr/local/bin/vcfstreamsort
+# RUN ln -s /software/snippy/binaries/linux/vcfuniq /usr/local/bin/vcfuniq
 
 ### snpEff; version 4.3 has some problems in annotation of INDELs
 WORKDIR /software
@@ -212,11 +219,17 @@ RUN mv SPAdes-3.11.1-Linux/bin/spades_temp.py SPAdes-3.11.1-Linux/bin/spades.py;
 
 ### trimmomatic
 WORKDIR /software
+### version from GIT is 0.33
+# RUN yum -y install java-devel
+# RUN git clone https://github.com/timflutre/trimmomatic.git
+# WORKDIR /software/trimmomatic
+# RUN make
 RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
 RUN unzip Trimmomatic-0.39.zip
 RUN rm Trimmomatic-0.39.zip
 RUN mkdir -p trimmomatic/classes
 RUN ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar
+
 
 COPY software /software
 WORKDIR /software
@@ -225,6 +238,31 @@ RUN rm -rf /var/lib/apt/lists/*
 ###           End software
 ##########################
 
+##########################
+###   ONT software
+
+### 
+WORKDIR /software
+RUN wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip; unzip v0.0.1.zip; rm -f v0.0.1.zip; mv RabbitQC-0.0.1/ RabbitQC;
+WORKDIR /software/RabbitQC
+RUN sed 's/ -static//' Makefile > temp.txt; mv -f temp.txt Makefile; make;
+
+### NanoStat
+RUN pip3 install nanostat==1.5.0
+### NanoFilt
+RUN pip3 install nanofilt==2.7.1
+
+## medaka
+COPY software/install_soft_medaka.sh /software
+RUN /software/install_soft_medaka.sh
+
+## Canu
+RUN mkdir -p /software/canu
+WORKDIR /software/canu
+RUN wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux-amd64.tar.xz; tar -xJvf canu-2.1.1.Linux-amd64.tar.xz; rm -f canu-2.1.1.Linux-amd64.tar.xz;
+
+###  END ONT software
+##########################
 
 ### several commands
 ARG COMMANDS_ROOT=/insaflu_web/commands

@@ -87,8 +87,8 @@ while (<VCF>) {
     # | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO'
     if ($tag->{ANN}) {
       my @eff = split m/\|/, $tag->{ANN};
-      $anno{NT_POS} = $eff[11];
-      $anno{AA_POS} = $eff[13];
+      $anno{NT_POS} = $eff[12];
+      $anno{AA_POS} = $eff[14];
       # print STDERR Dumper($tag) if !defined $eff[1] or !defined $eff[10] or !defined $eff[1];
       $anno{EFFECT} = join(' ', map { defined($_) ? $_ : '' } @eff[1,9,10] );
     }

@@ -50,7 +50,7 @@ INSaFLU:
 	## create an user, in other terminal or you can use 'screen' in previous steps
 	$ docker exec -it insaflu-server create-user
 	
-Now, you can go to a web explorer and link to the address "127.0.0.1:<port defined in .env>"
+Now, you can go to a web explorer and link to the address "127.0.0.1:<port defined in .env>". Default port is 8080
 
 To stop:
 
@@ -79,7 +79,7 @@ Commands:
 	* restart-apache		## restart web server, for example, after change something in insaflu/env/insaflu.env file
 	* test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file
 	* unlock-upload-files
-	* update-tbl2asn		## every year is necessary update the tbl2asn ncbi software
+	* update-tbl2asn		## every year it is necessary update the tbl2asn ncbi software
 	* upload-reference-dbs		## place new references in db/references and you can update them
  
 
