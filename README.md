@@ -44,7 +44,10 @@ INSaFLU:
 	$ cd docker
 	
 	## to define the directory where the data will be saved and the web port exposed, edit the .env file: 
+	$ cp .env_temp .env
 	$ vi .env
+	OR
+	$ nano .env
 	
 	$ sudo ./build.sh
 	$ sudo ./up.sh

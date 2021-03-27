@@ -1,3 +1,5 @@
+## Docker configuration file
+.env
 
 ## directories where data will be stay
 insaflu/
