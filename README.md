@@ -133,13 +133,13 @@ $ git pull
 $ docker image ls
 
 REPOSITORY                              TAG                 IMAGE ID            CREATED             SIZE
-bioinformatics_unit                     insaflu-server      637475d74da0        16 hours ago        8.38GB
+<user_name>                             insaflu-server      637475d74da0        16 hours ago        8.38GB
 docker_db_insaflu                       latest              30f7aa670a79        16 hours ago        331MB
 prodrigestivill/postgres-backup-local   latest              5ff2ca2295f1        25 hours ago        326MB
 postgres                                10                  3cfd168e7b61        2 weeks ago         200MB
 centos                                  7                   7e6257c9f8d8        2 months ago        203MB
 
-$ docker image rm -f <id for the image that exist in your docker for insaflu-server image>
+$ docker image rm -f <IMAGE ID that exist in your docker for insaflu-server>
 
 In my case:
 $ docker image rm -f 637475d74da0
