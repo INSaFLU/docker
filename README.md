@@ -155,6 +155,6 @@ Recreating insaflu-server ... error
 Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
 ```
 
-
+:warning: Please, check if you have the variable TIMEZONE defined in ".env" file. You can check and example in ".env_temp".
 
 
