@@ -77,6 +77,15 @@ services:
        insaflu_net:
          ipv4_address: 10.1.0.3
 
+  # responsible to m
+  officer:
+    image: funkyfuture/deck-chores:1
+    restart: unless-stopped
+    environment:
+      TIMEZONE: "${TIMEZONE}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   # insaflu
   # password and database login are defined in components/insaflu/configs/insaflu.env 
   insaflu-server:
@@ -91,9 +100,14 @@ services:
       - insaflu-server-env:/insaflu_web/INSaFLU/env
       - ./insaflu/log/insaflu:/var/log/insaFlu
       - ./insaflu/log/httpd:/var/log/httpd
+    labels:
+      deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
+      # weekly, daily, hourly, every minute and every second.
+      deck-chores.update-pangolin.interval: daily
     depends_on:
       - db_insaflu
       - pgbackups
+      - officer
     environment:
       - SGE_ROOT=/opt/sge
     ports:

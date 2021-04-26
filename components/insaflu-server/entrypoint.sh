@@ -22,6 +22,9 @@ if [ "$1" = "init_all" ]; then
 	fi
 	cd /insaflu_web/INSaFLU; python3 manage.py load_default_files;
 
+	## update pangolin if necessary
+	cd /insaflu_web/INSaFLU; python3 manage.py update_pangolin;
+
 	### set owners
 	echo "---> Set owners APP_USER ..."
 	chown -R APP_USER:APP_USER /insaflu_web/INSaFLU/media

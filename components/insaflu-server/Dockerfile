@@ -41,7 +41,7 @@ RUN rm -rf /software/extra_software/*
 RUN mkdir /insaflu_web
 WORKDIR /insaflu_web
 RUN pip3 install Cython; git clone https://github.com/INSaFLU/INSaFLU.git
-#RUN pip3 install Cython; git clone --branch different_type_of_fastq https://github.com/INSaFLU/INSaFLU.git
+#RUN pip3 install Cython; git clone --branch develop https://github.com/INSaFLU/INSaFLU.git
 WORKDIR /insaflu_web/INSaFLU
 RUN pip3 install -r requirements.txt; pip3 install mod_wsgi-standalone; rm /etc/httpd/modules/mod_wsgi.so
 RUN ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
@@ -91,6 +91,10 @@ RUN chmod a+x /etc/profile.d/sun-grid-engine.sh; rm -rf /insaflu_sge_source*
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:${PATH}"
 ### END SGE
 
+##########################
+###          Update pangolin
+COPY software/update_pangolin.sh /software
+RUN chmod a+x /software/update_pangolin.sh
 
 ##########################
 ###           All software
@@ -228,8 +232,9 @@ RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
 RUN unzip Trimmomatic-0.39.zip
 RUN rm Trimmomatic-0.39.zip
 RUN mkdir -p trimmomatic/classes
+RuN cat /software/Trimmomatic-0.39/adapters/*.fa > /software/Trimmomatic-0.39/adapters/All-adapters.fa
 RUN ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar
-
+RUN ln -s /software/Trimmomatic-0.39/adapters /software/trimmomatic/adapters
 
 COPY software /software
 WORKDIR /software
@@ -255,6 +260,10 @@ RUN pip3 install nanofilt==2.7.1
 ## medaka
 COPY software/install_soft_medaka.sh /software
 RUN /software/install_soft_medaka.sh
+
+## pangolin
+COPY software/install_pangolin.sh /software
+RUN /software/install_pangolin.sh
 
 ## Canu
 RUN mkdir -p /software/canu
