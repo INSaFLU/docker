@@ -232,7 +232,7 @@ RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
 RUN unzip Trimmomatic-0.39.zip
 RUN rm Trimmomatic-0.39.zip
 RUN mkdir -p trimmomatic/classes
-RuN cat /software/Trimmomatic-0.39/adapters/*.fa > /software/Trimmomatic-0.39/adapters/All-adapters.fa
+COPY software/trimmomatic/adapters/* /software/Trimmomatic-0.39/adapters/
 RUN ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar
 RUN ln -s /software/Trimmomatic-0.39/adapters /software/trimmomatic/adapters
 
