@@ -229,12 +229,11 @@ WORKDIR /software
 # WORKDIR /software/trimmomatic
 # RUN make
 RUN wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
-RUN unzip Trimmomatic-0.39.zip
-RUN rm Trimmomatic-0.39.zip
-RUN mkdir -p trimmomatic/classes
+RUN unzip Trimmomatic-0.39.zip; rm Trimmomatic-0.39.zip
+RUN mkdir -p trimmomatic/classes; mkdir -p trimmomatic/adapters
 COPY software/trimmomatic/adapters/* /software/Trimmomatic-0.39/adapters/
 RUN ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar
-RUN ln -s /software/Trimmomatic-0.39/adapters /software/trimmomatic/adapters
+RUN ln -s /software/Trimmomatic-0.39/adapters/* /software/trimmomatic/adapters
 
 COPY software /software
 WORKDIR /software
