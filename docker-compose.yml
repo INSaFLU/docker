@@ -103,7 +103,7 @@ services:
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
-      deck-chores.update-pangolin.interval: daily
+      deck-chores.update-pangolin.interval: hourly
     depends_on:
       - db_insaflu
       - pgbackups

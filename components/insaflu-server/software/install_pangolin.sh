@@ -21,6 +21,8 @@ virtualenv pangolin --python=python3.7 --prompt "(pangolin) "
 pip3 install biopython==1.74 pandas==1.0.1 snakemake
 cd pangolin
 pip3 install git+https://github.com/cov-lineages/pangolin.git
+pip3 install git+https://github.com/cov-lineages/scorpio.git
+pip3 install git+https://github.com/cov-lineages/constellations.git
 
 ## external software
 mkdir minimap2; cd minimap2
@@ -38,4 +40,7 @@ ln -s ../gofasta/gofasta-linux-amd64 gofasta
 
 pip3 install git+https://github.com/cov-lineages/pangoLEARN.git --upgrade
 
+### is not going to use usher, only to trap it
+touch /software/pangolin/bin/usher
+chmod a+x /software/pangolin/bin/usher
 ## done
