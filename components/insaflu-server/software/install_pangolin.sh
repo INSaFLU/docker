@@ -23,6 +23,7 @@ cd pangolin
 pip3 install git+https://github.com/cov-lineages/pangolin.git
 pip3 install git+https://github.com/cov-lineages/scorpio.git
 pip3 install git+https://github.com/cov-lineages/constellations.git
+pip3 install git+https://github.com/cov-lineages/pango-designation.git
 
 ## external software
 mkdir minimap2; cd minimap2
