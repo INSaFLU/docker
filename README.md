@@ -49,8 +49,12 @@ INSaFLU:
 	OR
 	$ nano .env
 	
-	$ sudo ./build.sh
-	$ sudo ./up.sh
+	## add your user account to docker group to use docker without sudo
+	$ sudo usermod -aG docker $USER
+	
+	## build INSAflu
+	$ ./build.sh
+	$ ./up.sh
 	
 	## create an user, in other terminal or you can use 'screen' in previous steps
 	$ docker exec -it insaflu-server create-user
@@ -59,11 +63,11 @@ Now, you can go to a web explorer and link to the address "127.0.0.1:<port defin
 
 To stop:
 
-	$ sudo ./stop.sh
+	$ ./stop.sh
 
 To start again:
 
-	$ sudo ./up.sh
+	$ ./up.sh
 	
 	
 ## Commands available
