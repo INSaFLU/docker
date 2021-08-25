@@ -51,6 +51,11 @@ INSaFLU:
 	
 	## add your user account to docker group to use docker without sudo
 	$ sudo usermod -aG docker $USER
+	$ sudo chmod 666 /var/run/docker.sock
+	
+	## test if everything is OK
+	$ docker ps
+	$ docker run hello-world 
 	
 	## build INSAflu
 	$ ./build.sh
