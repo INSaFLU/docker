@@ -113,9 +113,9 @@ You can customize your environment.
 For instance, users can change the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), etc.
 
 ```
-#### get into INSaFLU docker
+### get into INSaFLU docker
 $ docker exec -it insaflu-server /bin/bash
-#### change the values here
+### change the values here
 $ vi /insaflu_web/INSaFLU/.env
 ### get out INSaFLU  docker
 $ Ctrl^D
@@ -165,5 +165,23 @@ Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
 ```
 
 :warning: Please, check if you have the variable TIMEZONE defined in ".env" file. You can check and example in ".env_temp".
+
+
+## Update INSaFLU to last version
+
+You can update only INSaFLU to last version.
+
+```
+### get into INSaFLU docker
+$ docker exec -it insaflu-server /bin/bash
+#### move to INSaFLU directory and update it
+$ cd /insaflu_web/INSaFLU; git pull;
+### update static files. Type 'yes' after this command
+$ python3 manage.py collectstatic
+### get out of INSaFLU  docker
+$ Ctrl^D
+### restart apache
+$ docker exec -it insaflu-server restart-apache
+```
 
 
