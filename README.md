@@ -131,7 +131,7 @@ If you want to perpetuate the changes in future updates of INSaFLU webserver you
 
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
 
-## Update INSaFLU docker installation (keeping your previous data)
+## Update **INSaFLU docker** installation (keeping your previous data)
 
 This steps are for the users that already have previous docker installations of INSaFLU. This re-installation maintains all previous data that were generated in older installations.
 
@@ -169,19 +169,21 @@ Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
 
 ## Update INSaFLU to last version
 
-You can update only INSaFLU to last version.
+You can update only **INSaFLU website** to last version (keep your previous data).
 
 ```
 ### get into INSaFLU docker
 $ docker exec -it insaflu-server /bin/bash
-#### move to INSaFLU directory and update it
+### move to INSaFLU directory and update it
 $ cd /insaflu_web/INSaFLU; git pull;
 ### update static files. Type 'yes' after this command
 $ python3 manage.py collectstatic
+$ python3 manage.py migrate
 ### get out of INSaFLU  docker
 $ Ctrl^D
 ### restart apache
 $ docker exec -it insaflu-server restart-apache
 ```
 
+:note: When you make the update of **INSaFLU docker** you update all software and **INSaFLU website**. When you update only **INSaFLU website** you only update **INSaFLU**.
 
