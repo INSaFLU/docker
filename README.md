@@ -185,5 +185,5 @@ $ Ctrl^D
 $ docker exec -it insaflu-server restart-apache
 ```
 
-:note: When you make the update of **INSaFLU docker** you update all software and **INSaFLU website**. When you update only **INSaFLU website** you only update **INSaFLU**.
+**_NOTE:_** When you make the update of **INSaFLU docker** you update all software and **INSaFLU website**. When you update only **INSaFLU website** you only update **INSaFLU**.
 
