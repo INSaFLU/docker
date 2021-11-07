@@ -66,7 +66,8 @@ ARG SGE_ROOT=/opt/sge
 RUN groupadd -g 58 gridware; useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin; chmod 0755 ${SGE_ROOT}
 RUN mkdir /insaflu_sge_source
 WORKDIR /insaflu_sge_source
-RUN wget https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/sge_8.1.9.tar.xz; tar -xJvf sge_8.1.9.tar.xz
+#RUN wget https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/sge_8.1.9.tar.xz; tar -xJvf sge_8.1.9.tar.xz
+RUN wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz
 RUN yum -y install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel
 WORKDIR /insaflu_sge_source/sge-8.1.9/source
 RUN scripts/bootstrap.sh -no-java -no-jni
@@ -112,7 +113,7 @@ RUN cmake3 ..; make
 ### FastQC
 RUN mkdir -p /software/FastQC/0.11.9
 WORKDIR /software/FastQC/0.11.9
-RUN wget -O fastqc_v0.11.9.zip https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+RUN wget --no-check-certificate -O fastqc_v0.11.9.zip https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
 RUN unzip fastqc_v0.11.9.zip; rm fastqc_v0.11.9.zip
 RUN chmod a+x /software/FastQC/0.11.9/FastQC/fastqc
 
@@ -142,7 +143,7 @@ RUN unzip igvtools_2.3.98.zip; rm igvtools_2.3.98.zip
 
 ### mafft
 WORKDIR /software
-RUN wget -O mafft-7.453-without-extensions-src.tgz https://mafft.cbrc.jp/alignment/software/mafft-7.453-without-extensions-src.tgz
+RUN wget --no-check-certificate -O mafft-7.453-without-extensions-src.tgz https://mafft.cbrc.jp/alignment/software/mafft-7.453-without-extensions-src.tgz
 RUN tar -zxvf mafft-7.453-without-extensions-src.tgz; rm mafft-7.453-without-extensions-src.tgz
 WORKDIR /software/mafft-7.453-without-extensions/core
 RUN make clean; make
@@ -207,7 +208,7 @@ RUN /software/make_links_snippy.sh
 
 ### snpEff; version 4.3 has some problems in annotation of INDELs
 WORKDIR /software
-RUN wget -O snpEff_v4_1l_core.zip https://sourceforge.net/projects/snpeff/files/snpEff_v4_1l_core.zip/download
+RUN wget --no-check-certificate -O snpEff_v4_1l_core.zip https://sourceforge.net/projects/snpeff/files/snpEff_v4_1l_core.zip/download
 RUN unzip snpEff_v4_1l_core.zip; rm snpEff_v4_1l_core.zip
 RUN cp /software/snpEff/scripts/snpEff /software/snippy/bin/snpEff
 COPY software/snpEff/snpEff /software/snippy/bin/snpEff
