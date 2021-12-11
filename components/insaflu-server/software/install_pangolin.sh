@@ -18,7 +18,7 @@ rm -rf Python-3.7.4*
 ## pangolin virtual env
 virtualenv pangolin --python=python3.7 --prompt "(pangolin) "
 . pangolin/bin/activate
-pip3 install biopython==1.74 pandas==1.0.1 snakemake
+pip3 install biopython==1.74 pandas==1.0.1 snakemake pysam
 cd pangolin
 pip3 install git+https://github.com/cov-lineages/pangolin.git
 pip3 install git+https://github.com/cov-lineages/scorpio.git
