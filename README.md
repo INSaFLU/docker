@@ -176,9 +176,11 @@ You can update only **INSaFLU website** to last version (keep your previous data
 $ docker exec -it insaflu-server /bin/bash
 ### move to INSaFLU directory and update it
 $ cd /insaflu_web/INSaFLU; git pull;
+$ pip3 install -r requirements.txt
 ### update static files. Type 'yes' after this command
 $ python3 manage.py collectstatic
 $ python3 manage.py migrate
+$ python3 manage.py load_default_files
 ### get out of INSaFLU  docker
 $ Ctrl^D
 ### restart apache
