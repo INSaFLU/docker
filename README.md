@@ -85,17 +85,17 @@ How to run:
 
 Commands:
 
-	* confirm-email-account
-	* create-user			## to create an user in insaflu
-	* list-all-users		## list all users in insaflu
-	* update-password		## update password for a specific user
-	* remove-fastq-files
-	* restart-apache		## restart web server, for example, after change something in insaflu/env/insaflu.env file
-	* test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file
-	* unlock-upload-files
-	* update-tbl2asn		## every year it is necessary update the tbl2asn ncbi software
-	* upload-reference-dbs		## place new references in db/references and you can update them
- 
+	* create-user			## to create an user in insaflu;
+	* list-all-users		## list all users in insaflu;
+	* update-password		## update password for a specific user;
+	* remove-fastq-files	## remove fastq files to increase sample in hard drive. You must have a copy of these files;
+	* restart-apache		## restart web server, for example, after change something in insaflu/env/insaflu.env file;
+	* test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file;
+	* unlock-upload-files	## unlock files samples thar are zombie when upload multiple samples;
+	* update-tbl2asn		## every year it is necessary update the tbl2asn ncbi software;
+	* upload-reference-dbs	## place new references in db/references and you can update them;
+	* update-insaflu		## update insaflu software to a new version;
+	* confirm-email-account 
 
 Examples:
 ```
@@ -103,6 +103,7 @@ $ docker exec -it insaflu-server create-user
 $ docker exec -it insaflu-server update-tbl2asn
 $ docker exec -it insaflu-server restart-apache
 $ docker exec -it insaflu-server update-password <some login>
+$ docker exec -it insaflu-server update-insaflu
 ```
 
 
@@ -131,7 +132,7 @@ If you want to perpetuate the changes in future updates of INSaFLU webserver you
 
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
 
-## Update **INSaFLU docker** installation (keeping your previous data)
+## Update **INSaFLU docker** installation -keeping your previous data-
 
 This steps are for the users that already have previous docker installations of INSaFLU. This re-installation maintains all previous data that were generated in older installations.
 
@@ -171,6 +172,18 @@ Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
 
 You can update only **INSaFLU website** to last version (keep your previous data).
 
+For INSaFlu versions **equal or higher 1.5.0**
+
+```
+### update INSAflu website
+$ docker exec -it insaflu-server update-insaflu
+```
+
+:warning: If you don't have the last command in your environment, it is necessary to install the last [INSaFLU docker](## Update **INSaFLU docker** installation -keeping your previous data-).
+
+
+For INSaFlu versions **before 1.5.0**
+
 ```
 ### get into INSaFLU docker
 $ docker exec -it insaflu-server /bin/bash
@@ -181,6 +194,7 @@ $ pip3 install -r requirements.txt
 $ python3 manage.py collectstatic
 $ python3 manage.py migrate
 $ python3 manage.py load_default_files
+$ python3 manage.py load_default_settings
 ### get out of INSaFLU  docker
 $ Ctrl^D
 ### restart apache
