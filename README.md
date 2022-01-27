@@ -175,7 +175,7 @@ You can update only **INSaFLU website** to last version (keep your previous data
 For INSaFlu versions **equal or higher 1.5.0**
 
 ```
-### update INSAaFLU website
+### update INSaFLU website
 $ docker exec -it insaflu-server update-insaflu
 ```
 
