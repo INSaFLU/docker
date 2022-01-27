@@ -179,7 +179,7 @@ For INSaFlu versions **equal or higher 1.5.0**
 $ docker exec -it insaflu-server update-insaflu
 ```
 
-:warning: If you don't have the last command in your environment, it is necessary to install the last [INSaFLU docker](##update-insaflu-docker-installation--keeping-your-previous-data-).
+:warning: If you don't have the last command in your environment, it is necessary to install the last [INSaFLU docker](#update-insaflu-docker-installation--keeping-your-previous-data-).
 
 
 For INSaFlu versions **before 1.5.0**
