@@ -14,7 +14,7 @@ INSaFLU (“INSide the FLU”) is a bioinformatics free web-based suite (https:/
 
 * Processor: 8 cores (4 minimal);
 * RAM: 32GB of memory (16GB minimal);
-* Disk Space: 512GB;
+* Disk Space: 512GB (suggestion; depends on the volume of data to process);
 
 
 ## Installation
