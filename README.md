@@ -57,7 +57,7 @@ INSaFLU:
 	$ docker ps
 	$ docker run hello-world 
 	
-	## build INSAflu
+	## build INSaFLU
 	$ ./build.sh
 	$ ./up.sh
 	
@@ -175,14 +175,14 @@ You can update only **INSaFLU website** to last version (keep your previous data
 For INSaFlu versions **equal or higher 1.5.0**
 
 ```
-### update INSAflu website
+### update INSaFLU website
 $ docker exec -it insaflu-server update-insaflu
 ```
 
 :warning: If you don't have the last command in your environment, it is necessary to install the last [INSaFLU docker](#update-insaflu-docker-installation--keeping-your-previous-data-).
 
 
-For INSaFlu versions **before 1.5.0**
+For INSaFLU versions **before 1.5.0**
 
 ```
 ### get into INSaFLU docker
