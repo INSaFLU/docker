@@ -24,6 +24,8 @@ pip3 install git+https://github.com/cov-lineages/pangolin.git
 pip3 install git+https://github.com/cov-lineages/scorpio.git
 pip3 install git+https://github.com/cov-lineages/constellations.git
 pip3 install git+https://github.com/cov-lineages/pango-designation.git
+pip3 install git+https://github.com/cov-lineages/pangolin-data.git
+pip3 install git+https://github.com/cov-lineages/pangoLEARN.git --upgrade
 
 ## external software
 mkdir minimap2; cd minimap2
@@ -33,13 +35,17 @@ cd ..; mkdir gofasta; cd gofasta
 wget https://github.com/cov-ert/gofasta/releases/download/v0.0.3/gofasta-linux-amd64
 chmod a+x gofasta-linux-amd64
 
+## faToVCF
+cd ..; mkdir faToVcf; cd faToVcf
+wget http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/faToVcf
+chmod a+x faToVcf
+
 ## make links
 cd ../bin
 ln -s ../minimap2/minimap2-2.18_x64-linux/minimap2 minimap2
 ln -s ../minimap2/minimap2-2.18_x64-linux/k8 k8
 ln -s ../gofasta/gofasta-linux-amd64 gofasta
-
-pip3 install git+https://github.com/cov-lineages/pangoLEARN.git --upgrade
+ln -s ../faToVcf/faToVcf .
 
 ### is not going to use usher, only to trap it
 touch /software/pangolin/bin/usher
