@@ -172,34 +172,19 @@ Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-server"
 
 You can update only **INSaFLU website** to last version (keep your previous data).
 
-For INSaFlu versions **equal or higher 1.5.0**
+For INSaFlu versions **equal or higher 1.5.2**
 
 ```
 ### update INSaFLU website
 $ docker exec -it insaflu-server update-insaflu
 ```
 
-:warning: If you don't have the last command in your environment, it is necessary to install the last [INSaFLU docker](#update-insaflu-docker-installation--keeping-your-previous-data-).
+
+For INSaFLU versions **before 1.5.2**
+
+It is necessary to install the last [INSaFLU docker](#update-insaflu-docker-installation--keeping-your-previous-data-).
 
 
-For INSaFLU versions **before 1.5.0**
-
-```
-### get into INSaFLU docker
-$ docker exec -it insaflu-server /bin/bash
-### move to INSaFLU directory and update it
-$ cd /insaflu_web/INSaFLU; git pull;
-$ pip3 install -r requirements.txt
-### update static files. Type 'yes' after this command
-$ python3 manage.py collectstatic
-$ python3 manage.py migrate
-$ python3 manage.py load_default_files
-$ python3 manage.py load_default_settings
-### get out of INSaFLU  docker
-$ Ctrl^D
-### restart apache
-$ docker exec -it insaflu-server restart-apache
-```
 
 **_NOTE:_** When you make the update of **INSaFLU docker** you update all software and **INSaFLU website**. When you update only **INSaFLU website** you only update **INSaFLU**.
 
