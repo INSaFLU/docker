@@ -11,4 +11,4 @@ echo "---> Set flag on database 'Confirm email account'  ..."
 ## activate email
 cd /insaflu_web/INSaFLU;
 
-python3 manage.py confirm_email_account $1
+python3 manage.py confirm_email_account --username $1
