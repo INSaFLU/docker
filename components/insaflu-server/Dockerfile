@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER Miguel Pinheiro, monsantopinheiro@gmail.com
+LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
 # version
 ADD VERSION .
@@ -18,6 +18,16 @@ RUN yum -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel po
 ARG APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
 
+
+# Miniconda2: will be useful to install several softwares
+RUN mkdir -p /software/extra_software
+WORKDIR /software/extra_software
+RUN wget https://repo.anaconda.com/miniconda/Miniconda2-4.7.12.1-Linux-x86_64.sh && sh Miniconda2-4.7.12.1-Linux-x86_64.sh -b -p /software/miniconda2/ && rm Miniconda2-4.7.12.1-Linux-x86_64.sh
+
+# Aln2pheno
+RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.4 --quiet && conda deactivate
+COPY software/aln2pheno /software/
+
 ### general software on /software
 
 ### install EMBOSS and bioperl
@@ -28,7 +38,6 @@ ARG PERL_EXTUTILS_AUTOINSTALL="--defaultdeps"
 RUN cpan CJFIELDS/BioPerl-1.6.924.tar.gz
 
 ### EMBOSS-6.6.0
-RUN mkdir -p /software/extra_software
 WORKDIR /software/extra_software
 COPY software/EMBOSS-6.6.0/EMBOSS-6.6.0.tar.gz /software/extra_software
 RUN tar -zxvf EMBOSS-6.6.0.tar.gz
