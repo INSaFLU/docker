@@ -28,7 +28,7 @@ RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --n
 COPY software/aln2pheno /software/
 
 # Nextstrain
-RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=nextstrain && conda activate nextstrain && conda install -c conda-forge mamba --yes && conda config --env --add channels defaults && conda config --env --add channels bioconda && conda config --env --add channels conda-forge && conda config --env --set channel_priority strict && mamba install --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate
+RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=nextstrain -c conda-forge mamba pytho=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate
 COPY software/nextstrain /software/
 RUN mkdir -p /software/nextstrain/binaries_2.0 && cd /software/nextstrain/binaries_2.0 && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextalign-x86_64-unknown-linux-musl && ln -s nextalign-x86_64-unknown-linux-musl nextalign && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextclade-x86_64-unknown-linux-musl && ln -s nextclade-x86_64-unknown-linux-musl nextclade
 
