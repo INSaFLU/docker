@@ -18,6 +18,8 @@ RUN yum -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel po
 ARG APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
 
+### general software on /software
+
 # Miniconda2: will be useful to install several softwares
 RUN mkdir -p /software/extra_software && cd /software/extra_software && wget https://repo.anaconda.com/miniconda/Miniconda2-4.7.12.1-Linux-x86_64.sh && sh Miniconda2-4.7.12.1-Linux-x86_64.sh -b -p /software/miniconda2/ && rm Miniconda2-4.7.12.1-Linux-x86_64.sh
 
@@ -25,7 +27,10 @@ RUN mkdir -p /software/extra_software && cd /software/extra_software && wget htt
 RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.4 --quiet && conda deactivate
 COPY software/aln2pheno /software/
 
-### general software on /software
+# Nextstrain
+RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=nextstrain && conda activate nextstrain && conda install -c conda-forge mamba --yes && conda config --env --add channels defaults && conda config --env --add channels bioconda && conda config --env --add channels conda-forge && conda config --env --set channel_priority strict && mamba install --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate
+COPY software/nextstrain /software/
+RUN mkdir -p /software/nextstrain/binaries_2.0 && cd /software/nextstrain/binaries_2.0 && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextalign-x86_64-unknown-linux-musl && ln -s nextalign-x86_64-unknown-linux-musl nextalign && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextclade-x86_64-unknown-linux-musl && ln -s nextclade-x86_64-unknown-linux-musl nextclade
 
 ### install EMBOSS and bioperl
 RUN mkdir -p /root/.cpan/CPAN
