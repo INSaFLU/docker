@@ -30,7 +30,7 @@ COPY software/aln2pheno /software/
 # Nextstrain
 RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate
 COPY software/nextstrain /software/
-RUN mkdir -p /software/nextstrain/binaries_2.0 && cd /software/nextstrain/binaries_2.0 && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextalign-x86_64-unknown-linux-musl && ln -s nextalign-x86_64-unknown-linux-musl nextalign && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextclade-x86_64-unknown-linux-musl && ln -s nextclade-x86_64-unknown-linux-musl nextclade
+RUN mkdir -p /software/nextstrain/binaries_2.0 && cd /software/nextstrain/binaries_2.0 && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextalign-x86_64-unknown-linux-musl && chmod a+x nextalign-x86_64-unknown-linux-musl && ln -s nextalign-x86_64-unknown-linux-musl nextalign && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextclade-x86_64-unknown-linux-musl && chmod a+x nextclade-x86_64-unknown-linux-musl && ln -s nextclade-x86_64-unknown-linux-musl nextclade
 
 ### install EMBOSS and bioperl
 RUN mkdir -p /root/.cpan/CPAN
@@ -181,9 +181,9 @@ RUN wget --no-check-certificate -O snpEff_v4_1l_core.zip https://sourceforge.net
 COPY software/snpEff/snpEff /software/snippy/bin/snpEff
 RUN chmod a+x /software/snippy/bin/snpEff && ln -s /software/snpEff/snpEff.jar /software/snippy/bin/snpEff.jar
 
-### spades 
+### spades : it is better to recompile as in some instances (eg. windows WSL2) the precompiled does not work
 WORKDIR /software
-RUN cd /software && wget http://cab.spbu.ru/files/release3.11.1/SPAdes-3.11.1-Linux.tar.gz && tar -xzf SPAdes-3.11.1-Linux.tar.gz && rm SPAdes-3.11.1-Linux.tar.gz && sed s'~#!/usr/bin/env python~#!/usr/bin/env python3~' SPAdes-3.11.1-Linux/bin/spades.py > SPAdes-3.11.1-Linux/bin/spades_temp.py && mv SPAdes-3.11.1-Linux/bin/spades_temp.py SPAdes-3.11.1-Linux/bin/spades.py &&  chmod a+x SPAdes-3.11.1-Linux/bin/spades.py
+RUN cd /software && wget https://github.com/ablab/spades/releases/download/v3.11.1/SPAdes-3.11.1.tar.gz && tar -xzf SPAdes-3.11.1.tar.gz && rm SPAdes-3.11.1.tar.gz && mv SPAdes-3.11.1 SPAdes-3.11.1-Linux && cd SPAdes-3.11.1-Linux && sh spades_compile.sh && sed s'~#!/usr/bin/env python~#!/usr/bin/env python3~' bin/spades.py > bin/spades_temp.py && mv bin/spades_temp.py bin/spades.py &&  chmod a+x bin/spades.py
 
 ### trimmomatic
 WORKDIR /software
