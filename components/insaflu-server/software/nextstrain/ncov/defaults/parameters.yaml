@@ -1,0 +1,327 @@
+# This file contains defaults for the "config" object used in the Snakefile.
+# To temporarily override or provide a value, you can use snakemake's --config
+# or --configfile options.
+---
+# conda environment file to use by default
+# This must be a relative path to the top-level Snakefile directory (e.g., `ncov/`).
+conda_environment: "workflow/envs/nextstrain.yaml"
+
+strip_strain_prefixes:
+  - hCoV-19/
+  - SARS-CoV-2/
+
+sanitize_metadata:
+  metadata_id_columns:
+    - strain
+    - name
+    - Virus name
+  database_id_columns:
+    - "Accession ID"
+    - gisaid_epi_isl
+    - genbank_accession
+  error_on_duplicate_strains: false
+  parse_location_field: Location
+  rename_fields:
+    - "Virus name=strain"
+    - "Type=type"
+    - "Accession ID=gisaid_epi_isl"
+    - "Collection date=date"
+    - "Additional location information=additional_location_information"
+    - "Sequence length=length"
+    - "Host=host"
+    - "Patient age=patient_age"
+    - "Gender=sex"
+    - "Clade=GISAID_clade"
+    - "Pango lineage=pango_lineage"
+    - "pangolin_lineage=pango_lineage"
+    - "Lineage (Pangolin)=pango_lineage"
+    - "Lineage=pango_lineage"
+    - "Pangolin version=pangolin_version"
+    - "Variant=variant"
+    - "AA Substitutions=aaSubstitutions"
+    - "Submission date=date_submitted"
+    - "Is reference?=is_reference"
+    - "Is complete?=is_complete"
+    - "Is high coverage?=is_high_coverage"
+    - "Is low coverage?=is_low_coverage"
+    - "N-Content=n_content"
+    - "GC-Content=gc_content"
+    - "Country=country"
+
+
+# Define files used for external configuration. Common examples consist of a
+# list of strains to include and exclude from analyses, a reference sequence to
+# align sequences to, colors for strain attributes in auspice, and auspice
+# configuration files.
+files:
+  include: "defaults/include.txt"
+  exclude: "defaults/exclude.txt"
+  reference: "defaults/reference_seq.gb"
+  alignment_reference: "defaults/reference_seq.fasta"
+  annotation: "defaults/annotation.gff"
+  outgroup: "defaults/outgroup.fasta" # is this arg still used? file doesn't exist in gh repo
+  ordering: "defaults/color_ordering.tsv"
+  color_schemes: "defaults/color_schemes.tsv"
+  auspice_config: "defaults/auspice_config.json"
+  lat_longs: "defaults/lat_longs.tsv"
+  description: "defaults/description.md"
+  clades: "defaults/clades.tsv"
+  emerging_lineages: "defaults/emerging_lineages.tsv"
+  mutational_fitness_distance_map: "defaults/mutational_fitness_distance_map.json"
+  sites_to_mask: "defaults/sites_ignored_for_tree_topology.txt"
+
+# Define genes to translate during alignment by nextalign.
+genes: ["ORF1a", "ORF1b", "S", "ORF3a", "E", "M", "ORF6", "ORF7a", "ORF7b", "ORF8", "N", "ORF9b"]
+
+# Filter settings
+filter:
+  # Require nearly full-length genomes.
+  min_length: 27000
+
+  # Omit sequences with incomplete date annotations, and USA seqs without a state.
+  exclude_where: "division='USA'"
+  exclude_ambiguous_dates_by: "any"
+
+  # Exclude sequences which are from before Dec 2019 (likely date mix-ups)
+  min_date: "2019-12-01"
+
+# When choosing contextual samples for a focal set, applying crowding penalty
+# will help reduce the number of genetically identical strains that get chosen,
+# and allows for more diversity represented on the tree.
+priorities:
+  crowding_penalty: 0.1
+
+# Alignment settings
+# Alignments are partitioned into smaller groups to speed up the overall alignment process.
+# The number of sequences per group determines the run time of a single alignment job.
+partition_sequences:
+  sequences_per_group: 150
+
+# Mask settings determine how the multiple sequence alignment is masked prior to phylogenetic inference.
+mask:
+  # Number of bases to mask from the beginning and end of the alignment. These regions of the genome
+  # are difficult to sequence accurately.
+  mask_from_beginning: 100
+  mask_from_end: 200
+
+  # Specific sites to mask in the reference genome's coordinates.
+  # These are 1-indexed coordinates of sites that have been identified as prone to sequencing errors.
+  mask_sites: "21987 21846"
+
+# Depending on how you define focal and contextual inputs, the same strains may
+# appear in both inputs. This option tells the workflow not to throw an error
+# when duplicates occur but to accept the first instance of a given strain's
+# sequences (e.g., the focal set).
+combine_sequences_for_subsampling:
+  warn_about_duplicates: true
+
+tree:
+  tree-builder-args: "'-ninit 10 -n 4'"
+
+# TreeTime settings
+refine:
+  root: "Wuhan/Hu-1/2019"
+  clock_rate: 0.0008
+  clock_std_dev: 0.0004
+  coalescent: "opt"
+  date_inference: "marginal"
+  divergence_unit: "mutations"
+  clock_filter_iqd: 8
+
+ancestral:
+  inference: "joint"
+
+# Frequencies settings
+frequencies:
+
+  # min_date is set by default to 1 year before present
+  # but can be explicitly set if desired
+
+  # Number of weeks between pivots
+  pivot_interval: 1
+
+  # Measure pivots in weeks
+  pivot_interval_units: "weeks"
+
+  # KDE bandwidths in proportion of a year to use per strain.
+  # using 15 day bandwidth
+  narrow_bandwidth: 0.041
+  proportion_wide: 0.0
+
+  # Diffusion frequency settings
+  minimal_frequency: 0.01
+  stiffness: 20
+  inertia: 0.2
+
+# Logistic growth settings
+logistic_growth:
+  # Calculate logistic growth over the last N pivots which corresponds to N
+  # times the amount of time represented by the `pivot_interval_units` in the
+  # frequencies configuration.
+  delta_pivots: 6
+
+  # Set the minimum number of tips a clade must have before its logistic growth
+  # is calculated.
+  min_tips: 50
+
+  # Set the minimum and maximum current frequency a clade must for its logistic
+  # growth to be calculated.
+  min_frequency: 0.000001
+  max_frequency: 0.95
+
+# Cluster-specific settings
+cluster:
+  # Require a minimum number of tips to be annotated as a cluster.
+  min_tips: 3
+  # Find clusters with the same values in the given column (e.g., division, country, etc.).
+  group_by: division
+
+#
+# Region-specific settings
+#
+traits:
+  default:
+    sampling_bias_correction: 2.5
+    columns: ["country"]
+#    columns: []
+
+# Default subsampling schemes designed for different geographic scales. With the
+# exception of the "global" region, most subsampling schemes define a large
+# focal set of sequences related to a specific geographic entity (e.g., Africa,
+# Switzerland, etc.) and a smaller set of contextual sequences from the rest of
+# the world.
+#
+# Users can control the specificity of subsampling by defining as many
+# subsampling sets as they require. For example, one may wish to include all
+# sequences from California, many contextual sequences from the USA, and a few
+# contextual sequences from the rest of the world.
+#
+# Each build defines its subsampling scheme by specifying a `subsampling_scheme`
+# attribute whose value is the name of an entry in the subsampling configuration
+# below or defined elsewhere in another configuration file.
+subsampling:
+  # Default subsampling logic to select all strains from all inputs (i.e., no subsampling).
+  all:
+    all:
+      no_subsampling: true
+
+  # Default subsampling logic for regions
+  region:
+    # Focal samples for region
+    region:
+      group_by: "division year month"
+      seq_per_group: 48
+      exclude: "--exclude-where 'region!={region}'"
+    # Contextual samples for region from the rest of the world
+    global:
+      group_by: "country year month"
+      seq_per_group: 4
+      exclude: "--exclude-where 'region={region}'"
+      priorities:
+        type: "proximity"
+        focus: "region"
+
+  # Custom subsampling logic for global region.
+  region_global:
+    global:
+      group_by: "country year month"
+      seq_per_group: 20
+
+  # Custom subsampling logic for regions like Europe where grouping by country
+  # is the smallest resolution required.
+  region_grouped_by_country:
+    # Focal samples for region
+    region:
+      group_by: "country year month"
+      seq_per_group: 64
+      exclude: "--exclude-where 'region!={region}'"
+    # Contextual samples for region from the rest of the world
+    global:
+      group_by: "country year month"
+      seq_per_group: 6
+      exclude: "--exclude-where 'region={region}'"
+      priorities:
+        type: "proximity"
+        focus: "region"
+
+  # Default subsampling logic for countries
+  country:
+    # Focal samples for country
+    country:
+      group_by: "division year month"
+      seq_per_group: 200
+      exclude: "--exclude-where 'country!={country}'"
+    # Contextual samples from country's region
+    region:
+      group_by: "country year month"
+      seq_per_group: 20
+      exclude: "--exclude-where 'country={country}' 'region!={region}'"
+      priorities:
+        type: "proximity"
+        focus: "country"
+    # Contextual samples from the rest of the world,
+    # excluding the current region to avoid resampling.
+    global:
+      group_by: "country year month"
+      seq_per_group: 10
+      exclude: "--exclude-where 'region={region}'"
+      priorities:
+        type: "proximity"
+        focus: "country"
+
+  # Default subsampling logic for divisions
+  division:
+    # Focal samples for division
+    division:
+      group_by: "year month"
+      seq_per_group: 300
+      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division!={division}'"
+    # Contextual samples from division's country
+    country:
+      group_by: "division year month"
+      seq_per_group: 20
+      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division={division}'"
+      priorities:
+        type: "proximity"
+        focus: "division"
+    # Contextual samples from division's region
+    region:
+      group_by: "country year month"
+      seq_per_group: 10
+      exclude: "--exclude-where 'region!={region}' 'country={country}'"
+      priorities:
+        type: "proximity"
+        focus: "division"
+    # Contextual samples from the rest of the world, excluding the current
+    # division to avoid resampling.
+    global:
+      group_by: "country year month"
+      seq_per_group: 5
+      exclude: "--exclude-where 'region={region}'"
+      priorities:
+        type: "proximity"
+        focus: "division"
+
+  # Default subsampling logic for locations
+  location:
+    # Focal samples for location
+    focal:
+      group_by: "year month"
+      seq_per_group: 300
+      exclude: "--exclude-where 'region!={region}' 'country!={country}' 'division!={division}' 'location!={location}'"
+    # Samples that are genetically related to the focal samples
+    related:
+      group_by: "country year month"
+      seq_per_group: 20
+      exclude: "--exclude-where 'location={location}'"
+      priorities:
+        type: "proximity"
+        focus: "focal"
+    # Contextual samples from the rest of the world
+    contextual:
+      group_by: "country year month"
+      seq_per_group: 10
+      exclude: "--exclude-where 'location={location}'"
+
+# Configure the prefix to use for Auspice JSONs.
+auspice_json_prefix: ncov

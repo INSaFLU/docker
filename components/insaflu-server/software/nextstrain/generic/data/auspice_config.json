@@ -1,0 +1,45 @@
+{
+  "title": "INSaFLU generic Nextstrain build",
+  "maintainers": [
+    {"name": "Daniel Sobral", "url": "https://github.com/INSaFLU/INSaFLU"}
+  ],
+  "build_url": "https://github.com/nextstrain/zika-tutorial",
+  "colorings": [
+    {
+      "key": "type-subtype",
+      "title": "Type or Subtype",
+      "type": "categorical"
+    },
+    {
+      "key": "date",
+      "title": "Date",
+      "type": "continuous"
+    },
+    {
+      "key": "Country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
+      "key": "region",
+      "title": "Region",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": [
+    "Country",
+    "region"
+  ],
+  "panels": [
+     "tree",
+     "map",
+	 "entropy"
+  ],
+  "display_defaults": {
+    "map_triplicate": true
+  },
+  "filters": [
+    "Country",
+    "region"
+  ]
+}

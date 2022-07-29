@@ -1,0 +1,436 @@
+import datetime
+from datetime import date
+from treetime.utils import numeric_date
+
+configfile: "config/config.json"
+
+rule files:
+    params:
+        outliers = "config/outliers_{lineage}.txt",
+        references = "config/references_{lineage}.txt",
+        reference = "config/reference_{lineage}_{segment}.gb",
+        colors = "config/colors.tsv",
+        auspice_config = "config/auspice_config_{lineage}.json",
+        description = "config/description.md",
+        lat_longs = "config/lat_longs.tsv"
+
+
+files = rules.files.params
+
+def min_date(wildcards):
+    now = numeric_date(date.today())
+    if wildcards.resolution[-1] == "y":
+        years_back = int(wildcards.resolution[:-1])
+    elif wildcards.resolution[-1] == "m":
+        years_back = int(wildcards.resolution[:-1]) / 12.
+    else:
+        years_back = 3
+    return now - years_back
+
+def max_date(w):
+    # Estimate frequencies a given number of months back in the past to account
+    # for lag in data availability.
+    if "frequency_max_date_month_offset" in config:
+        date_offset = pd.DateOffset(months=config["frequency_max_date_month_offset"])
+        return numeric_date(pd.to_datetime(date.today()) - date_offset)
+    else:
+        return numeric_date(date.today())
+
+
+def pivot_interval(w):
+    """Returns the number of months between pivots by build resolution.
+    """
+    pivot_intervals_by_resolution = {'6m': 1, '2y': 1, '3y': 2, '6y': 3, '12y': 6, '60y': 6}
+    return pivot_intervals_by_resolution[w.resolution]
+
+def clock_rate(w):
+    # these rates are from 12y runs on 2019-10-18
+    rate = {
+     ('h1n1pdm', 'ha'): 0.00329,
+ 	 ('h1n1pdm', 'na'): 0.00326,
+ 	 ('h1n1pdm', 'np'): 0.00221,
+ 	 ('h1n1pdm', 'pa'): 0.00217,
+	 ('h1n1pdm', 'pb1'): 0.00205,
+ 	 ('h1n1pdm', 'pb2'): 0.00277,
+ 	 ('h3n2', 'ha'): 0.00382,
+ 	 ('h3n2', 'na'): 0.00267,
+	 ('h3n2', 'np'): 0.00157,
+ 	 ('h3n2', 'pa'): 0.00178,
+ 	 ('h3n2', 'pb1'): 0.00139,
+ 	 ('h3n2', 'pb2'): 0.00218,
+ 	 ('vic', 'ha'): 0.00145,
+ 	 ('vic', 'na'): 0.00133,
+ 	 ('vic', 'np'): 0.00132,
+ 	 ('vic', 'pa'): 0.00178,
+ 	 ('vic', 'pb1'): 0.00114,
+ 	 ('vic', 'pb2'): 0.00106,
+ 	 ('yam', 'ha'): 0.00176,
+ 	 ('yam', 'na'): 0.00177,
+ 	 ('yam', 'np'): 0.00133,
+ 	 ('yam', 'pa'): 0.00112,
+ 	 ('yam', 'pb1'): 0.00092,
+ 	 ('yam', 'pb2'): 0.00113}
+    return rate.get((w.lineage, w.segment), 0.001)
+
+
+def clock_std_dev(w):
+    return 0.2*clock_rate(w)
+	
+def vpm(v):
+    vpm = {'6m':360, '2y':90, '3y':60, '6y':30, '12y':15, '60y':5}
+    return vpm[v.resolution] if v.resolution in vpm else 5
+	
+#
+# Define LBI parameters and functions.
+#
+LBI_params = {
+    '6m': {"tau": 0.3, "time_window": 0.5},
+    '2y': {"tau": 0.3, "time_window": 0.5},
+    '3y': {"tau": 0.4, "time_window": 0.6},
+    '6y': {"tau": 0.25, "time_window": 0.75},
+    '12y': {"tau": 0.25, "time_window": 0.75},
+    '60y': {"tau": 0.25, "time_window": 0.75}
+}
+
+def _get_lbi_tau_for_wildcards(wildcards):
+    return LBI_params[wildcards.resolution]["tau"]
+
+def _get_lbi_window_for_wildcards(wildcards):
+    return LBI_params[wildcards.resolution]["time_window"]	
+	
+	
+wildcard_constraints:
+    lineage = "[A-Za-z0-9]{3,7}",
+    segment = "[A-Za-z0-9]{2,3}",
+    resolution = "[A-Za-z0-9]{2,3}",
+
+
+def _get_node_data_for_export(wildcards):
+    """Return a list of node data files to include for a given build's wildcards.
+    """
+    # Define inputs shared by all builds.
+    wildcards_dict = dict(wildcards)
+    inputs = [
+        "results/epiweeks_{lineage}_{segment}_{resolution}.json", #DONE
+		# is this a useful thing to have?
+        #rules.annotate_recency_of_submissions.output.node_data,
+        "results/branch-lengths_{lineage}_{segment}_{resolution}.json", #DONE
+        "results/nt-muts_{lineage}_{segment}_{resolution}.json", #DONE
+        "results/aa-muts_{lineage}_{segment}_{resolution}.json", #DONE
+		# clades depend on a tree for ha: maybe have it prebuilt before and always use it?
+        "results/clades_{lineage}_{segment}_{resolution}.json", #DONE
+        "results/lbi_{lineage}_{segment}_{resolution}.json", #DONE
+    ]
+
+    # Convert input files from wildcard strings to real file names.
+    inputs = [input_file.format(**wildcards_dict) for input_file in inputs]
+    return inputs
+	
+	
+
+rule select_strains:
+    input:
+        sequences = "data/sequences_{lineage}_{segment}.fasta", #DONE
+        metadata = "data/metadata_{lineage}_{segment}.tsv", #DONE
+        include = files.references #DONE
+    output:
+        strains = "results/strains_{lineage}_{segment}_{resolution}.txt",
+    params:
+        viruses_per_month = vpm
+    conda: "environment.yaml"
+    shell:
+        """
+        python3 scripts/select_strains.py \
+            --sequences {input.sequences} \
+            --metadata {input.metadata} \
+            --segments {wildcards.segment} \
+            --include {input.include} \
+            --lineage {wildcards.lineage} \
+            --resolution {wildcards.resolution} \
+            --viruses-per-month {params.viruses_per_month} \
+            --output {output.strains}
+        """
+		
+
+rule annotate_epiweeks:
+    input:
+        metadata="data/metadata_{lineage}_{segment}.tsv", #DONE
+        strains="results/strains_{lineage}_{segment}_{resolution}.txt", #DONE
+    output:
+        node_data="results/epiweeks_{lineage}_{segment}_{resolution}.json",
+    shell:
+        """
+        python3 scripts/calculate_epiweek.py \
+            --metadata {input.metadata} \
+            --strains {input.strains} \
+            --output-node-data {output.node_data}
+        """
+
+
+rule align:
+    message:
+        """
+        Aligning sequences to {input.reference}
+        """
+    input:
+        sequences = "data/sequences_{lineage}_{segment}.fasta", #DONE
+        reference = files.reference #DONE
+    output:
+        alignment = "results/aligned_{lineage}_{segment}_{resolution}.fasta"
+    threads: 1
+    resources:
+        mem_mb=16000
+    shell:
+        """
+        python3 scripts/codon_align.py \
+            --sequences {input.sequences} \
+            --reference {input.reference} \
+            --output {output.alignment}
+        """
+
+rule tree:
+    message: "Building tree"
+    input:
+        alignment = "results/aligned_{lineage}_{segment}_{resolution}.fasta", #DONE
+        # exclude_sites = files.exclude_sites
+    output:
+        tree = "results/tree-raw_{lineage}_{segment}_{resolution}.nwk"
+    threads: 8
+    resources:
+        mem_mb=16000
+    shell:
+        """
+        augur tree \
+            --alignment {input.alignment} \
+            --output {output.tree} \
+            --nthreads {threads}
+        """
+
+
+rule refine:
+    message:
+        """
+        Refining tree
+          - estimate timetree
+          - use {params.coalescent} coalescent timescale
+          - estimate {params.date_inference} node dates
+          - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
+        """
+    input:
+        tree = "results/tree-raw_{lineage}_{segment}_{resolution}.nwk", #DONE
+        alignment = "results/aligned_{lineage}_{segment}_{resolution}.fasta", #DONE
+        metadata = "data/metadata_{lineage}_{segment}.tsv" #DONE
+    output:
+        tree = "results/tree_{lineage}_{segment}_{resolution}.nwk",
+        node_data = "results/branch-lengths_{lineage}_{segment}_{resolution}.json"
+    params:
+        coalescent = "const",
+        date_inference = "marginal",
+        clock_filter_iqd = 4,
+        clock_rate = clock_rate,
+        clock_std_dev = clock_std_dev
+    resources:
+        mem_mb=16000
+    shell:
+        """
+        augur refine \
+            --tree {input.tree} \
+            --alignment {input.alignment} \
+            --metadata {input.metadata} \
+            --output-tree {output.tree} \
+            --output-node-data {output.node_data} \
+            --timetree \
+            --no-covariance \
+            --clock-rate {params.clock_rate} \
+            --clock-std-dev {params.clock_std_dev} \
+            --coalescent {params.coalescent} \
+            --date-confidence \
+            --date-inference {params.date_inference} \
+            --clock-filter-iqd {params.clock_filter_iqd}
+        """
+
+rule clades:
+    message: "Annotating clades"
+    input:
+        tree = "results/tree_{lineage}_ha_{resolution}.nwk", #DONE
+        nt_muts = "results/nt-muts_{lineage}_{segment}_{resolution}.json", #DONE
+        aa_muts = "results/aa-muts_{lineage}_{segment}_{resolution}.json", #DONE
+        clades = "config/clades_{lineage}_ha.tsv" #DONE
+    output:
+        clades = "results/clades_{lineage}_{segment}_{resolution}.json"
+    run:
+        if wildcards.segment == 'ha':
+            shell("""
+                augur clades \
+                    --tree {input.tree} \
+                    --mutations {input.nt_muts} {input.aa_muts} \
+                    --clades {input.clades} \
+                    --output {output.clades}
+            """)
+        else:
+            shell("""
+                python3 scripts/import_tip_clades.py \
+                    --tree {input.tree} \
+                    --clades {input.clades} \
+                    --output {output.clades}
+            """)
+
+
+rule lbi:
+    message: "Calculating LBI"
+    input:
+        tree = "results/tree_{lineage}_{segment}_{resolution}.nwk", #DONE
+        branch_lengths = "results/branch-lengths_{lineage}_{segment}_{resolution}.json" #DONE
+    params:
+        tau = _get_lbi_tau_for_wildcards,
+        window = _get_lbi_window_for_wildcards,
+        names = "lbi"
+    output:
+        lbi = "results/lbi_{lineage}_{segment}_{resolution}.json"
+    shell:
+        """
+        augur lbi \
+            --tree {input.tree} \
+            --branch-lengths {input.branch_lengths} \
+            --output {output} \
+            --attribute-names {params.names} \
+            --tau {params.tau} \
+            --window {params.window}
+        """
+		
+
+rule ancestral:
+    message: "Reconstructing ancestral sequences and mutations"
+    input:
+        tree = "results/tree_{lineage}_{segment}_{resolution}.nwk", #DONE
+        alignment = "results/aligned_{lineage}_{segment}_{resolution}.fasta" #DONE
+    output:
+        node_data = "results/nt-muts_{lineage}_{segment}_{resolution}.json"
+    params:
+        inference = "joint"
+    conda: "environment.yaml"
+    resources:
+        mem_mb=4000
+    shell:
+        """
+        augur ancestral \
+            --tree {input.tree} \
+            --alignment {input.alignment} \
+            --output-node-data {output.node_data} \
+            --inference {params.inference}
+        """
+
+			
+rule translate:
+    message: "Translating amino acid sequences"
+    input:
+        tree = "results/tree_{lineage}_{segment}_{resolution}.nwk", #DONE
+        node_data = "results/nt-muts_{lineage}_{segment}_{resolution}.json", #DONE
+        reference = files.reference #DONE
+    output:
+        node_data = "results/aa-muts_{lineage}_{segment}_{resolution}.json",
+    conda: "environment.yaml"
+    shell:
+        """
+        augur translate \
+            --tree {input.tree} \
+            --ancestral-sequences {input.node_data} \
+            --reference-sequence {input.reference} \
+            --output {output.node_data} \
+        """
+		
+
+rule tip_frequencies:
+    input:
+        tree = "results/tree_{lineage}_{segment}_{resolution}.nwk", #DONE
+        metadata = "data/metadata_{lineage}_{segment}.tsv", #DONE
+    params:
+        narrow_bandwidth = 2 / 12.0,
+        wide_bandwidth = 3 / 12.0,
+        proportion_wide = 0.0,
+        min_date = min_date,
+        max_date = max_date,
+        pivot_interval = pivot_interval
+    output:
+        tip_freq = "auspice/flu_{lineage}_{segment}_{resolution}_tip-frequencies.json"
+    conda: "environment.yaml"
+    shell:
+        """
+        augur frequencies \
+            --method kde \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --narrow-bandwidth {params.narrow_bandwidth} \
+            --wide-bandwidth {params.wide_bandwidth} \
+            --proportion-wide {params.proportion_wide} \
+            --pivot-interval {params.pivot_interval} \
+            --min-date {params.min_date} \
+            --max-date {params.max_date} \
+            --output {output}
+        """		
+		
+rule export:
+    input:
+        tree = "results/tree_{lineage}_{segment}_{resolution}.nwk", #DONE
+        metadata = "data/metadata_{lineage}_{segment}.tsv", #DONE
+        node_data = _get_node_data_for_export, #DONE
+        auspice_config = files.auspice_config, #DONE
+        description = files.description, #DONE
+        colors = files.colors, #DONE
+        lat_longs = files.lat_longs, #DONE
+    output:
+        auspice_json = "auspice/flu_{lineage}_{segment}_{resolution}.json",
+        root_sequence = "auspice/flu_{lineage}_{segment}_{resolution}_root-sequence.json"
+    conda: "environment.yaml"
+    shell:
+        """
+        augur export v2 \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --node-data {input.node_data} \
+            --auspice-config {input.auspice_config} \
+            --colors {input.colors} \
+            --lat-longs {input.lat_longs} \
+            --output {output.auspice_json} \
+            --description {input.description} \
+            --include-root-sequence \
+            --minify-json
+        """
+
+
+		
+
+rule targets:
+    input:
+        main = "auspice/flu_{lineage}_{segment}_{resolution}.json", #DONE
+        frequencies = "auspice/flu_{lineage}_{segment}_{resolution}_tip-frequencies.json",
+        root_sequence = "auspice/flu_{lineage}_{segment}_{resolution}_root-sequence.json" #DONE
+    output:
+        target = "targets/flu_{lineage}_{segment}_{resolution}"
+    shell:
+        '''
+        touch {output.target}
+        '''
+
+rule clean:
+    message: "Removing directories: {params}"
+    params:
+        "results ",
+        "targets ",
+        "auspice ",
+        "auspice-who ",
+        "logs"
+    shell:
+        "rm -rfv {params}"
+
+rule clobber:
+    message: "Removing directories: {params}"
+    params:
+        "results ",
+        "targets ",
+        "auspice ",
+        "auspice-who ",
+        "logs ",
+        "data"
+    shell:
+        "rm -rfv {params}"
