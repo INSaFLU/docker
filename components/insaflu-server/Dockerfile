@@ -24,12 +24,12 @@ RUN useradd -ms /bin/bash ${APP_USER}
 RUN mkdir -p /software/extra_software && cd /software/extra_software && wget https://repo.anaconda.com/miniconda/Miniconda2-4.7.12.1-Linux-x86_64.sh && sh Miniconda2-4.7.12.1-Linux-x86_64.sh -b -p /software/miniconda2/ && rm Miniconda2-4.7.12.1-Linux-x86_64.sh
 
 # Aln2pheno
-RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.4 --quiet && conda deactivate
-COPY software/aln2pheno /software/
+RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.4 --quiet && conda deactivate && mkdir -p /software/aln2pheno
+COPY software/aln2pheno/. /software/aln2pheno/
 
 # Nextstrain
-RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate
-COPY software/nextstrain /software/
+RUN eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate && mkdir -p /software/nextstrain/
+COPY software/nextstrain/. /software/nextstrain/
 RUN mkdir -p /software/nextstrain/binaries_2.0 && cd /software/nextstrain/binaries_2.0 && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextalign-x86_64-unknown-linux-musl && chmod a+x nextalign-x86_64-unknown-linux-musl && ln -s nextalign-x86_64-unknown-linux-musl nextalign && wget https://github.com/nextstrain/nextclade/releases/download/2.0.0/nextclade-x86_64-unknown-linux-musl && chmod a+x nextclade-x86_64-unknown-linux-musl && ln -s nextclade-x86_64-unknown-linux-musl nextclade
 
 ### install EMBOSS and bioperl
