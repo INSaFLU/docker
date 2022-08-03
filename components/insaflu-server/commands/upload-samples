@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e -o pipefail
+
+if [ $# -ne 2 ]
+then
+       echo "Need to pass login and metadata file."
+       echo "use: upload-samples <account name> <metadata file>"
+       echo " Note: needs to be run as DB_USER (usualy flu_user)"
+       echo ""
+       exit 1
+fi
+
+## change account
+echo "---> Uploading $2 data to account '$1'..."
+cd /insaflu_web/INSaFLU; 
+python3 manage.py upload_samples --user_login $1 --metadata_file $2
