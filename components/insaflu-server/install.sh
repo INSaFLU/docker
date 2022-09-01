@@ -20,14 +20,14 @@ useradd -ms /bin/bash ${APP_USER}
 mkdir -p /software/extra_software && cd /software/extra_software && wget https://repo.anaconda.com/miniconda/Miniconda2-4.7.12.1-Linux-x86_64.sh && sh Miniconda2-4.7.12.1-Linux-x86_64.sh -b -p /software/miniconda2/ && rm Miniconda2-4.7.12.1-Linux-x86_64.sh
 
 # Aln2pheno
-eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.4 --quiet && conda deactivate && mv /tmp_install/software/aln2pheno /software/
+eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.4 --quiet && conda deactivate && mv /tmp_install/software/aln2pheno /software/ && chmod u+x /software/aln2pheno/aln2pheno.sh
 if [ $? -ne 0 ]; then
     echo "Error installing Aln2pheno"
     exit 1
 fi
 
 # Nextstrain
-conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli augur auspice nextalign nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/
+conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2 augur=15 auspice nextalign=1.11 nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain"
     exit 1
@@ -229,6 +229,13 @@ mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/upd
 mkdir -p /software/canu && cd /software/canu && wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux-amd64.tar.xz && tar -xJvf canu-2.1.1.Linux-amd64.tar.xz && rm -f canu-2.1.1.Linux-amd64.tar.xz
 if [ $? -ne 0 ]; then
     echo "Error installing canu"
+    exit 1
+fi
+
+# flye
+eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=flye -c conda-forge -c anaconda -c bioconda flye=2.9.1 && mv /tmp_install/software/flye/ /software/ && chmod u+x /software/flye/flye.sh 
+if [ $? -ne 0 ]; then
+    echo "Error installing flye"
     exit 1
 fi
 
