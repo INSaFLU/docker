@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER Miguel Pinheiro, monsantopinheiro@gmail.com
+LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
 # version
 ADD VERSION .
