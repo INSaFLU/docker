@@ -5,9 +5,9 @@ MAINTAINER Miguel Pinheiro, monsantopinheiro@gmail.com
 ADD VERSION .
 
 LABEL vendor=INSA\
-      pt.insa.insaflu.is-production="" \
-      pt.insa.insaflu.version="0.0.1-beta" \
-      pt.insa.insaflu.release-date="2020-04-01"
+    pt.insa.insaflu.is-production="" \
+    pt.insa.insaflu.version="0.0.1-beta" \
+    pt.insa.insaflu.release-date="2020-04-01"
 
 # Install package dependencies
 RUN yum -y install epel-release
@@ -40,7 +40,7 @@ RUN rm -rf /software/extra_software/*
 ### web site
 RUN mkdir /insaflu_web
 WORKDIR /insaflu_web
-RUN pip3 install Cython; git clone https://github.com/INSaFLU/INSaFLU.git
+RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git
 #RUN pip3 install Cython; git clone --branch develop https://github.com/INSaFLU/INSaFLU.git
 WORKDIR /insaflu_web/INSaFLU
 RUN pip3 install -r requirements.txt; pip3 install mod_wsgi-standalone; rm /etc/httpd/modules/mod_wsgi.so
@@ -252,10 +252,8 @@ RUN wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip; unzip v0.0.1.z
 WORKDIR /software/RabbitQC
 RUN sed 's/ -static//' Makefile > temp.txt; mv -f temp.txt Makefile; make;
 
-### NanoStat
-RUN pip3 install nanostat==1.5.0
-### NanoFilt
-RUN pip3 install nanofilt==2.7.1
+### NanoStat & Nanofilt
+RUN pip3 install nanostat==1.5.0 nanofilt==2.7.1
 
 ## medaka
 COPY software/install_soft_medaka.sh /software
@@ -268,7 +266,10 @@ RUN /software/install_pangolin.sh
 ## Canu
 RUN mkdir -p /software/canu
 WORKDIR /software/canu
-RUN wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux-amd64.tar.xz; tar -xJvf canu-2.1.1.Linux-amd64.tar.xz; rm -f canu-2.1.1.Linux-amd64.tar.xz;
+RUN wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux-amd64.tar.xz && \
+    tar -xJvf canu-2.1.1.Linux-amd64.tar.xz && \
+    rm -f canu-2.1.1.Linux-amd64.tar.xz;
+
 
 ###  END ONT software
 ##########################
@@ -287,5 +288,3 @@ RUN sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh; rm en
 RUN chmod a+x entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-
-
