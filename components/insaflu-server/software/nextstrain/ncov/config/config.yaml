@@ -1,7 +1,7 @@
 
 builds:
   current:
-    title: "SARS-CoV-2 Nextstrain build"
+    title: "SARS-CoV-2 Nextstrain INSaFLU custom build"
 
 configfile:
   - defaults/parameters.yaml # Pull in the default values

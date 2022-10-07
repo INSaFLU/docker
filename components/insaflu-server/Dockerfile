@@ -7,7 +7,7 @@ ADD VERSION .
 LABEL vendor=INSA\
       pt.insa.insaflu.is-production="" \
       pt.insa.insaflu.version="0.0.1-beta" \
-      pt.insa.insaflu.release-date="2020-04-01"
+      pt.insa.insaflu.release-date="2022-10-05"
 
 RUN mkdir -p /tmp_install
 
