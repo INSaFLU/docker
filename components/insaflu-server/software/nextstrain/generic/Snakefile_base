@@ -152,7 +152,6 @@ rule export:
         tree = rules.refine.output.tree,
         metadata = input_metadata,
         branch_lengths = rules.refine.output.node_data,
-        traits = rules.traits.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
         auspice_config = auspice_config
@@ -163,7 +162,7 @@ rule export:
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
-            --node-data {input.branch_lengths} {input.traits} {input.nt_muts} {input.aa_muts} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
             --auspice-config {input.auspice_config} \
             --output {output.auspice_json}
         """
