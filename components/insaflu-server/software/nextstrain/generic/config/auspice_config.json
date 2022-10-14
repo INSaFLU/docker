@@ -15,8 +15,13 @@
       "title": "Date",
       "type": "continuous"
     },
+	{
+      "key": "location",
+      "title": "Location",
+      "type": "categorical"
+    },
     {
-      "key": "Country",
+      "key": "country",
       "title": "Country",
       "type": "categorical"
     },
@@ -27,7 +32,8 @@
     }
   ],
   "geo_resolutions": [
-    "Country",
+    "location",
+    "country",
     "region"
   ],
   "panels": [
@@ -39,7 +45,8 @@
     "map_triplicate": true
   },
   "filters": [
-    "Country",
+    "location",
+    "country",
     "region"
   ]
 }

@@ -4,8 +4,8 @@ input_fasta = "data/sequences.fasta"
 input_metadata = "data/metadata.tsv"
 reference = "data/reference.fasta"
 reference_gb = "data/reference.gb"
-auspice_config = "data/auspice_config.json"
-
+auspice_config = "config/auspice_config.json"
+lat_longs = "config/lat_longs.tsv"
 
 rule all:
     input:
@@ -128,6 +128,7 @@ rule translate:
             --output-node-data {output.node_data} 
         """
 
+# At the moment this rule is not being used
 rule traits:
     message: "Inferring ancestral traits for {params.columns!s}"
     input:
@@ -154,7 +155,8 @@ rule export:
         branch_lengths = rules.refine.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
-        auspice_config = auspice_config
+        auspice_config = auspice_config,
+		lat_longs = lat_longs
     output:
         auspice_json = rules.all.input.auspice_json,
     shell:
@@ -163,6 +165,7 @@ rule export:
             --tree {input.tree} \
             --metadata {input.metadata} \
             --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
+			--lat-longs {input.lat_longs} \
             --auspice-config {input.auspice_config} \
             --output {output.auspice_json}
         """
