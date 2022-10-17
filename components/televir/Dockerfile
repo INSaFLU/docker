@@ -1,8 +1,10 @@
-FROM ubuntu:latest
+FROM ubuntu:latest AS builder
 
 # Create a group and user to run insaflu
 ARG APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
+
+ENV TERM xterm
 
 RUN set -xe && apt-get update && apt-get install -y python3 python3-pip 
 RUN pip install --upgrade pip
@@ -17,9 +19,10 @@ RUN pip install --upgrade pip
 
 RUN apt-get update \
     && apt-get install -y gcc python3-dev musl-dev 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get install -y git ncbi-entrez-direct tabix samtools bioperl 
 
-ENV TERM xterm
 RUN apt-get -y install default-jre python3-pip
 # Install miniconda
 ENV CONDA_DIR /opt/conda
@@ -39,6 +42,10 @@ RUN rm -rf kallisto_linux-v0.43.1
 RUN rm ._kallisto_linux-v0.43.1
 RUN apt-get install -y libtool m4 autotools-dev automake 
 
+
+##
+RUN apt-get install zlib1g-dev make g++
+
 ##
 RUN python -m venv /opt/venv
 
@@ -57,22 +64,12 @@ RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O telev
     mv TELEVIR-main TELEVIR && \
     chown -R ${APP_USER}:${APP_USER} TELEVIR
 
-WORKDIR /insaflu_web/TELEVIR
 
-RUN mkdir -p /televir/mngs_benchmark
-RUN mkdir -p /televir/mngs_benchmark/mngs_environments
-
-RUN chown -R ${APP_USER}:${APP_USER} /televir/mngs_benchmark/mngs_environments
-RUN chown -R ${APP_USER}:${APP_USER} /televir/mngs_benchmark
-
-#RUN chmod +x environment_docker.sh
-#RUN ./environment_docker.sh
-## django requirements
-#RUN python -m pip install -r requirements_django.txt
 COPY configs/televir.env /insaflu_web/TELEVIR/.env
 
-RUN /opt/venv/bin/python main.py --docker --envs --setup_conda --partial
-#RUN /opt/venv/bin/python main.py --docker --envs --partial
+WORKDIR /
+COPY entrypoint.sh entrypoint_original.sh
+RUN sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh; rm entrypoint_original.sh
+RUN chmod a+x entrypoint.sh
 
-#RUN /opt/venv/bin/python main.py --docker --seqdl --partial
-#RUN /opt/venv/bin/python main.py --docker --soft --partial
+ENTRYPOINT [ "/entrypoint.sh" ]

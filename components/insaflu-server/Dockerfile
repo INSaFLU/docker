@@ -37,30 +37,6 @@ RUN ./configure --without-x; make; make install; ln -s /usr/local/bin/seqret /us
 WORKDIR /software/extra_software
 RUN rm -rf /software/extra_software/*
 
-### web site
-RUN mkdir /insaflu_web
-WORKDIR /insaflu_web
-RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git
-#RUN pip3 install Cython; git clone --branch develop https://github.com/INSaFLU/INSaFLU.git
-WORKDIR /insaflu_web/INSaFLU
-RUN pip3 install -r requirements.txt; pip3 install mod_wsgi-standalone; rm /etc/httpd/modules/mod_wsgi.so
-RUN ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
-
-RUN mkdir /insaflu_web/INSaFLU/env
-## is going to be linked in "/insaflu_web/INSaFLU/env"
-COPY configs/insaflu.env /insaflu_web/INSaFLU/.env
-RUN chown -R ${APP_USER}:${APP_USER} *; mkdir /var/log/insaFlu
-
-### apache server
-RUN usermod -a -G ${APP_USER} apache
-COPY configs/insaflu.conf /etc/httpd/conf.d
-RUN rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf; echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf
-RUN sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf_temp
-RUN mv /etc/httpd/conf/httpd.conf_temp /etc/httpd/conf/httpd.conf
-
-### Temp Directory /usr/lib/tmpfiles.d
-COPY configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_path.conf
-
 #### SGE
 ARG SGE_ROOT=/opt/sge
 RUN groupadd -g 58 gridware; useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin; chmod 0755 ${SGE_ROOT}
@@ -73,7 +49,7 @@ WORKDIR /insaflu_sge_source/sge-8.1.9/source
 RUN scripts/bootstrap.sh -no-java -no-jni
 RUN ./aimk -no-java -no-jni
 #WORKDIR /insaflu_sge_source/sge-8.1.9/source/3rdparty/qtcsh/LINUXAMD64
-#RUN cc -o tcsh  -O2 -Wstrict-prototypes -DLINUX -DLINUXAMD64 -DLINUXAMD64 -D_GNU_SOURCE -DGETHOSTBYNAME_R6 -DGETHOSTBYADDR_R8 -DTARGET_64BIT -DSGE_PQS_API -DSPOOLING_dynamic -DSECURE -DHAVE_HWLOC=1 -DNO_JNI -DCOMPILE_DC -D__SGE_COMPILE_WITH_GETTEXT__ -D__SGE_NO_USERMAPPING__ -U_GNU_SOURCE -Wno-error -DPROG_NAME='"qtcsh"' -DLINUXAMD64 -I. -I.. sh.o sh.dir.o sh.dol.o sh.err.o sh.exec.o sh.char.o sh.exp.o sh.file.o sh.func.o sh.glob.o sh.hist.o sh.init.o sh.lex.o sh.misc.o sh.parse.o sh.print.o sh.proc.o sh.sem.o sh.set.o sh.time.o glob.o mi.termios.o ma.setp.o vms.termcap.o tw.help.o tw.init.o tw.parse.o tw.spell.o tw.comp.o tw.color.o ed.chared.o ed.refresh.o ed.screen.o ed.init.o ed.inputl.o ed.defns.o ed.xmap.o ed.term.o tc.alloc.o tc.bind.o tc.const.o tc.defs.o tc.disc.o tc.func.o tc.nls.o tc.os.o tc.printf.o tc.prompt.o tc.sched.o tc.sig.o tc.str.o tc.vers.o tc.who.o  -lcrypt      -L../../../LINUXAMD64 -L.  -rdynamic -Wl,-rpath,\$ORIGIN/../../lib/lx-amd64  -lsge -lpthread -lssl -lcrypto   -luti -ldl -lm -lreadline -lncurses
+#RUN cc -o tcsh  -O2 -Wstrict-pprototypes -DLINUX -DLINUXAMD64 -DLINUXAMD64 -D_GNU_SOURCE -DGETHOSTBYNAME_R6 -DGETHOSTBYADDR_R8 -DTARGET_64BIT -DSGE_PQS_API -DSPOOLING_dynamic -DSECURE -DHAVE_HWLOC=1 -DNO_JNI -DCOMPILE_DC -D__SGE_COMPILE_WITH_GETTEXT__ -D__SGE_NO_USERMAPPING__ -U_GNU_SOURCE -Wno-error -DPROG_NAME='"qtcsh"' -DLINUXAMD64 -I. -I.. sh.o sh.dir.o sh.dol.o sh.err.o sh.exec.o sh.char.o sh.exp.o sh.file.o sh.func.o sh.glob.o sh.hist.o sh.init.o sh.lex.o sh.misc.o sh.parse.o sh.print.o sh.proc.o sh.sem.o sh.set.o sh.time.o glob.o mi.termios.o ma.setp.o vms.termcap.o tw.help.o tw.init.o tw.parse.o tw.spell.o tw.comp.o tw.color.o ed.chared.o ed.refresh.o ed.screen.o ed.init.o ed.inputl.o ed.defns.o ed.xmap.o ed.term.o tc.alloc.o tc.bind.o tc.const.o tc.defs.o tc.disc.o tc.func.o tc.nls.o tc.os.o tc.printf.o tc.prompt.o tc.sched.o tc.sig.o tc.str.o tc.vers.o tc.who.o  -lcrypt      -L../../../LINUXAMD64 -L.  -rdynamic -Wl,-rpath,\$ORIGIN/../../lib/lx-amd64  -lsge -lpthread -lssl -lcrypto   -luti -ldl -lm -lreadline -lncurses
 #WORKDIR /insaflu_sge_source/sge-8.1.9/source
 #RUN ./aimk -no-java -no-jni
 
@@ -273,6 +249,32 @@ RUN wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux
 
 ###  END ONT software
 ##########################
+### web site
+RUN mkdir /insaflu_web
+WORKDIR /insaflu_web
+ADD https://api.github.com/repos/SantosJGND/INSaFLU/git/refs/heads/master version.json
+RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git
+#RUN pip3 install Cython; git clone --branch develop https://github.com/INSaFLU/INSaFLU.git
+WORKDIR /insaflu_web/INSaFLU
+RUN pip3 install -r requirements.txt; pip3 install mod_wsgi-standalone; rm /etc/httpd/modules/mod_wsgi.so
+RUN ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
+
+RUN mkdir /insaflu_web/INSaFLU/env
+## is going to be linked in "/insaflu_web/INSaFLU/env"
+COPY configs/insaflu.env /insaflu_web/INSaFLU/.env
+RUN chown -R ${APP_USER}:${APP_USER} *; mkdir /var/log/insaFlu
+
+### apache server
+RUN usermod -a -G ${APP_USER} apache
+COPY configs/insaflu.conf /etc/httpd/conf.d
+RUN rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf; echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf
+RUN sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf_temp
+RUN mv /etc/httpd/conf/httpd.conf_temp /etc/httpd/conf/httpd.conf
+
+### Temp Directory /usr/lib/tmpfiles.d
+COPY configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_path.conf
+
+
 
 ### several commands
 ARG COMMANDS_ROOT=/insaflu_web/commands

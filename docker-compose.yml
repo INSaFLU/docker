@@ -112,7 +112,7 @@ services:
     networks:
       insaflu_net:
         ipv4_address: 10.1.0.5
-
+    command: [ "move" ]
   # insaflu
   # password and database login are defined in components/insaflu/configs/insaflu.env 
   insaflu-server:
