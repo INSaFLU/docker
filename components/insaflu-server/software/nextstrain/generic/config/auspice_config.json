@@ -3,7 +3,7 @@
   "maintainers": [
     {"name": "INSA", "url": "https://www.insa.min-saude.pt/"}
   ],
-  "build_url": "https://github.com/nextstrain/zika-tutorial",
+  "build_url": "https://github.com/INSaFLU/nextstrain_builds/generic",
   "colorings": [
     {
       "key": "type-subtype",
@@ -11,12 +11,7 @@
       "type": "categorical"
     },
     {
-      "key": "date",
-      "title": "Date",
-      "type": "continuous"
-    },
-	{
-      "key": "location",
+     "key": "location",
       "title": "Location",
       "type": "categorical"
     },
@@ -39,7 +34,7 @@
   "panels": [
      "tree",
      "map",
-	 "entropy"
+     "entropy"
   ],
   "display_defaults": {
     "map_triplicate": true

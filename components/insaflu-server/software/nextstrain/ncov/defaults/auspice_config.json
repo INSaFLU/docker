@@ -1,6 +1,6 @@
 {
-  "title": "Genomic epidemiology of novel coronavirus (INSaFLU custom build)",
-  "build_url": "https://github.com/nextstrain/ncov",
+  "title": "INSaFLU SARS-CoV-2 Nextstrain build",
+  "build_url": "https://github.com/INSaFLU/nextstrain_builds/ncov",
   "maintainers": [
     {"name": "INSA", "url": "https://www.insa.min-saude.pt/"}
   ],
@@ -162,7 +162,6 @@
   "panels": [
     "tree",
     "map",
-    "entropy",
-    "frequencies"
+    "entropy"
   ]
 }

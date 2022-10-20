@@ -1,5 +1,5 @@
 {
-  "title": "Real-time tracking of influenza B/Vic evolution",
+  "title": "INSaFLU influenza B/Vic Nextstrain build",
   "maintainers": [
     {"name": "INSA", "url": "https://www.insa.min-saude.pt/"}
   ],
@@ -8,7 +8,7 @@
       "name": "INSaFLU"
     }
   ],
-  "build_url": "https://github.com/nextstrain/seasonal-flu",
+  "build_url": "https://github.com/INSaFLU/nextstrain_builds/flu",
   "colorings": [
     {
       "key": "gt",

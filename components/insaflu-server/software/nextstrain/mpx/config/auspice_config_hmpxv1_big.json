@@ -1,5 +1,5 @@
 {
-  "title": "Genomic epidemiology of hMPXV-1 (clade IIb) monkeypox virus using as many sequences as possible",
+  "title": "INSaFLU Monkeypox Nextstrain build",
   "maintainers": [
     {"name": "INSA", "url": "https://www.insa.min-saude.pt"}
   ],
@@ -9,7 +9,7 @@
       "url": "https://insaflu.insa.pt"
     }
   ],
-  "build_url": "https://github.com/nextstrain/monkeypox",
+  "build_url": "https://github.com/INSaFLU/nextstrain_builds/mpx",
   "colorings": [
     {
       "key": "outbreak",
