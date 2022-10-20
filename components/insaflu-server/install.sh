@@ -52,6 +52,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Nextstrain builds
+cd /software/nextstrain/ && git clone https://github.com/INSaFLU/nextstrain_builds.git
+if [ $? -ne 0 ]; then
+    echo "Error installing Nextstrain builds"
+    exit 1
+fi
+
 
 ### install bioperl
 echo "Install bioperl"
