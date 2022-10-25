@@ -30,7 +30,7 @@ fi
 
 # Nextstrain
 echo "Install Nextstrain"
-conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2 augur=15 auspice nextalign=1.11 nextclade snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh
+conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2.4 augur=15.0.2 auspice nextalign=1.11.0 nextclade=1.11.0 snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain"
     exit 1
