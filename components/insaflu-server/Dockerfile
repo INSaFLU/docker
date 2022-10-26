@@ -16,6 +16,8 @@ COPY . /tmp_install/
 # To reduce the number of layers
 RUN sh /tmp_install/install.sh
 
+ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:${PATH}" 
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 
