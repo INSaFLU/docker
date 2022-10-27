@@ -35,7 +35,7 @@ RUN cd /software/extra_software&& tar -zxvf EMBOSS-6.6.0.tar.gz && cd EMBOSS-6.6
 ### web site
 RUN mkdir /insaflu_web
 WORKDIR /insaflu_web
-RUN pip3 install Cython; git clone https://github.com/INSaFLU/INSaFLU.git && cd /insaflu_web/INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so && ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
+RUN pip3 install Cython; git clone https://github.com/INSaFLU/INSaFLU.git && cd /insaflu_web/INSaFLU && git checkout tags/v1.5.2 && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so && ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
 
 RUN mkdir /insaflu_web/INSaFLU/env
 ## is going to be linked in "/insaflu_web/INSaFLU/env"
