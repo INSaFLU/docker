@@ -22,13 +22,10 @@ INSaFLU (“INSide the FLU”) is a bioinformatics free web-based suite (https:/
 Docker:
 
 * Install [docker](https://docs.docker.com/engine/install/) in your linux server;
-* Install [docker-compose](https://docs.docker.com/compose/install/) in your linux server;
+(recent versions of docker already include docker compose)
 
-	$ sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-	
-	$ sudo chmod +x /usr/local/bin/docker-compose
-
-* Install docker extensions [local-persist](https://github.com/MatchbookLab/local-persist);
+* Install the docker extension [local-persist](https://github.com/MatchbookLab/local-persist);
+(you don't need to install this if you're using the option of bind volumes)
 
 	$ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
 	
