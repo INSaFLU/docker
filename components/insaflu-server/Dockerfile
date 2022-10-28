@@ -177,7 +177,7 @@ RUN mkdir /insaflu_web
 WORKDIR /insaflu_web
 ADD https://api.github.com/repos/SantosJGND/INSaFLU/git/refs/heads/master version.json
 RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git && cd /insaflu_web/INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so && ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
-RUN git checkout import_insaflu
+RUN git checkout import_insaflu_II
 
 RUN mkdir /insaflu_web/INSaFLU/env
 ## is going to be linked in "/insaflu_web/INSaFLU/env"
