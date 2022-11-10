@@ -22,6 +22,8 @@ if [ "$1" = "init_all" ]; then
     fi
     cd /insaflu_web/INSaFLU; python3 manage.py load_default_files;
     cd /insaflu_web/INSaFLU; python3 manage.py load_default_settings;
+    cd /insaflu_web/INSaFLU; python3 manage.py generate_default_trees;
+    
     
     ## update pangolin if necessary
     cd /insaflu_web/INSaFLU; python3 manage.py update_pangolin;

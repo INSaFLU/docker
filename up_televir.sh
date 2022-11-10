@@ -4,5 +4,8 @@ set -ex
 # image name
 export IMAGE=televir-image
 
-docker-compose up ${IMAGE}
+docker-compose build
+docker-compose up televir-server
+docker-compose up $IMAGE
+
 

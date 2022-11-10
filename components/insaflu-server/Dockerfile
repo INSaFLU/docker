@@ -84,6 +84,10 @@ WORKDIR /software
 RUN mkdir fasttree && cd /software/fasttree && wget -O FastTreeDbl http://microbesonline.org/fasttree/FastTreeDbl && chmod a+x /software/fasttree/FastTreeDbl
 
 ### freebayes
+RUN git config --global http.postBuffer 500M
+RUN git config --global http.maxRequestBuffer 100M
+RUN git config --global core.compression 0
+
 WORKDIR /software
 RUN git clone --branch v1.2.0 --recursive https://github.com/ekg/freebayes.git && cd /software/freebayes && make
 
@@ -175,9 +179,12 @@ RUN wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux
 ### web site
 RUN mkdir /insaflu_web
 WORKDIR /insaflu_web
-ADD https://api.github.com/repos/SantosJGND/INSaFLU/git/refs/heads/master version.json
-RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git && cd /insaflu_web/INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so && ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
-RUN git checkout import_insaflu_II
+ADD https://api.github.com/repos/SantosJGND/INSaFLU/git/refs/heads/insaflu_II_tag version.json
+RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git && cd /insaflu_web/INSaFLU && git checkout insaflu_II_tag
+WORKDIR /insaflu_web/INSaFLU
+RUN pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so && ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
+
+
 
 RUN mkdir /insaflu_web/INSaFLU/env
 ## is going to be linked in "/insaflu_web/INSaFLU/env"
