@@ -35,12 +35,7 @@ ENV PATH $CONDA_DIR/bin:$PATH
 ## install kallisto version
 RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.43.1/kallisto_linux-v0.43.1.tar.gz
 RUN tar -xzf kallisto_linux-v0.43.1.tar.gz
-ENV PATH $PATH:kallisto_linux-v0.43.1/kallisto
-
-RUN rm kallisto_linux-v0.43.1.tar.gz
-RUN rm -rf kallisto_linux-v0.43.1
-RUN rm ._kallisto_linux-v0.43.1
-RUN apt-get install -y libtool m4 autotools-dev automake 
+ENV PATH $PATH:kallisto_linux-v0.43.1
 
 
 ##
@@ -56,7 +51,6 @@ RUN /opt/venv/bin/pip install --default-timeout=100 future
 COPY taxdump.tar.gz /opt/
 
 WORKDIR /insaflu_web
-
 ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/main version.json
 RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O televir.zip && \
     unzip -q televir.zip && \

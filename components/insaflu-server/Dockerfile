@@ -173,6 +173,12 @@ RUN mkdir -p /software/canu
 WORKDIR /software/canu
 RUN wget https://github.com/marbl/canu/releases/download/v2.1.1/canu-2.1.1.Linux-amd64.tar.xz; tar -xJvf canu-2.1.1.Linux-amd64.tar.xz; rm -f canu-2.1.1.Linux-amd64.tar.xz;
 
+
+## kallisto
+RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.43.1/kallisto_linux-v0.43.1.tar.gz
+RUN tar -xzf kallisto_linux-v0.43.1.tar.gz
+ENV PATH $PATH:/software/kallisto_linux-v0.43.1/kallisto
+
 ###  END ONT software
 ##########################
 
@@ -183,8 +189,6 @@ ADD https://api.github.com/repos/SantosJGND/INSaFLU/git/refs/heads/import_insafl
 RUN pip3 install Cython; git clone https://github.com/SantosJGND/INSaFLU.git && cd /insaflu_web/INSaFLU && git checkout import_insaflu_II
 WORKDIR /insaflu_web/INSaFLU
 RUN pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so && ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
-
-
 
 RUN mkdir /insaflu_web/INSaFLU/env
 ## is going to be linked in "/insaflu_web/INSaFLU/env"

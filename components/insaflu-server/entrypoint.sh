@@ -20,9 +20,11 @@ if [ "$1" = "init_all" ]; then
         ## for fresh prokka instalations
         /software/prokka/bin/prokka --setupdb
     fi
+    
+    
     cd /insaflu_web/INSaFLU; python3 manage.py load_default_files;
     cd /insaflu_web/INSaFLU; python3 manage.py load_default_settings;
-    cd /insaflu_web/INSaFLU; python3 manage.py generate_default_trees;
+    #cd /insaflu_web/INSaFLU; python3 manage.py generate_default_trees;
     
     
     ## update pangolin if necessary
@@ -51,6 +53,10 @@ if [ "$1" = "init_all" ]; then
     if [ -d "/tmp/insaFlu" ]; then
         chmod -R 0777 /tmp/insaFlu
     fi
+    
+    PATH=$PATH:/televir/mngs_benchmark/mngs_environments/preprocess/preproc/bin
+    PATH=$PATH:/software/kallisto_linux-v0.43.1
+    export PATH
     
     echo "---> Start apache server  ..."
     /usr/sbin/httpd -k restart
