@@ -22,7 +22,10 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/env
-
+  televir:
+    driver: local-persist
+    driver_opts:
+      mountpoint: ${BASE_PATH_DATA}/televir/
 ### this is necessary to set an ip to SGE in insaflu
 networks:
   insaflu_net:
@@ -85,7 +88,28 @@ services:
       TIMEZONE: "${TIMEZONE}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
+      
+  # TELEVIR
+  televir-server:
+    build: components/televir/.
+    container_name: televir-server
+    image: ${USERNAME_IMAGE}:${TELEVIR_IMAGE}
+    hostname: televir
+    restart: on-failure
+    volumes:
+      - televir:/televir/mngs_benchmark
+    depends_on:
+      - pgbackups
+      - officer
+    environment:
+      - SGE_ROOT=/opt/sge
+    tty: true
+    stdin_open: true
+    networks:
+      insaflu_net:
+        ipv4_address: 10.1.0.5
+    command: [ "move" ]
+    
   # insaflu
   # password and database login are defined in components/insaflu/configs/insaflu.env 
   insaflu-server:
@@ -95,6 +119,7 @@ services:
     hostname: insaflu
     restart: on-failure
     volumes:
+      - televir:/televir/mngs_benchmark    
       - insaflu-server-data:/insaflu_web/INSaFLU/media
       - insaflu-server-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-server-env:/insaflu_web/INSaFLU/env
