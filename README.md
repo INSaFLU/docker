@@ -10,12 +10,11 @@ INSaFLU (“INSide the FLU”) is a bioinformatics free web-based suite (https:/
 
 **Here, you can find how to easily set up your local INSaFLU instance.**
 
-## Hardware Requirements
+## Recommended minimal hardware requirements
 
-* Processor: 8 cores (4 minimal);
-* RAM: 32GB of memory (16GB minimal);
-* Disk Space: 512GB (suggestion; depends on the volume of data to process);
-
+* Processor: 8 cores (4 minimal if only surveillance module is required);
+* RAM: 32GB of memory (16GB minimal if only surveillance module is required);
+* Disk Space: 1TB (suggestion; depends on the volume of data to process);
 
 ## Installation
 
@@ -25,7 +24,6 @@ Docker:
 (recent versions of docker already include docker compose)
 
 * Install the docker extension [local-persist](https://github.com/MatchbookLab/local-persist);
-(you don't need to install this if you're using the option of bind volumes)
 
 	$ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
 	
@@ -34,6 +32,9 @@ Docker:
 	$ sudo ./install.sh
 
 :warning: If you're uncomfortable running a script you downloaded off the internet with sudo, you can extract any of the steps out of the install.sh script and run them manually.
+
+:warning: local-persist does not seem to be supported in windows environments eg. WSL2. In this case you may need to adjust the Dockerfile(s) to use bind volumes instead.
+
 
 INSaFLU:
 
