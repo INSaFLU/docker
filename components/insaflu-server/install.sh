@@ -36,6 +36,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Nextstrain_rsv
+echo "Install Nextstrain RSV"
+conda create --name=nextstrain_rsv -c conda-forge mamba python=3.10 --yes && conda activate nextstrain_rsv && mamba install -c bioconda -c conda-forge --yes augur=20.0 auspice=2.42 nextalign=2.9.1 nextclade=2.9.1  snakemake git epiweeks=2.1.4
+if [ $? -ne 0 ]; then
+    echo "Error installing Nextstrain RSV"
+    exit 1
+fi
+
 # Nextstrain_mpx
 echo "Install Nextstrain MPX"
 conda create --name=nextstrain_mpx -c conda-forge mamba python=3.8 --yes && conda activate nextstrain_mpx && mamba install -c bioconda -c conda-forge --yes biopython=1.74 nextstrain-cli=4.2.0 augur=17.1.0 auspice=2.38.0 nextalign=2.5.0 nextclade=2.5.0 snakemake git epiweeks=2.1.4 pangolin=2.4.2 pangolearn=2021.05.27 seqkit=2.3.0 && conda deactivate
