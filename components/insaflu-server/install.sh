@@ -73,7 +73,7 @@ echo "Install bioperl"
 mkdir -p /root/.cpan/CPAN && mv /tmp_install/configs/CPAN/MyConfig.pm /root/.cpan/CPAN/MyConfig.pm
 export PERL_MM_USE_DEFAULT=1
 export PERL_EXTUTILS_AUTOINSTALL="--defaultdeps"
-cpan CJFIELDS/BioPerl-1.6.924.tar.gz
+cpan -f -i CJFIELDS/BioPerl-1.6.924.tar.gz
 if [ $? -ne 0 ]; then
     echo "Error installing Bioperl"
     exit 1
