@@ -14,7 +14,16 @@ RUN mkdir -p /tmp_install
 COPY . /tmp_install/
 
 # To reduce the number of layers
-RUN sh /tmp_install/install.sh
+RUN sh /tmp_install/install_website.sh
+
+RUN sh /tmp_install/install_miniconda.sh
+
+RUN sh /tmp_install/install_software.sh
+
+RUN sh /tmp_install/software/install_pangolin.sh && mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/update_pangolin.sh
+
+RUN sh /tmp_install/install_finish.sh
+
 
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:${PATH}" 
 
