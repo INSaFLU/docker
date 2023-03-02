@@ -4,7 +4,9 @@
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 
-# INSaFLU - docker installation
+# INSaFLU - docker installation 
+# **Note**: version 2.0.0-beta is still being tested
+## In particular we're working on the compatibility with previous versions
 
 INSaFLU (“INSide the FLU”) is a bioinformatics free web-based suite (https://insaflu.insa.pt/) that deals with primary data (reads) towards the automatic generation of the output data that are the core first-line “genetic requests” for effective and timely viral influenza and SARS-CoV-2 laboratory surveillance (e.g., type and sub-type, gene and whole-genome consensus sequences, variants annotation, alignments and phylogenetic trees). Data integration is continuously scalable, fitting the need for a real-time epidemiological surveillance during the flu and COVID-19 epidemics.
 
@@ -57,7 +59,13 @@ INSaFLU:
 	
 	## build INSaFLU
 	$ ./build.sh
-	$ ./up.sh
+	
+	## (optional) to run the new viral detection module you need to set up the software and databases
+	## This step can take several hours
+	$ ./up_televir.sh
+	
+	## Now run INSaFLU
+	$ ./up.sh		
 	
 	## create an user, in other terminal or you can use 'screen' in previous steps
 	$ docker exec -it insaflu-server create-user
@@ -131,6 +139,8 @@ If you want to perpetuate the changes in future updates of INSaFLU webserver you
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
 
 ## Update **INSaFLU docker** installation -keeping your previous data-
+
+## **_NOTE:_** Current version 2.0.0-beta is not yet compatible with previous versions. A patch command will soon be available.
 
 This steps are for the users that already have previous docker installations of INSaFLU. This re-installation maintains all previous data that were generated in older installations.
 
