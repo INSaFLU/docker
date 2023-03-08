@@ -16,9 +16,16 @@ fi
 
 # Nextstrain
 echo "Install Nextstrain"
-conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2.4 augur=15.0.2 auspice nextalign=1.11.0 nextclade=1.11.0 snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh
+conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2.4 augur=15.0.2 auspice nextalign=1.11.0 nextclade=1.11.0 snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh && chmod u+x /software/nextstrain/nextstrain_snake.sh
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain"
+    exit 1
+fi
+
+# LABEL for Nextstrain (avian flu)
+cd /software/nextstrain && wget https://wonder.cdc.gov/amd/flu/label/flu-amd-LABEL-202209.zip && unzip flu-amd-LABEL-202209.zip && chown -R flu_user flu-amd && chgrp -R flu_user flu-amd && rm -f flu-amd-LABEL-202209.zip
+if [ $? -ne 0 ]; then
+    echo "Error installing LABEL for Nextstrain"
     exit 1
 fi
 
@@ -38,7 +45,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# TSV-Utils for Nextstrain
+# TSV-Utils for Nextstrain_MPXV
 echo "Install TSV-Utils for Nextstrain"
 cd /software/nextstrain/ && wget https://github.com/eBay/tsv-utils/releases/download/v2.2.0/tsv-utils-v2.2.0_linux-x86_64_ldc2.tar.gz && tar -xvf tsv-utils-v2.2.0_linux-x86_64_ldc2.tar.gz && mkdir tsv-utils && mv tsv-utils-v2.2.0_linux-x86_64_ldc2/bin/* tsv-utils && rm -R -f tsv-utils-v2.2.0_linux-x86_64_ldc2* 
 if [ $? -ne 0 ]; then
@@ -53,10 +60,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Pangolin (TODO to replace previous installation)
-#cd /softwar && mkdir pangolin
-#conda create -n pangolin -c conda-forge python=3.8 mamba
-#conda activate pangolin
-#mamba install -c conda-forge -c bioconda pangolin=4.2
-
-
+# Pangolin
+mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/update_pangolin.sh && mv /tmp_install/software/pangolin /software/ && conda create --name=pangolin -c conda-forge python=3.8 mamba --yes && conda activate pangolin && mamba install -c conda-forge -c bioconda pangolin=4.2 --yes && chmod u+x /software/pangolin/pangolin.sh
+if [ $? -ne 0 ]; then
+    echo "Error installing Pangolin"
+    exit 1
+fi

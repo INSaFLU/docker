@@ -20,7 +20,7 @@ RUN sh /tmp_install/install_miniconda.sh
 
 RUN sh /tmp_install/install_software.sh
 
-RUN sh /tmp_install/software/install_pangolin.sh && mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/update_pangolin.sh
+# RUN sh /tmp_install/software/install_pangolin.sh && mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/update_pangolin.sh
 
 RUN sh /tmp_install/install_finish.sh
 
