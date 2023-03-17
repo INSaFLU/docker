@@ -179,3 +179,12 @@ fi
 #fi
 
 
+## kallisto (for televir)
+echo "Install kallisto"
+cd /software && wget https://github.com/pachterlab/kallisto/releases/download/v0.43.1/kallisto_linux-v0.43.1.tar.gz && tar -xvf kallisto_linux-v0.43.1.tar.gz && rm kallisto_linux-v0.43.1.tar.gz
+if [ $? -ne 0 ]; then
+    echo "Error installing kallisto"
+    exit 1
+fi
+
+

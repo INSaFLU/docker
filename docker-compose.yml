@@ -22,6 +22,14 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/env
+  insaflu-server-log-insaflu:
+    driver: local-persist
+    driver_opts:
+      mountpoint: ${BASE_PATH_DATA}/insaflu/log/insaFlu
+  insaflu-server-log-httpd:
+    driver: local-persist
+    driver_opts:
+      mountpoint: ${BASE_PATH_DATA}/insaflu/log/httpd
   televir:
     driver: local-persist
     driver_opts:
@@ -123,8 +131,8 @@ services:
       - insaflu-server-data:/insaflu_web/INSaFLU/media
       - insaflu-server-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-server-env:/insaflu_web/INSaFLU/env
-      - ./insaflu/log/insaflu:/var/log/insaFlu
-      - ./insaflu/log/httpd:/var/log/httpd
+      - insaflu-server-log-insaflu:/var/log/insaFlu
+      - insaflu-server-log-httpd:/var/log/httpd
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
