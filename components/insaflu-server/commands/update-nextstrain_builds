@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+echo "---> Update nextstrain build  ..."
+cd /software/nextstrain/nextstrain_builds
+git pull
+
+echo "---> Done  ..."
