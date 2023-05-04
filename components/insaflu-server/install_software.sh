@@ -141,7 +141,7 @@ fi
 
 ### trimmomatic
 echo "Install trimmomatic"
-cd /software && wget http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip && unzip Trimmomatic-0.39.zip && rm Trimmomatic-0.39.zip && mkdir -p trimmomatic/classes && mkdir -p trimmomatic/adapters
+cd /software && wget https://github.com/usadellab/Trimmomatic/files/5854859/Trimmomatic-0.39.zip && unzip Trimmomatic-0.39.zip && rm Trimmomatic-0.39.zip && mkdir -p trimmomatic/classes && mkdir -p trimmomatic/adapters
 mv /tmp_install/software/trimmomatic/adapters/* /software/Trimmomatic-0.39/adapters/ && ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar && ln -s /software/Trimmomatic-0.39/adapters/* /software/trimmomatic/adapters
 if [ $? -ne 0 ]; then
     echo "Error installing Trimmomatic"
