@@ -113,9 +113,9 @@ $ docker exec -it insaflu-server update-insaflu
 
 ## Change variables in your local environment
 
-You can customize your environment.
-
-For instance, users can change the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), etc.
+You can customize your environment. Some of the relevant variables include the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), maximum length of external consensus sequences for nextstrain analysis (eg. MAX_LENGTH_SEQUENCE_TOTAL_FROM_CONSENSUS_FASTA = 104857600), etc.
+	
+To change these variables you need to edit the config file .env, as described below:
 
 ```
 ### get into INSaFLU docker
