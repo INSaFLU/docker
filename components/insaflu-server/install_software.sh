@@ -22,7 +22,7 @@ fi
 
 ### abricate
 echo "Install abricate"
-cd /software && git clone --branch v0.8.4 https://github.com/tseemann/abricate.git
+cd /software && git clone --branch v0.8.4 https://github.com/tseemann/abricate.git && mv /tmp_install/software/abricate/nextstrain /software/abricate/db/
 if [ $? -ne 0 ]; then
     echo "Error installing abricate"
     exit 1
