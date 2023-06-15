@@ -15,7 +15,7 @@ Source:
 
 https://github.com/insapathogenomics/algn2pheno/blob/main/tests/DB_SARS_CoV_2_Spike_EpitopeResidues_Carabelli_2023_NatRevMic_Fig1.tsv 
 
-Prepated and adapted for align2pheno based on https://doi.org/10.1038/s41579-022-00841-7
+Prepared and adapted for align2pheno based on https://doi.org/10.1038/s41579-022-00841-7
 
 
 Pokay Database
