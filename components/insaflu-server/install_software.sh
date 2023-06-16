@@ -105,10 +105,7 @@ mv /tmp_install/software/scripts /software/
 
 ### snippy
 echo "Install snippy"
-cd /software && git clone --branch v3.2 https://github.com/tseemann/snippy.git && ln -s snippy/perl5 perl5 && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq
-mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence
-mv /tmp_install/software/snippy/msa_masker.py /software/snippy/bin/ && chmod a+x /software/snippy/bin/msa_masker.py
-sed 's/,     4.3, qr/,     4.1, qr/' /software/snippy/bin/snippy > /software/snippy/bin/snippy_temp && mv snippy/bin/snippy_temp snippy/bin/snippy && chmod a+x /software/snippy/bin/snippy
+cd /software && git clone --branch v3.2 https://github.com/tseemann/snippy.git && ln -s snippy/perl5 perl5 && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence && mv /tmp_install/software/snippy/msa_masker.py /software/snippy/bin/ && chmod a+x /software/snippy/bin/msa_masker.py && mv /tmp_install/software/snippy/ivar /software/snippy/binaries/linux/ && chmod a+x /software/snippy/binaries/linux/ivar && mv /tmp_install/software/snippy/bedtools /software/snippy/binaries/linux/ && chmod a+x /software/snippy/binaries/linux/bedtools && mv /tmp_install/software/snippy/run_check_consensus /software/snippy/binaries/linux/ && chmod a+x /software/snippy/binaries/linux/run_check_consensus && mv /tmp_install/software/snippy/snippy /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy
 if [ $? -ne 0 ]; then
     echo "Error installing snippy"
     exit 1
@@ -124,8 +121,7 @@ fi
 
 ### snpEff; version 4.3 has some problems in annotation of INDELs
 echo "Install snpeff"
-cd /software && wget --no-check-certificate -O snpEff_v4_1l_core.zip https://sourceforge.net/projects/snpeff/files/snpEff_v4_1l_core.zip/download && unzip snpEff_v4_1l_core.zip; rm snpEff_v4_1l_core.zip && cp /software/snpEff/scripts/snpEff /software/snippy/bin/snpEff
-mv /tmp_install/software/snpEff/snpEff /software/snippy/bin/ && chmod a+x /software/snippy/bin/snpEff && ln -s /software/snpEff/snpEff.jar /software/snippy/bin/snpEff.jar
+cd /software && wget --no-check-certificate -O snpEff_v4_1l_core.zip https://sourceforge.net/projects/snpeff/files/snpEff_v4_1l_core.zip/download && unzip snpEff_v4_1l_core.zip; rm snpEff_v4_1l_core.zip && cp /software/snpEff/scripts/snpEff /software/snippy/bin/snpEff && mv /tmp_install/software/snpEff/snpEff /software/snippy/bin/ && chmod a+x /software/snippy/bin/snpEff && ln -s /software/snpEff/snpEff.jar /software/snippy/bin/snpEff.jar
 if [ $? -ne 0 ]; then
     echo "Error installing snpEff"
     exit 1
@@ -141,8 +137,7 @@ fi
 
 ### trimmomatic
 echo "Install trimmomatic"
-cd /software && wget https://github.com/usadellab/Trimmomatic/files/5854859/Trimmomatic-0.39.zip && unzip Trimmomatic-0.39.zip && rm Trimmomatic-0.39.zip && mkdir -p trimmomatic/classes && mkdir -p trimmomatic/adapters
-mv /tmp_install/software/trimmomatic/adapters/* /software/Trimmomatic-0.39/adapters/ && ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar && ln -s /software/Trimmomatic-0.39/adapters/* /software/trimmomatic/adapters
+cd /software && wget https://github.com/usadellab/Trimmomatic/files/5854859/Trimmomatic-0.39.zip && unzip Trimmomatic-0.39.zip && rm Trimmomatic-0.39.zip && mkdir -p trimmomatic/classes && mkdir -p trimmomatic/adapters && mv /tmp_install/software/trimmomatic/adapters/* /software/Trimmomatic-0.39/adapters/ && ln -s /software/Trimmomatic-0.39/trimmomatic-0.39.jar /software/trimmomatic/classes/trimmomatic.jar && ln -s /software/Trimmomatic-0.39/adapters/* /software/trimmomatic/adapters
 if [ $? -ne 0 ]; then
     echo "Error installing Trimmomatic"
     exit 1
@@ -153,7 +148,7 @@ cd /software && wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip && 
 
 ## medaka
 echo "Install medaka"
-sh /tmp_install/software/install_soft_medaka.sh
+sh /tmp_install/software/install_soft_medaka.sh && mv /tmp_install/software/medaka/ivar /software/medaka/bin/ && chmod a+x /software/medaka/bin/ivar && mv /tmp_install/software/medaka/bedtools /software/medaka/bin/ && chmod a+x /software/medaka/bin/bedtools && mv /tmp_install/software/medaka/run_check_consensus /software/medaka/bin/ && chmod a+x /software/medaka/bin/run_check_consensus && mv /tmp_install/software/medaka/medaka_consensus /software/medaka/bin/ && chmod a+x /software/medaka/bin/medaka_consensus
 if [ $? -ne 0 ]; then
     echo "Error installing Medaka"
     exit 1
