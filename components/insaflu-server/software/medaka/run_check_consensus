@@ -1,0 +1,9 @@
+#!/bin/bash
+
+consensus=$1
+reference=$2
+len=$(wc -m $consensus | sed 's/ .*//')
+if [ "$len" -lt "200" ]
+then
+	cp $reference $consensus
+fi

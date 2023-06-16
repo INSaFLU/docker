@@ -1,0 +1,176 @@
+#!/bin/bash
+set -eo pipefail
+
+function follow_link {
+  python -c 'import os,sys; print(os.path.realpath(sys.argv[1]))' $1
+}
+
+
+OUTPUT="medaka"
+THREADS=1
+
+medaka_version=$(medaka --version)
+modeldata=()
+while read -r line; do
+    modeldata+=("$line")
+done < <(medaka tools list_models) # Available models on first line, default consensus model on next line
+MODEL=${modeldata[1]##* }
+BATCH_SIZE=100
+FORCE=false
+NOFILLGAPS=false
+
+iflag=false
+dflag=false
+
+usage="
+${medaka_version}
+------------
+
+Assembly polishing via neural networks. The input assembly should be
+preprocessed with racon.
+
+$(basename "$0") [-h] -i <fastx>
+
+    -h  show this help text.
+    -i  fastx input basecalls (required).
+    -d  fasta input assembly (required).
+    -o  output folder (default: medaka).
+    -p  fasta of primers (default: none).    
+    -g  don't fill gaps in consensus with draft sequence.
+    -m  medaka model, (default: ${MODEL}).
+        ${modeldata[0]}.
+        Alternatively a .hdf file from 'medaka train'.
+    -f  Force overwrite of outputs (default will reuse existing outputs).
+    -t  number of threads with which to create features (default: 1).
+    -b  batchsize, controls memory use (default: ${BATCH_SIZE})."
+
+
+while getopts ':hi::d:o:p:gm:ft:b:' option; do
+  case "$option" in
+    h  ) echo "$usage" >&2; exit;;
+    i  ) iflag=true; BASECALLS=$(follow_link $OPTARG);;
+    d  ) dflag=true; DRAFT=$(follow_link $OPTARG);;
+    o  ) OUTPUT=$OPTARG;;
+    p  ) PRIMERS=$OPTARG;;    
+    g  ) NOFILLGAPS=true;;
+    m  ) MODEL=$(medaka tools resolve_model --model $OPTARG);;
+    f  ) FORCE=true;;
+    t  ) THREADS=$OPTARG;;
+    b  ) BATCH_SIZE=$OPTARG;;
+    \? ) echo "Invalid option: -${OPTARG}." >&2; exit 1;;
+    :  ) echo "Option -$OPTARG requires an argument." >&2; exit 1;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+if ! $iflag; then
+  echo "$usage" >&2;
+  echo "" >&2;
+  echo "-i must be specified." >&2;
+  exit 1;
+fi
+
+if ! $dflag; then
+  echo "$usage" >&2;
+  echo "" >&2;
+  echo "-d must be specified." >&2;
+  exit 1;
+fi
+
+echo "Checking program versions"
+echo "This is ${medaka_version}"
+medaka_version_report || exit 1
+
+if [[ ! -e ${OUTPUT} ]]; then
+  mkdir -p ${OUTPUT}
+elif ${FORCE}; then
+  echo "Warning: Output will be overwritten (-f flag)"
+else
+  echo "Warning: Output ${OUTPUT} already exists, may use old results."
+fi
+
+cd ${OUTPUT}
+
+rflag=$(medaka tools is_rle_model --model $MODEL)
+[[ $rflag == "True" ]] && rflag=true || rflag=false
+
+if $rflag; then
+  COMPRESSED_BASECALLS=basecalls.fastrle.gz
+  COMPRESSED_DRAFT=draft.fastrle.gz
+  if [[ ! -e ${COMPRESSED_BASECALLS} ]] ||  [[ ! -e ${COMPRESSED_DRAFT} ]] || ${FORCE}; then
+    echo "Compressing draft and basecalls."
+
+    medaka fastrle ${BASECALLS} | bgzip > ${COMPRESSED_BASECALLS}
+    medaka fastrle ${DRAFT} | bgzip > ${COMPRESSED_DRAFT}
+
+    BASECALLS=${COMPRESSED_BASECALLS}
+    DRAFT=${COMPRESSED_DRAFT}
+    FORCE=true
+  else
+    echo "Not compressing basecalls and draft, ${COMPRESSED_BASECALLS} and ${COMPRESSED_DRAFT} exist."
+  fi
+fi
+
+CALLS2DRAFT=calls_to_draft
+ALIGN_PARAMS=$(medaka tools get_alignment_params --model $MODEL)
+if [[ ! -e ${CALLS2DRAFT}.bam ]] || ${FORCE}; then
+    echo "Aligning basecalls to draft"
+    mini_align -i ${BASECALLS} -r ${DRAFT} -p ${CALLS2DRAFT} -t ${THREADS} -m -f $ALIGN_PARAMS \
+      || (echo "Failed to run alignment of reads to draft." && exit 1)
+    FORCE=true
+else
+    echo "Not aligning basecalls to draft, ${CALLS2DRAFT}.bam exists."
+fi
+
+if [[ -f ${PRIMERS} ]]; then
+    echo "Processing primers using ivar"
+
+    cp ${DRAFT} ref.fa
+    bwa index ref.fa
+    bwa mem -k 5 -T 16 ref.fa ${PRIMERS} | samtools view -b -F 4 > primers.bam
+    bedtools bamtobed -i primers.bam > primers.bed
+    ivar trim -m 0 -q 0 -e -b primers.bed -p ${CALLS2DRAFT}.trimmed -i ${CALLS2DRAFT}.bam
+    samtools sort -o ${CALLS2DRAFT}.trimmed.sorted.bam ${CALLS2DRAFT}.trimmed.bam
+    samtools index ${CALLS2DRAFT}.trimmed.sorted.bam
+    samtools mpileup -A -d 0 -Q 0 ${CALLS2DRAFT}.trimmed.sorted.bam | ivar consensus -m 0 -n N -p ${CALLS2DRAFT}.ivar_consensus
+    # This is just a workaround to avoid failing in the case of empty consensus being generated
+    run_check_consensus ${CALLS2DRAFT}.ivar_consensus.fa ref.fa
+    bwa index -p ${CALLS2DRAFT}.ivar_consensus ${CALLS2DRAFT}.ivar_consensus.fa
+    bwa mem -k 5 -T 16 ${CALLS2DRAFT}.ivar_consensus ${PRIMERS} | samtools view -bS -F 4 | samtools sort -o primers_consensus.bam
+    samtools mpileup -A -d 0 --reference ${CALLS2DRAFT}.ivar_consensus.fa -Q 0 primers_consensus.bam | ivar variants -p primers_consensus -t 0.03
+    bedtools bamtobed -i primers_consensus.bam > primers_consensus.bed
+    ivar getmasked -i primers_consensus.tsv -b primers_consensus.bed -f ${PRIMERS}.pair_information.tsv -p primer_mismatchers_indices
+    ivar removereads -i ${CALLS2DRAFT}.trimmed.sorted.bam -p ${CALLS2DRAFT}.masked.bam -t primer_mismatchers_indices.txt -b primers.bed
+    samtools sort -o ${CALLS2DRAFT}.masked.sorted.bam ${CALLS2DRAFT}.masked.bam
+    # Now replace the previous one
+    cp ${CALLS2DRAFT}.masked.sorted.bam ${CALLS2DRAFT}.bam
+    samtools index ${CALLS2DRAFT}.bam   
+
+fi
+
+CONSENSUSPROBS=consensus_probs.hdf
+if [[ ! -e ${CONSENSUSPROBS} ]] || ${FORCE}; then
+    echo "Running medaka consensus"
+    rm -rf ${CONSENSUSPROBS}
+    medaka consensus ${CALLS2DRAFT}.bam ${CONSENSUSPROBS} \
+        --model ${MODEL} --batch_size ${BATCH_SIZE} --threads ${THREADS} \
+        || (echo "Failed to run medaka consensus." && exit 1)
+    FORCE=true
+else
+    echo "Not running medaka consensus, ${CONSENSUSPROBS} exists."
+fi
+
+CONSENSUS=consensus.fasta
+if [[ ! -e ${CONSENSUS} ]] || ${FORCE}; then
+    STITCH_OPTS=""
+    if $rflag || ${NOFILLGAPS}; then
+        STITCH_OPTS="--no-fillgaps"
+    fi
+    medaka stitch ${CONSENSUSPROBS} ${DRAFT} ${CONSENSUS} \
+        --threads ${THREADS} ${STITCH_OPTS} \
+        || (echo "Failed to stitch consensus chunks." && exit 1)
+    echo "Polished assembly written to ${OUTPUT}/${CONSENSUS}, have a nice day."
+    FORCE=true
+else
+    echo "Consensus ${OUTPUT}/${CONSENSUS} exists, remove ${OUTPUT} and try again."
+fi
