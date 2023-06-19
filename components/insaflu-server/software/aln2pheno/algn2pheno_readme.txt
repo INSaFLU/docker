@@ -7,6 +7,17 @@ Caution: INSaFLU only runs the align2pheno module over Spike amino acid sequence
 
 DATABASES
 
+Spike_EpitopeResidues_Carabelli_2023 database
+
+Description: Database of Spike amino acid mutations in epitope residues listed in Carabelli et al, 2023, 21(3), 162–177, Nat Rev Microbiol (https://doi.org/10.1038/s41579-022-00841-7), Figure 1.
+
+Source:
+
+https://github.com/insapathogenomics/algn2pheno/blob/main/tests/DB_SARS_CoV_2_Spike_EpitopeResidues_Carabelli_2023_NatRevMic_Fig1.tsv 
+
+Prepared and adapted for align2pheno based on https://doi.org/10.1038/s41579-022-00841-7
+
+
 Pokay Database
 
 Description: Database of Spike amino acid mutations adapted from the curated database available through the tool Pokay, which includes a comprehensive list of SARS-CoV-2 mutations, and their associated functional impact (e.g., vaccine efficacy, pharmaceutical effectiveness, etc.) collected from literature. Made available by the CSM Center for Health Genomics and Informatics, University of Calgary.
