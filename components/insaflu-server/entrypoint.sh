@@ -52,7 +52,7 @@ if [ "$1" = "init_all" ]; then
 	fi
 	
 	# for televir
-	if [ -e /televir/mngs_benchmark/utility.db ]; then
+	if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
 		cd /insaflu_web/INSaFLU; python3 manage.py generate_default_trees
 	fi
 
