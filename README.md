@@ -138,7 +138,6 @@ Some influenza sequences of the abricate database for "contigs2sequences" assign
 
 ## Update **INSaFLU docker** installation -keeping your previous data-
 
-## **_NOTE:_** Current version 2.0.0-beta is not yet compatible with previous versions. A patch command will soon be available.
 
 This steps are for the users that already have previous docker installations of INSaFLU. This re-installation maintains all previous data that were generated in older installations.
 
