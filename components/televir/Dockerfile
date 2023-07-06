@@ -44,19 +44,22 @@ RUN apt-get install zlib1g-dev make g++
 ##
 RUN python -m venv /opt/venv
 
-RUN /opt/venv/bin/pip install numpy==1.23.0 psycopg2-binary pandas==1.4.3 sqlalchemy==1.4.41 python-decouple
+RUN /opt/venv/bin/pip install setuptools==57.4.0 numpy==1.24.3 pandas==2.0.1 psycopg2-binary pandas==2.0.1 sqlalchemy python-decouple==3.8 fastq_filter==0.3.0
 RUN /opt/venv/bin/pip install --default-timeout=100 future
 ## install televir dbs
 
 COPY taxdump.tar.gz /opt/
 
 WORKDIR /insaflu_web
-ADD https://api.github.com/repos/INSaFLU/TELEVIR/git/refs/heads/main version.json
-RUN wget --quiet https://github.com/INSaFLU/TELEVIR/archive/main.zip -O televir.zip && \
-    unzip -q televir.zip && \
-    rm televir.zip && \
-    mv TELEVIR-main TELEVIR && \
-    chown -R ${APP_USER}:${APP_USER} TELEVIR
+ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/expand_organisms version.json
+
+RUN git clone --branch expand_organisms https://github.com/SantosJGND/TELEVIR.git && chown -R ${APP_USER}:${APP_USER} TELEVIR
+
+#RUN wget --quiet https://github.com/INSaFLU/TELEVIR/archive/main.zip -O televir.zip && \
+#    unzip -q televir.zip && \
+#    rm televir.zip && \
+#    mv TELEVIR-main TELEVIR && \
+#    chown -R ${APP_USER}:${APP_USER} TELEVIR
 
 
 COPY configs/televir.env /insaflu_web/TELEVIR/.env
