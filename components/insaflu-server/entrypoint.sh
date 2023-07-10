@@ -3,8 +3,8 @@ set -e
 
 # build DBs and launch frontend
 if [ "$1" = "init_all" ]; then
-
-	echo "---> Wait 45 seconds for all pgsql services  ..."
+    
+    echo "---> Wait 45 seconds for all pgsql services  ..."
     sleep 45	## wait for postgis extension
 
 	### set all default insaflu data

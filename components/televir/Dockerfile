@@ -43,16 +43,19 @@ RUN apt-get install zlib1g-dev make g++
 
 ##
 RUN python -m venv /opt/venv
-
-RUN /opt/venv/bin/pip install numpy==1.23.0 psycopg2-binary pandas==1.4.3 sqlalchemy==1.4.41 python-decouple
+RUN /opt/venv/bin/pip install --upgrade pip
+RUN \
+ apt-get install -y postgresql postgresql-contrib
+RUN apt-get install libpq-dev python3-dev
+RUN /opt/venv/bin/pip install setuptools==57.4.0 numpy==1.24.3  pandas==2.0.1 psycopg2==2.9.6 sqlalchemy python-decouple==3.8 danio xopen==1.7.0 fastq_filter==0.3.0
 RUN /opt/venv/bin/pip install --default-timeout=100 future
 ## install televir dbs
 
 COPY taxdump.tar.gz /opt/
 
 WORKDIR /insaflu_web
-ADD https://api.github.com/repos/INSaFLU/TELEVIR/git/refs/heads/main version.json
-RUN wget --quiet https://github.com/INSaFLU/TELEVIR/archive/main.zip -O televir.zip && \
+ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/main version.json
+RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O televir.zip && \
     unzip -q televir.zip && \
     rm televir.zip && \
     mv TELEVIR-main TELEVIR && \

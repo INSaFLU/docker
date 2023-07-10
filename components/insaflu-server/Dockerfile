@@ -1,4 +1,7 @@
+
+
 FROM centos:7
+LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
 # version
