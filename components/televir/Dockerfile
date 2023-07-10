@@ -54,11 +54,11 @@ RUN /opt/venv/bin/pip install --default-timeout=100 future
 COPY taxdump.tar.gz /opt/
 
 WORKDIR /insaflu_web
-ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/merge_safe version.json
-RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/merge_safe.zip -O televir.zip && \
+ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/main version.json
+RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O televir.zip && \
     unzip -q televir.zip && \
     rm televir.zip && \
-    mv TELEVIR-merge_safe TELEVIR && \
+    mv TELEVIR-main TELEVIR && \
     chown -R ${APP_USER}:${APP_USER} TELEVIR
 
 
