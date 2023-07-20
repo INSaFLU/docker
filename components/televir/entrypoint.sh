@@ -19,6 +19,8 @@ if [ "$1" = "move" ]; then
     
     cp utility.db /televir/mngs_benchmark/utility.db
     cp install_scripts/config.py /televir/mngs_benchmark/config.py
+
+    chmod -R 0777 /televir/mngs_benchmark
     
     echo "---> Finshed creating televir dbs in /televir/mngs_benchmark/ ... done"
 fi
