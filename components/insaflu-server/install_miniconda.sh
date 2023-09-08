@@ -74,3 +74,11 @@ if [ $? -ne 0 ]; then
     echo "Error installing Pangolin"
     exit 1
 fi
+
+# raven
+echo "Install raven"
+conda create --name=raven -c conda-forge  -c bioconda raven-assembler=1.8.1 && mv /tmp_install/software/raven/ /software/ && chmod a+x /software/raven/raven.sh 
+if [ $? -ne 0 ]; then
+    echo "Error installing raven"
+    exit 1
+fi
