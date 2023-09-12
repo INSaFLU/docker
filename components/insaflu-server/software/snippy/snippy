@@ -269,7 +269,7 @@ my @cmd = (
 );
 
 # Include ivar commands if there is a primer input...
-if($primer){
+if($primer && ($primer ne "None")){
 
   push @cmd, (
     "bwa mem -k 5 -T 16 $refdir/ref.fa $primer | samtools view -b -F 4 > primers.bam",
