@@ -95,7 +95,7 @@ fi
 ### prokka
 echo "Install prokka"
 #cd /software && git clone --branch v1.12 https://github.com/tseemann/prokka.git && cd extra_software && wget -O tbl2asn.gz ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux64.tbl2asn.gz && gunzip tbl2asn.gz && chmod +x tbl2asn && mv tbl2asn /software/prokka/binaries/linux
-cd /software && git clone --branch v1.12 https://github.com/tseemann/prokka.git && cd extra_software && wget -O tbl2asn https://github.com/tseemann/prokka/raw/master/binaries/linux/tbl2asn && chmod +x tbl2asn && mv tbl2asn /software/prokka/binaries/linux
+cd /software && git clone --branch v1.12 https://github.com/tseemann/prokka.git && mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
 if [ $? -ne 0 ]; then
     echo "Error installing prokka"
     exit 1
