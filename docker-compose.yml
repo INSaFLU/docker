@@ -2,7 +2,6 @@ version: '3.4'
 
 ### places where the most important data is
 volumes:
-
   pg_data:
     driver: local-persist
     driver_opts:
@@ -48,46 +47,46 @@ services:
   # DB for Insaflu
   # test database - psql -U flu_user -W -h localhost -d insaflu_db
   db_insaflu:
-    build: components/postgres_postgis/.
+    image: insapathogenomics/insaflu-db:1.0
     restart: always
     container_name: postgres
     hostname: db_insaflu
     volumes:
-      - pg_data:/var/lib/postgresql/data
+       - pg_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: "flu_user"
       POSTGRES_PASSWORD: "flu_user_pass"
       POSTGRES_DB: "insaflu_db"
-      PGDATA: /var/lib/postgresql/data/pgdata
+      PGDATA : /var/lib/postgresql/data/pgdata
     expose:
-      - 5432
+        - 5432
     networks:
       insaflu_net:
         ipv4_address: 10.1.0.2
 
   pgbackups:
-    image: prodrigestivill/postgres-backup-local
-    restart: always
-    container_name: postgres_backup
-    hostname: insaflu_backup
-    volumes:
-      - pgbackups:/backups
-    depends_on:
-      - db_insaflu
-    environment:
-      POSTGRES_HOST: "insaflu_db"
-      POSTGRES_DB: "insaflu_db"
-      POSTGRES_USER: "flu_user"
-      POSTGRES_PASSWORD: "flu_user_pass"
-      POSTGRES_EXTRA_OPTS: "-Z9 --schema=public --blobs"
-      SCHEDULE: "@daily"
-      BACKUP_KEEP_DAYS: 7
-      BACKUP_KEEP_WEEKS: 4
-      BACKUP_KEEP_MONTHS: 6
-      HEALTHCHECK_PORT: 80
-    networks:
-      insaflu_net:
-        ipv4_address: 10.1.0.3
+     image: prodrigestivill/postgres-backup-local
+     restart: always
+     container_name: postgres_backup
+     hostname: insaflu_backup
+     volumes:
+         - pgbackups:/backups
+     depends_on:
+         - db_insaflu
+     environment:
+        POSTGRES_HOST: "insaflu_db"
+        POSTGRES_DB: "insaflu_db"
+        POSTGRES_USER: "flu_user"
+        POSTGRES_PASSWORD: "flu_user_pass"
+        POSTGRES_EXTRA_OPTS: "-Z9 --schema=public --blobs"
+        SCHEDULE: "@daily"
+        BACKUP_KEEP_DAYS: 7
+        BACKUP_KEEP_WEEKS: 4
+        BACKUP_KEEP_MONTHS: 6
+        HEALTHCHECK_PORT: 80
+     networks:
+       insaflu_net:
+         ipv4_address: 10.1.0.3
 
   # responsible to m
   officer:
@@ -122,9 +121,8 @@ services:
   # insaflu
   # password and database login are defined in components/insaflu/configs/insaflu.env 
   insaflu-server:
-    build: components/insaflu-server/.
+    image: insapathogenomics/insaflu-server:2.0
     container_name: insaflu-server
-    image: ${USERNAME_IMAGE}:${IMAGE}
     hostname: insaflu
     restart: no
     volumes:
@@ -151,4 +149,7 @@ services:
     networks:
       insaflu_net:
         ipv4_address: 10.1.0.4
-    command: [ "init_all" ]
+    command: ["init_all"]
+
+
+
