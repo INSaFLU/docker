@@ -24,7 +24,7 @@ fi
 
 # Nextstrain
 echo "Install Nextstrain"
-conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2.4 augur=15.0.2 auspice nextalign=1.11.0 nextclade=1.11.0 snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh && chmod u+x /software/nextstrain/nextstrain_snake.sh && chmod u+x /software/nextstrain/nextstrain_rsv.sh && chmod u+x /software/nextstrain/scripts/auspice_tree_to_table.py
+conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2.4 augur=15.0.2 auspice nextalign=1.11.0 nextclade=1.11.0 snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh && chmod u+x /software/nextstrain/nextstrain_snake.sh && chmod u+x /software/nextstrain/nextstrain_rsv.sh && chmod u+x /software/nextstrain/scripts/auspice_tree_to_table.py && conda deactivate
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain"
     exit 1
@@ -39,7 +39,7 @@ fi
 
 # Nextstrain_rsv
 echo "Install Nextstrain RSV"
-conda create --name=nextstrain_rsv -c conda-forge mamba python=3.10 --yes && conda activate nextstrain_rsv && mamba install -c bioconda -c conda-forge --yes augur=20.0 auspice=2.42 nextalign=2.9.1 nextclade=2.9.1  snakemake git epiweeks=2.1.4
+conda create --name=nextstrain_rsv -c conda-forge mamba python=3.10 --yes && conda activate nextstrain_rsv && mamba install -c bioconda -c conda-forge --yes augur=20.0 auspice=2.42 nextalign=2.9.1 nextclade=2.9.1  snakemake git epiweeks=2.1.4 && conda deactivate
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain RSV"
     exit 1
@@ -69,7 +69,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Pangolin
-mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/update_pangolin.sh && mv /tmp_install/software/pangolin /software/ && conda create --name=pangolin -c conda-forge python=3.8 mamba --yes && conda activate pangolin && mamba install -c conda-forge -c bioconda pangolin=4.2 --yes && chmod u+x /software/pangolin/pangolin.sh
+mv /tmp_install/software/update_pangolin.sh /software && chmod a+x /software/update_pangolin.sh && mv /tmp_install/software/pangolin /software/ && conda create --name=pangolin -c conda-forge python=3.8 mamba --yes && conda activate pangolin && mamba install -c conda-forge -c bioconda pangolin=4.2 --yes && chmod u+x /software/pangolin/pangolin.sh  && conda deactivate
 if [ $? -ne 0 ]; then
     echo "Error installing Pangolin"
     exit 1
