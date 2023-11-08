@@ -2,7 +2,7 @@
 set -e
 
 cd /software
-yum -y install libffi-devel
+apt-get  -y install libffi-devel
 ## sudo apt install libffi-dev
 wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
 tar -xf Python-3.7.4.tgz

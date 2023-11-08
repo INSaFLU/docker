@@ -1,6 +1,6 @@
 
 
-FROM centos:7
+FROM UBUNTU:18.04
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
