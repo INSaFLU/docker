@@ -3,9 +3,10 @@ set -e
 
 # Install package dependencies
 echo "Install package dependencies"
-#sudo apt-get -y install epel-release
-sudo apt-get -y install python3.9 python3.9-dev
-sudo apt-get -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql httpd httpd-tools httpd-devel mod_wsgi bash file binutils gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* gcc zlib-devel bzip2-devel xz-devel cmake cmake3 gcc-c++ autoconf bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+#apt-get -y install epel-release
+apt-get -y install python3.9 python3.9-dev
+apt-get update
+apt-get -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql httpd httpd-tools httpd-devel mod_wsgi bash file binutils gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* gcc zlib-devel bzip2-devel xz-devel cmake cmake3 gcc-c++ autoconf bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
 if [ $? -ne 0 ]; then
     echo "Error installing system packages"
     exit 1
@@ -41,7 +42,7 @@ echo "Setup SGE job queuing"
 export SGE_ROOT=/opt/sge
 groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT} && mkdir /insaflu_sge_source && cd /insaflu_sge_source 
 wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
-sudo apt-get -y install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel
+apt-get -y install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel
 cd /insaflu_sge_source/sge-8.1.9/source && sh scripts/bootstrap.sh -no-java -no-jni && ./aimk -no-java -no-jni
 echo Y | /insaflu_sge_source/sge-8.1.9/source/scripts/distinst -local -all -noexit
 if [ $? -ne 0 ]; then
