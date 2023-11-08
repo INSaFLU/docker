@@ -7,7 +7,7 @@ MAINTAINER Mike Dillon <mike@appropriate.io>
 ENV POSTGIS_MAJOR 3
 ENV POSTGIS_VERSION 3.2.3+dfsg-1.pgdg110+1
 
-RUN apt-get update \
+RUN sudo apt-get update \
       && apt install -y --no-install-recommends \
       postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR \
       postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts \

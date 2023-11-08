@@ -6,24 +6,24 @@ RUN useradd -ms /bin/bash ${APP_USER}
 
 ENV TERM xterm
 
-RUN set -xe && apt-get update && apt-get install -y python3 python3-pip 
+RUN set -xe && sudo apt-get update && sudo apt-get install -y python3 python3-pip 
 RUN pip install --upgrade pip
 
-RUN apt-get update
-RUN apt-get install -y build-essential wget curl rsync apt-utils python3-setuptools
+RUN sudo apt-get update
+RUN sudo apt-get install -y build-essential wget curl rsync apt-utils python3-setuptools
 
-RUN apt-get clean
+RUN sudo apt-get clean
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN pip install --upgrade pip
 
-RUN apt-get update \
-    && apt-get install -y gcc python3-dev musl-dev 
+RUN sudo apt-get update \
+    && sudo apt-get install -y gcc python3-dev musl-dev 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get install -y git ncbi-entrez-direct tabix samtools bioperl 
+RUN sudo apt-get install -y git ncbi-entrez-direct tabix samtools bioperl 
 
-RUN apt-get -y install default-jre python3-pip
+RUN sudo apt-get -y install default-jre python3-pip
 # Install miniconda
 ENV CONDA_DIR /opt/conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
@@ -39,14 +39,14 @@ ENV PATH $PATH:kallisto_linux-v0.43.1
 
 
 ##
-RUN apt-get install zlib1g-dev make g++
+RUN sudo apt-get install zlib1g-dev make g++
 
 ##
 RUN python -m venv /opt/venv
 RUN /opt/venv/bin/pip install --upgrade pip
 RUN \
-    apt-get install -y postgresql postgresql-contrib
-RUN apt-get install -y libpq-dev python3-dev
+    sudo apt-get install -y postgresql postgresql-contrib
+RUN sudo apt-get install -y libpq-dev python3-dev
 RUN /opt/venv/bin/pip install setuptools==57.4.0 numpy==1.24.3  pandas==2.0.1 psycopg2==2.9.6 sqlalchemy python-decouple==3.8 danio xopen==1.7.0 fastq_filter==0.3.0
 RUN /opt/venv/bin/pip install --default-timeout=100 future
 ## install televir dbs

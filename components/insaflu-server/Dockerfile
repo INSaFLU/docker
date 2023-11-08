@@ -1,6 +1,7 @@
 
 
-FROM UBUNTU:18.04
+FROM ubuntu:latest AS builder
+
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
