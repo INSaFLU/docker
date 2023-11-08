@@ -124,7 +124,7 @@ services:
     image: insapathogenomics/insaflu-ubuntu:2.0
     container_name: insaflu-ubuntu
     hostname: insaflu
-    restart: no
+    restart: "no"
     volumes:
       - televir:/televir/mngs_benchmark    
       - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media

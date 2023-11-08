@@ -126,7 +126,7 @@ services:
     container_name: insaflu-ubuntu
     image: ${USERNAME_IMAGE}:${IMAGE}
     hostname: insaflu
-    restart: on-failure
+    restart: "on-failure"
     volumes:
       - televir:/televir/mngs_benchmark    
       - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media
