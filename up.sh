@@ -31,6 +31,6 @@ if [ ! -d "${BASE_PATH_DATA}/televir" ]; then
 fi
 
 # image name
-export IMAGE=insaflu-server
+export IMAGE=insaflu-ubuntu
 
 docker compose up ${IMAGE}

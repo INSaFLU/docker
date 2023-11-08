@@ -10,23 +10,23 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/postgres/backups
-  insaflu-server-data:
+  insaflu-ubuntu-data:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/data/all_data
-  insaflu-server-predefined_dbs:
+  insaflu-ubuntu-predefined_dbs:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/data/predefined_dbs
-  insaflu-server-env:
+  insaflu-ubuntu-env:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/env
-  insaflu-server-log-insaflu:
+  insaflu-ubuntu-log-insaflu:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/log/insaFlu
-  insaflu-server-log-httpd:
+  insaflu-ubuntu-log-httpd:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/log/httpd
@@ -120,18 +120,18 @@ services:
     
   # insaflu
   # password and database login are defined in components/insaflu/configs/insaflu.env 
-  insaflu-server:
-    image: insapathogenomics/insaflu-server:2.0
-    container_name: insaflu-server
+  insaflu-ubuntu:
+    image: insapathogenomics/insaflu-ubuntu:2.0
+    container_name: insaflu-ubuntu
     hostname: insaflu
     restart: no
     volumes:
       - televir:/televir/mngs_benchmark    
-      - insaflu-server-data:/insaflu_web/INSaFLU/media
-      - insaflu-server-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
-      - insaflu-server-env:/insaflu_web/INSaFLU/env
-      - insaflu-server-log-insaflu:/var/log/insaFlu
-      - insaflu-server-log-httpd:/var/log/httpd
+      - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media
+      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
+      - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
+      - insaflu-ubuntu-log-insaflu:/var/log/insaFlu
+      - insaflu-ubuntu-log-httpd:/var/log/httpd
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
