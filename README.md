@@ -54,9 +54,6 @@ INSaFLU:
 	$ docker ps
 	$ docker run hello-world 
 	
-	## build INSaFLU
-	$ ./build.sh
-	
 	## (optional) to run the new viral detection module you need to set up the software and databases
 	## This step can take several hours
 	$ ./up_televir.sh
