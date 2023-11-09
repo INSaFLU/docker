@@ -4,13 +4,43 @@ set -e
 # Install package dependencies
 echo "Install package dependencies"
 #apt-get -y install epel-release
-apt-get -y install python3.9 python3.9-dev
-apt-get update
-apt-get -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql httpd httpd-tools httpd-devel mod_wsgi bash file binutils gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* gcc zlib-devel bzip2-devel xz-devel cmake cmake3 gcc-c++ autoconf bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+#apt-get -y install epel-release
+apt update -y
+
+echo "HELLO"
+apt install apt-utils dialog -y
+apt install make build-essential libssl-dev zlib1g-dev -y
+echo "SECOND"
+apt install libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev -y
+apt install libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git apt-utils -y
+
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
+
+#exec "$SHELL"
+~/.pyenv/bin/pyenv install 3.8.3
+~/.pyenv/bin/pyenv global 3.8.3
+
+
+apt-get install gfortran libopenblas-dev liblapack-dev -y
+apt-get install dos2unix parallel postgis postgresql-contrib postgresql  bash file binutils gzip git unzip wget default-jdk default-jre perl libperl-dev libtime-piece-perl libxml-simple-perl libdigest-perl-md5-perl libmodule-build-perl libfile-slurp-unicode-perl libtest-simple-perl gcc zlib1g libbz2-dev xz-utils cmake g++ autoconf bzip2 automake libtool -y
 if [ $? -ne 0 ]; then 
     echo "Error installing system packages"
     exit 1
 fi
+
+### install blast+ v2.7.1
+echo "Install blast+ v2.7.1"
+mkdir -p /software/blast+/2.7.1 && cd /software/blast+/2.7.1 && wget --no-check-certificate https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz && tar -zxvf ncbi-blast-2.7.1+-x64-linux.tar.gz && rm ncbi-blast-2.7.1+-x64-linux.tar.gz
+### add blast+ to path
+echo 'export PATH="/software/blast+/2.7.1/ncbi-blast-2.7.1+/bin:${PATH}"' >> ~/.bashrc
+if [ $? -ne 0 ]; then
+    echo "Error installing blast+ v2.7.1"
+    exit 1
+fi
+
 
 #### create a apache
 # Create a group and user to run insaflu
@@ -19,20 +49,16 @@ useradd -ms /bin/bash ${APP_USER}
 
 ### web site
 echo "Setup website code"
-mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
-#mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch expand_organisms https://github.com/SantosJGND/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
+echo `which python3`
+echo `python3 --version`
+echo `pip3 --version`
+#mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
+mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch metagenomics https://github.com/SantosJGND/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
 if [ $? -ne 0 ]; then
     echo "Error installing INSaFLU base"
     exit 1
 fi
 
-### apache server
-echo "Setup Apache httpd"
-usermod -a -G ${APP_USER} apache && mv /tmp_install/configs/insaflu.conf /etc/httpd/conf.d && rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf && echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf && sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf_temp && mv /etc/httpd/conf/httpd.conf_temp /etc/httpd/conf/httpd.conf
-if [ $? -ne 0 ]; then
-    echo "Error installing apache"
-    exit 1
-fi
 
 ### Temp Directory /usr/lib/tmpfiles.d
 mv /tmp_install/configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_path.conf
@@ -42,7 +68,7 @@ echo "Setup SGE job queuing"
 export SGE_ROOT=/opt/sge
 groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT} && mkdir /insaflu_sge_source && cd /insaflu_sge_source 
 wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
-apt-get -y install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel
+apt-get install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel -y
 cd /insaflu_sge_source/sge-8.1.9/source && sh scripts/bootstrap.sh -no-java -no-jni && ./aimk -no-java -no-jni
 echo Y | /insaflu_sge_source/sge-8.1.9/source/scripts/distinst -local -all -noexit
 if [ $? -ne 0 ]; then

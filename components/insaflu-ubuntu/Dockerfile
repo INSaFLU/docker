@@ -1,6 +1,6 @@
 
 
-FROM ubuntu:latest AS builder
+FROM ubuntu:20.04 as builder
 
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
@@ -20,6 +20,9 @@ COPY . /tmp_install/
 ENV APP_USER=flu_user
 
 # To reduce the number of layers
+
+RUN sh /tmp_install/install_apache.sh
+
 RUN sh /tmp_install/install_website.sh
 
 RUN sh /tmp_install/install_miniconda.sh
