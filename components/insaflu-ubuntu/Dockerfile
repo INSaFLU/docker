@@ -7,6 +7,8 @@ LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 ADD VERSION .
 ARG DEBIAN_FRONTEND=noninteractive
 ARG RUNLEVEL=1
+RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
+
 LABEL vendor=INSA\
       pt.insa.insaflu.is-production="" \
       pt.insa.insaflu.version="1.7.0-beta" \
@@ -14,14 +16,18 @@ LABEL vendor=INSA\
 
 RUN mkdir -p /tmp_install
 
-COPY . /tmp_install/
+
 
 ENV APP_USER=flu_user
 
 # To reduce the number of layers
+COPY install_system_pkgs.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
 
+COPY . /tmp_install/
+
 RUN sh /tmp_install/install_apache.sh
+
 
 RUN sh /tmp_install/install_website.sh
 
