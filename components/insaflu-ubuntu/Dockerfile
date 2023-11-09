@@ -1,13 +1,12 @@
-
-
-FROM ubuntu:20.04 as builder
+FROM ubuntu:22.04 as builder
 
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
 # version
 ADD VERSION .
-
+ARG DEBIAN_FRONTEND=noninteractive
+ARG RUNLEVEL=1
 LABEL vendor=INSA\
       pt.insa.insaflu.is-production="" \
       pt.insa.insaflu.version="1.7.0-beta" \
@@ -20,6 +19,7 @@ COPY . /tmp_install/
 ENV APP_USER=flu_user
 
 # To reduce the number of layers
+RUN sh /tmp_install/install_system_pkgs.sh
 
 RUN sh /tmp_install/install_apache.sh
 

@@ -8,11 +8,7 @@ echo "Install package dependencies"
 apt update -y
 
 echo "HELLO"
-apt install apt-utils dialog -y
-apt install make build-essential libssl-dev zlib1g-dev -y
-echo "SECOND"
-apt install libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev -y
-apt install libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git apt-utils -y
+
 
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
@@ -24,13 +20,6 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi
 ~/.pyenv/bin/pyenv global 3.8.3
 
 
-apt-get install gfortran libopenblas-dev liblapack-dev -y
-apt-get install dos2unix parallel postgis postgresql-contrib postgresql  bash file binutils gzip git unzip wget default-jdk default-jre perl libperl-dev libtime-piece-perl libxml-simple-perl libdigest-perl-md5-perl libmodule-build-perl libfile-slurp-unicode-perl libtest-simple-perl gcc zlib1g libbz2-dev xz-utils cmake g++ autoconf bzip2 automake libtool -y
-if [ $? -ne 0 ]; then 
-    echo "Error installing system packages"
-    exit 1
-fi
-
 ### install blast+ v2.7.1
 echo "Install blast+ v2.7.1"
 mkdir -p /software/blast+/2.7.1 && cd /software/blast+/2.7.1 && wget --no-check-certificate https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz && tar -zxvf ncbi-blast-2.7.1+-x64-linux.tar.gz && rm ncbi-blast-2.7.1+-x64-linux.tar.gz
@@ -40,11 +29,6 @@ if [ $? -ne 0 ]; then
     echo "Error installing blast+ v2.7.1"
     exit 1
 fi
-
-
-#### create a apache
-# Create a group and user to run insaflu
-useradd -ms /bin/bash ${APP_USER}
 
 
 ### web site

@@ -1,13 +1,25 @@
 #!/bin/bash
 set -e
 
-echo "install apache"
+echo "Install Apache"
+apt update -y
 
 add-apt-repository ppa:ubuntugis/ppa && sudo apt-get update
-apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert python python3-pip -y
+apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert python3 python3-pip -y
 apt-get install  libapache2-mod-wsgi-py3 -y
 
+a2enmod wsgi
+systemctl restart apache2
+
 useradd apache
+echo `systemctl status apache2`
+
+#### create a apache
+# Create a group and user to run insaflu
+useradd -ms /bin/bash ${APP_USER}
+
+echo `ls /usr/local/etc/httpd` 
+echo "FIRST"
 
 ### apache server
 echo "Setup Apache httpd"
