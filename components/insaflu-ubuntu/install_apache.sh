@@ -22,7 +22,7 @@ echo "FIRST"
 
 ### apache server
 echo "Setup Apache httpd"
-usermod -a -G ${APP_USER} apache && mv /tmp_install/configs/insaflu.conf /etc/apache2/conf.d && rm /etc/apache2/conf.d/userdir.conf /etc/apache2/conf.d/welcome.conf && echo 'ServerName localhost' >> /etc/apache2/conf/httpd.conf && sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/apache2/conf/httpd.conf > /etc/apache2/conf/httpd.conf_temp && mv /etc/apache2/conf/httpd.conf_temp /etc/apache2/conf/httpd.conf
+usermod -a -G ${APP_USER} apache && mv /tmp_install/configs/insaflu.conf /etc/apache2/sites-available/000-default.conf && echo 'ServerName localhost' >> /etc/apache2/apache2.conf && sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/apache2/mods-available/mime.conf > /etc/apache2/mods-available/mime.conf_temp && mv /etc/apache2/mods-available/mime.conf_temp /etc/apache2/mods-available/mime.conf
 if [ $? -ne 0 ]; then
     echo "Error installing apache"
     exit 1

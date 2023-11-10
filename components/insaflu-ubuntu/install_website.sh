@@ -7,9 +7,6 @@ echo "Install package dependencies"
 #apt-get -y install epel-release
 apt update -y
 
-echo "HELLO"
-
-
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
@@ -19,6 +16,7 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi
 ~/.pyenv/bin/pyenv install 3.8.3
 ~/.pyenv/bin/pyenv global 3.8.3
 
+apt install -y python3-pip
 
 ### install blast+ v2.7.1
 echo "Install blast+ v2.7.1"
@@ -52,7 +50,7 @@ echo "Setup SGE job queuing"
 export SGE_ROOT=/opt/sge
 groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT} && mkdir /insaflu_sge_source && cd /insaflu_sge_source 
 wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
-apt-get install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel -y
+apt-get install csh libhwloc-dev openssl libssl-dev libpam-dev libxt-dev libmotif libmotif-dev libreadline-dev -y
 cd /insaflu_sge_source/sge-8.1.9/source && sh scripts/bootstrap.sh -no-java -no-jni && ./aimk -no-java -no-jni
 echo Y | /insaflu_sge_source/sge-8.1.9/source/scripts/distinst -local -all -noexit
 if [ $? -ne 0 ]; then
