@@ -12,11 +12,10 @@ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
 
+apt install -y python3-pip
 #exec "$SHELL"
 ~/.pyenv/bin/pyenv install 3.8.3
 ~/.pyenv/bin/pyenv global 3.8.3
-
-apt install -y python3-pip
 
 ### install blast+ v2.7.1
 echo "Install blast+ v2.7.1"
