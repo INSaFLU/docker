@@ -6,7 +6,7 @@ apt update -y
 
 apt-get install software-properties-common -y
 add-apt-repository ppa:ubuntugis/ppa && apt-get update
-apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert python3 python3-pip -y
+apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert -y
 apt-get install  libapache2-mod-wsgi-py3 -y
 
 service apache2 restart
