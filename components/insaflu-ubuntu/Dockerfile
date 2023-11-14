@@ -28,7 +28,7 @@ COPY . /tmp_install/
 
 RUN sh /tmp_install/install_apache.sh
 
-
+USER root
 RUN sh /tmp_install/install_website.sh
 
 RUN sh /tmp_install/install_miniconda.sh
