@@ -1,5 +1,5 @@
 FROM ubuntu:22.04 as builder
-
+USER root
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
