@@ -57,7 +57,7 @@ cd /insaflu_sge_source/sge
 echo "INSTALLING SGE"
 cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/opt/sge -DSYSTEMD=ON
 cmake --build build -j
-sudo cmake --install build
+cmake --install build
 
 #wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
 
