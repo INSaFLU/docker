@@ -48,8 +48,6 @@ mv /tmp_install/configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_pa
 echo "Setup SGE job queuing"
 apt-get install csh libhwloc-dev openssl libssl-dev libpam-dev libxt-dev libmotif-dev libreadline-dev -y
 
-export SGE_ROOT=/opt/sge
-groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT}
 
 mkdir /insaflu_sge_source && cd /insaflu_sge_source 
 wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
@@ -59,6 +57,11 @@ if [ $? -ne 0 ]; then
     echo "Error installing SGE"
     exit 1
 fi
+
+export SGE_ROOT=/opt/sge
+groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT}
+
+
 #copy default files to the queues
 mv /tmp_install/sge_default/default/ ${SGE_ROOT}/ && chown -R sgeadmin:gridware ${SGE_ROOT} && mv /tmp_install/sge_default/sun-grid-engine.sh /etc/profile.d/ && mv /tmp_install/sge_default/sgeexecd.p6444 /etc/init.d/ && mv /tmp_install/sge_default/sgemaster.p6444 /etc/init.d/ && mv /tmp_install/sge_default/root.cshrc /root/.cshrc && chmod a+x /etc/profile.d/sun-grid-engine.sh && rm -rf /insaflu_sge_source*
 #export PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:${PATH}"
