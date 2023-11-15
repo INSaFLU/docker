@@ -63,12 +63,12 @@ cmake --install build
 
 #cd /insaflu_sge_source/sge-8.1.9/source
 echo "INSTALLING SGE, BOOTSTRAP"
-sh scripts/bootstrap.sh -no-java -no-jni && ./aimk -no-java -no-jni
-echo Y | /insaflu_sge_source/sge/source/scripts/distinst -local -all -noexit
-if [ $? -ne 0 ]; then
-    echo "Error installing SGE"
-    exit 1
-fi
+#sh scripts/bootstrap.sh -no-java -no-jni && ./aimk -no-java -no-jni
+#echo Y | /insaflu_sge_source/sge/source/scripts/distinst -local -all -noexit
+#if [ $? -ne 0 ]; then
+#    echo "Error installing SGE"
+#    exit 1
+#fi
 
 export SGE_ROOT=/opt/sge
 groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT}
