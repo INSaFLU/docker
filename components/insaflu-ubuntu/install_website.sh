@@ -46,8 +46,8 @@ mv /tmp_install/configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_pa
 
 #### SGE
 echo "Setup SGE job queuing"
-apt-get install csh libhwloc-dev openssl libssl-dev libpam-dev libxt-dev libmotif-dev libreadline-dev -y
-
+apt-get install csh libhwloc-dev openssl libssl-dev libpam-dev libxt-dev libmotif-dev libreadline-dev libntirpc-dev -y
+#apt install git build-essential libhwloc-dev libssl-dev libtirpc-dev libmotif-dev libxext-dev libncurses-dev libdb5.3-dev libpam0g-dev pkgconf libsystemd-dev cmake -y
 
 mkdir /insaflu_sge_source && cd /insaflu_sge_source 
 wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
