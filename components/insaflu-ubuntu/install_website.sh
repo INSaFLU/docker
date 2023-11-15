@@ -48,7 +48,7 @@ mv /tmp_install/configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_pa
 echo "Setup SGE job queuing"
 #apt-get install csh libhwloc-dev openssl libssl-dev libpam-dev libxt-dev libmotif-dev libreadline-dev libntirpc-dev -y
 #apt install git build-essential libhwloc-dev libssl-dev libtirpc-dev libmotif-dev libxext-dev libncurses-dev libdb5.3-dev libpam0g-dev pkgconf libsystemd-dev cmake -y
-apt-get build-essential cmake git libdb5.3-dev libhwloc-dev libmotif-dev libncurses-dev libpam0g-dev libssl-dev libsystemd-dev libtirpc-dev libxext-dev pkgconf -y
+apt-get install build-essential cmake git libdb5.3-dev libhwloc-dev libmotif-dev libncurses-dev libpam0g-dev libssl-dev libsystemd-dev libtirpc-dev libxext-dev pkgconf -y
 
 mkdir /insaflu_sge_source && cd /insaflu_sge_source 
 git clone https://github.com/daimh/sge.git
