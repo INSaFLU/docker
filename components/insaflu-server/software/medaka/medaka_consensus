@@ -132,7 +132,7 @@ if [[ -f ${PRIMERS} ]]; then
     ivar trim -m 0 -q 0 -e -b primers.bed -p ${CALLS2DRAFT}.trimmed -i ${CALLS2DRAFT}.bam
     samtools sort -o ${CALLS2DRAFT}.trimmed.sorted.bam ${CALLS2DRAFT}.trimmed.bam
     # Now replace the previous one
-    cp ${CALLS2DRAFT}.trimmed.bam ${CALLS2DRAFT}.bam
+    cp ${CALLS2DRAFT}.trimmed.sorted.bam ${CALLS2DRAFT}.bam
     samtools index ${CALLS2DRAFT}.bam   
 
 fi
