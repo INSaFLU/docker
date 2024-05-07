@@ -46,11 +46,7 @@ INSaFLU:
 	OR
 	$ nano .env
 	
-	## add your user account to docker group to use docker without sudo
-	$ sudo usermod -aG docker $USER
-	$ sudo chmod 666 /var/run/docker.sock
-	
-	## test if everything is OK
+	## test if docker is installed and running
 	$ docker ps
 	$ docker run hello-world 
 	
