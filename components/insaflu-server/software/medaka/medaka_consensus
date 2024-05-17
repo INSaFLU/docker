@@ -131,19 +131,8 @@ if [[ -f ${PRIMERS} ]]; then
     bedtools bamtobed -i primers.bam > primers.bed
     ivar trim -m 0 -q 0 -e -b primers.bed -p ${CALLS2DRAFT}.trimmed -i ${CALLS2DRAFT}.bam
     samtools sort -o ${CALLS2DRAFT}.trimmed.sorted.bam ${CALLS2DRAFT}.trimmed.bam
-    samtools index ${CALLS2DRAFT}.trimmed.sorted.bam
-    samtools mpileup -A -d 0 -Q 0 ${CALLS2DRAFT}.trimmed.sorted.bam | ivar consensus -m 0 -n N -p ${CALLS2DRAFT}.ivar_consensus
-    # This is just a workaround to avoid failing in the case of empty consensus being generated
-    run_check_consensus ${CALLS2DRAFT}.ivar_consensus.fa ref.fa
-    bwa index -p ${CALLS2DRAFT}.ivar_consensus ${CALLS2DRAFT}.ivar_consensus.fa
-    bwa mem -k 5 -T 16 ${CALLS2DRAFT}.ivar_consensus ${PRIMERS} | samtools view -bS -F 4 | samtools sort -o primers_consensus.bam
-    samtools mpileup -A -d 0 --reference ${CALLS2DRAFT}.ivar_consensus.fa -Q 0 primers_consensus.bam | ivar variants -p primers_consensus -t 0.03
-    bedtools bamtobed -i primers_consensus.bam > primers_consensus.bed
-    ivar getmasked -i primers_consensus.tsv -b primers_consensus.bed -f ${PRIMERS}.pair_information.tsv -p primer_mismatchers_indices
-    ivar removereads -i ${CALLS2DRAFT}.trimmed.sorted.bam -p ${CALLS2DRAFT}.masked.bam -t primer_mismatchers_indices.txt -b primers.bed
-    samtools sort -o ${CALLS2DRAFT}.masked.sorted.bam ${CALLS2DRAFT}.masked.bam
     # Now replace the previous one
-    cp ${CALLS2DRAFT}.masked.sorted.bam ${CALLS2DRAFT}.bam
+    cp ${CALLS2DRAFT}.trimmed.sorted.bam ${CALLS2DRAFT}.bam
     samtools index ${CALLS2DRAFT}.bam   
 
 fi
