@@ -81,16 +81,16 @@ How to run:
 
 Commands:
 
-	* create-user			## to create an user in insaflu;
+	* create-user			## create a user in insaflu;
 	* list-all-users		## list all users in insaflu;
 	* update-password		## update password for a specific user;
-	* remove-fastq-files	## remove fastq files to increase sample in hard drive. You must have a copy of these files;
+	* remove-fastq-files	        ## remove fastq files to increase sample in hard drive. You must have a copy of these files;
+	* unlock-upload-files	        ## unlock files samples thar are zombie when upload multiple samples; 
 	* restart-apache		## restart web server, for example, after change something in insaflu/env/insaflu.env file;
-	* test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file;
-	* unlock-upload-files	## unlock files samples thar are zombie when upload multiple samples;
-	* update-tbl2asn		## every year it is necessary update the tbl2asn ncbi software;
-	* upload-reference-dbs	## place new references in db/references and you can update them;
+	* upload-reference-dbs	        ## place new references in db/references and you can update them;
+	* update-nextstrain_builds	## update the nextstrain builds to the latest information; 
 	* update-insaflu		## update insaflu software to a new version;
+	* test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file;
 	* confirm-email-account 
 
 Examples:
