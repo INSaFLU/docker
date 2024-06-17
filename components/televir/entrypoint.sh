@@ -16,7 +16,7 @@ if [ "$1" = "move" ]; then
     /opt/venv/bin/python main.py --docker --soft --partial
     
     cp install_scripts/config.py /televir/mngs_benchmark/config.py
-
+    
     chmod -R 0777 /televir/mngs_benchmark
     
     echo "---> Finshed creating televir dbs in /televir/mngs_benchmark/ ... done"
