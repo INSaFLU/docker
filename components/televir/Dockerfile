@@ -10,7 +10,7 @@ RUN set -xe && apt-get update && apt-get install -y python3 python3-pip
 RUN pip install --upgrade pip
 
 RUN apt-get update
-RUN apt-get install -y build-essential wget curl rsync apt-utils python3-setuptools
+RUN apt-get install -y build-essential wget curl rsync apt-utils setuptools python3-setuptools
 
 RUN apt-get clean
 
@@ -37,7 +37,6 @@ RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.43.1/kallis
 RUN tar -xzf kallisto_linux-v0.43.1.tar.gz
 ENV PATH $PATH:kallisto_linux-v0.43.1
 
-
 ##
 RUN apt-get install zlib1g-dev make g++
 
@@ -46,8 +45,8 @@ RUN python -m venv /opt/venv
 RUN /opt/venv/bin/pip install --upgrade pip
 RUN \
     apt-get install -y postgresql postgresql-contrib
-RUN apt-get install -y libpq-dev python3-dev
-RUN /opt/venv/bin/pip install setuptools==57.4.0 numpy==1.24.3  pandas==2.0.1 psycopg2==2.9.6 sqlalchemy python-decouple==3.8 danio xopen==1.7.0 fastq_filter==0.3.0
+RUN apt-get install libpq-dev python3-dev
+RUN /opt/venv/bin/pip install setuptools numpy==1.24.3  pandas==2.0.1 psycopg2==2.9.6 sqlalchemy python-decouple==3.8 danio xopen==1.7.0 fastq_filter==0.3.0
 RUN /opt/venv/bin/pip install --default-timeout=100 future
 ## install televir dbs
 

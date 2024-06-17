@@ -14,10 +14,7 @@ if [ "$1" = "move" ]; then
     
     /opt/venv/bin/python main.py --docker --seqdl --partial
     /opt/venv/bin/python main.py --docker --soft --partial
-    /opt/venv/bin/python main.py --docker --deploy --partial
     
-    
-    cp utility.db /televir/mngs_benchmark/utility.db
     cp install_scripts/config.py /televir/mngs_benchmark/config.py
 
     chmod -R 0777 /televir/mngs_benchmark
