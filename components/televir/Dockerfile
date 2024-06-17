@@ -74,5 +74,3 @@ RUN sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh; rm en
 RUN chmod a+x entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
-
-
