@@ -15,10 +15,13 @@ fi
 ### Install EMBOSS
 echo "Install EMBOSS 6.6.0"
 mv /tmp_install/software/EMBOSS-6.6.0/EMBOSS-6.6.0.tar.gz /software/extra_software && cd /software/extra_software && tar -zxvf EMBOSS-6.6.0.tar.gz
-cd /software/extra_software/EMBOSS-6.6.0 && ./configure --without-x && make
+cd /software/extra_software/EMBOSS-6.6.0 && ./configure --without-x
 
-make install
 /sbin/ldconfig
+
+make
+make install
+
 ln -s /usr/local/bin/seqret /usr/bin/seqret && rm -rf /software/extra_software/EMBOSS-6.6.0.tar.gz
 if [ $? -ne 0 ]; then
     echo "Error installing EMBOSS"
