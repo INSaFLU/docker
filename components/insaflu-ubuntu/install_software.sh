@@ -19,7 +19,7 @@ cd /software/extra_software/EMBOSS-6.6.0 && ./configure --without-x && make
 
 make install
 /sbin/ldconfig
-make install && ln -s /usr/local/bin/seqret /usr/bin/seqret && rm -rf /software/extra_software/EMBOSS-6.6.0.tar.gz
+ln -s /usr/local/bin/seqret /usr/bin/seqret && rm -rf /software/extra_software/EMBOSS-6.6.0.tar.gz
 if [ $? -ne 0 ]; then
     echo "Error installing EMBOSS"
     exit 1
@@ -149,7 +149,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-### 
+###
 cd /software && wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip && unzip v0.0.1.zip && rm -f v0.0.1.zip && mv RabbitQC-0.0.1/ RabbitQC && cd RabbitQC && sed 's/ -static//' Makefile > temp.txt && mv -f temp.txt Makefile && make && pip3 install nanostat==1.5.0 && pip3 install nanofilt==2.7.1
 
 ## medaka
@@ -173,7 +173,7 @@ fi
 
 # flye
 #echo "Install flye"
-#eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=flye -c conda-forge -c anaconda -c bioconda flye=2.9.1 && mv /tmp_install/software/flye/ /software/ && chmod u+x /software/flye/flye.sh 
+#eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=flye -c conda-forge -c anaconda -c bioconda flye=2.9.1 && mv /tmp_install/software/flye/ /software/ && chmod u+x /software/flye/flye.sh
 #if [ $? -ne 0 ]; then
 #    echo "Error installing flye"
 #    exit 1
