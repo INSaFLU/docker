@@ -24,7 +24,7 @@ ENV APP_USER=flu_user
 COPY install_system_pkgs.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
 
-COPY components/insaflu-ubuntu/install_ apache.sh /tmp_install/
+COPY components/insaflu-ubuntu/install_apache.sh /tmp_install/
 RUN sh /tmp_install/install_apache.sh
 
 USER root
