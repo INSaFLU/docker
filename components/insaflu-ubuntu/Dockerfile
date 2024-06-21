@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as builder
+FROM ubuntu:20.04 as builder
 USER root
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
@@ -24,17 +24,20 @@ ENV APP_USER=flu_user
 COPY install_system_pkgs.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
 
-COPY . /tmp_install/
-
+COPY components/insaflu-ubuntu/install_ apache.sh /tmp_install/
 RUN sh /tmp_install/install_apache.sh
 
 USER root
+COPY components/insaflu-ubuntu/install_website.sh /tmp_install/
 RUN sh /tmp_install/install_website.sh
 
+COPY components/insaflu-ubuntu/install_miniconda.sh /tmp_install/
 RUN sh /tmp_install/install_miniconda.sh
 
+COPY components/insaflu-ubuntu/install_software.sh /tmp_install/
 RUN sh /tmp_install/install_software.sh
 
+COPY components/insaflu-ubuntu/install_finish.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
 
 

@@ -9,7 +9,7 @@ add-apt-repository ppa:ubuntugis/ppa && apt-get update
 apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert -y
 apt-get install  libapache2-mod-wsgi-py3 -y
 
-service apache2 restart
+systemctl restart apache2
 
 useradd apache
 
@@ -17,7 +17,7 @@ useradd apache
 # Create a group and user to run insaflu
 useradd -ms /bin/bash ${APP_USER}
 
-echo `ls /usr/local/etc/httpd` 
+echo `ls /usr/local/etc/httpd`
 echo "FIRST"
 
 ### apache server

@@ -25,13 +25,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-### apache server
-echo "Setup Apache httpd"
-usermod -a -G ${APP_USER} apache && mv /tmp_install/configs/insaflu.conf /etc/httpd/conf.d && rm /etc/httpd/conf.d/userdir.conf /etc/httpd/conf.d/welcome.conf && echo 'ServerName localhost' >> /etc/httpd/conf/httpd.conf && sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/httpd/conf/httpd.conf > /etc/httpd/conf/httpd.conf_temp && mv /etc/httpd/conf/httpd.conf_temp /etc/httpd/conf/httpd.conf
-if [ $? -ne 0 ]; then
-    echo "Error installing apache"
-    exit 1
-fi
 
 ### Temp Directory /usr/lib/tmpfiles.d
 mv /tmp_install/configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_path.conf
@@ -39,8 +32,8 @@ mv /tmp_install/configs/insaflu_tmp_path.conf /usr/lib/tmpfiles.d/insaflu_tmp_pa
 #### SGE
 echo "Setup SGE job queuing"
 export SGE_ROOT=/opt/sge
-groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT} && mkdir /insaflu_sge_source && cd /insaflu_sge_source 
-wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz 
+groupadd -g 58 gridware && useradd -u 63 -g 58 -d ${SGE_ROOT} sgeadmin && chmod 0755 ${SGE_ROOT} && mkdir /insaflu_sge_source && cd /insaflu_sge_source
+wget --no-check-certificate https://sourceforge.net/projects/gridengine/files/SGE/releases/8.1.9/sge-8.1.9.tar.gz/download -O sge-8.1.9.tar.gz; tar -zxvf sge-8.1.9.tar.gz
 yum -y install csh hwloc-devel openssl-devel pam-devel libXt-devel motif motif-devel readline-devel
 cd /insaflu_sge_source/sge-8.1.9/source && sh scripts/bootstrap.sh -no-java -no-jni && ./aimk -no-java -no-jni
 echo Y | /insaflu_sge_source/sge-8.1.9/source/scripts/distinst -local -all -noexit
