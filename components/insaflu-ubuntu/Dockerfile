@@ -24,20 +24,20 @@ ENV APP_USER=flu_user
 COPY install_system_pkgs.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
 
-COPY components/insaflu-ubuntu/install_apache.sh /tmp_install/
+COPY install_apache.sh /tmp_install/
 RUN sh /tmp_install/install_apache.sh
 
 USER root
-COPY components/insaflu-ubuntu/install_website.sh /tmp_install/
+COPY install_website.sh /tmp_install/
 RUN sh /tmp_install/install_website.sh
 
-COPY components/insaflu-ubuntu/install_miniconda.sh /tmp_install/
+COPY install_miniconda.sh /tmp_install/
 RUN sh /tmp_install/install_miniconda.sh
 
-COPY components/insaflu-ubuntu/install_software.sh /tmp_install/
+COPY install_software.sh /tmp_install/
 RUN sh /tmp_install/install_software.sh
 
-COPY components/insaflu-ubuntu/install_finish.sh /tmp_install/
+COPY install_finish.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
 
 
