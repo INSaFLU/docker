@@ -9,7 +9,7 @@ add-apt-repository ppa:ubuntugis/ppa && apt-get update
 apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert -y
 apt-get install  libapache2-mod-wsgi-py3 -y
 
-systemctl restart apache2
+service apache2 restart
 
 useradd apache
 
