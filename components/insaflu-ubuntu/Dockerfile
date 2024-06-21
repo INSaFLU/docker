@@ -20,6 +20,9 @@ RUN mkdir -p /tmp_install
 
 ENV APP_USER=flu_user
 
+COPY */ /tmp_install/
+COPY entrypoint.sh /entrypoint.sh
+
 # To reduce the number of layers
 COPY install_system_pkgs.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
