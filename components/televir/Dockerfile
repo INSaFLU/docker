@@ -65,11 +65,12 @@ RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O telev
     mv TELEVIR-main TELEVIR && \
     chown -R ${APP_USER}:${APP_USER} TELEVIR
 
-
+COPY configs/config_install.py /insaflu_web/TELEVIR/install_scripts/config.py
 COPY configs/televir.env /insaflu_web/TELEVIR/.env
 
 WORKDIR /
 COPY entrypoint.sh entrypoint_original.sh
+
 RUN sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh; rm entrypoint_original.sh
 RUN chmod a+x entrypoint.sh
 
