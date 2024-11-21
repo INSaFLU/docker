@@ -1,4 +1,4 @@
-class Televir_Layout:
+class TelevirLayout:
     # databases. chose at least one.
     install_refseq_prot = True
     install_refseq_gen = True
