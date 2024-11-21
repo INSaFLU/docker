@@ -37,6 +37,7 @@ class Televir_Layout:
     install_centrifuge_bacteria = False
     install_kraken2 = True
     install_kraken2_bacteria = False
+    install_kraken2_eupathdb46 = False
     install_krakenuniq = True
     install_krakenuniq_fungi = False
     install_kaiju = True
