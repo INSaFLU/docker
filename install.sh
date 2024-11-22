@@ -4,9 +4,6 @@ set -e
 
 VERSION="v1.3.0"
 
-gitDir=$(realpath `dirname $BASH_SOURCE`/..)
-echo $gitDir
-
 # uname -s, uname -m
 # Deb 32: Linux i686
 # Ubuntu 64: Linux x86_64
@@ -19,27 +16,10 @@ if [[ "$UID" != 0 ]]; then
     exit 1
 fi
 
-echo "`which git 2> /dev/null`"
-echo "${gitDir}"
-
-if [[ ! "`which git 2> /dev/null`" == "" ]]; then
-    echo "hi"
-    thisGit=`git -C "${gitDir}" config --get remote.origin.url`
-    echo "${thisGit}"
-    thisGit=${thisGit::-4}
-    echo "HI" $thisGit
-    GITHUB_BINARY_BASE="${thisGit}/releases/download"
-    GITHUB_RAW_BASE="${thisGit/github.com/raw.githubusercontent.com}/releases/download"
-fi
-
-echo "thisgit" $thisGit
-
-if [[ $thisGit == "" ]]; then
-    GITHUB_URL_PARTS="MatchbookLab/local-persist"
-    GITHUB_BINARY_BASE="https://github.com/${GITHUB_URL_PARTS}/releases/download"
-    GITHUB_RAW_BASE="https://raw.githubusercontent.com/${GITHUB_URL_PARTS}/"
-    GITHUB_URL_PARTS=
-fi
+GITHUB_URL_PARTS="MatchbookLab/local-persist"
+GITHUB_BINARY_BASE="https://github.com/${GITHUB_URL_PARTS}/releases/download"
+GITHUB_RAW_BASE="https://raw.githubusercontent.com/${GITHUB_URL_PARTS}/"
+GITHUB_URL_PARTS=
 
 echo GITHUB_RAW_BASE
 
