@@ -24,8 +24,8 @@ COPY */ /tmp_install/
 COPY entrypoint.sh /entrypoint.sh
 
 # To reduce the number of layers
-COPY install_system_pkgs.sh /tmp_install/
-RUN sh /tmp_install/install_system_pkgs.sh
+#COPY install_system_pkgs.sh /tmp_install/
+#RUN sh /tmp_install/install_system_pkgs.sh
 
 COPY install_apache.sh /tmp_install/
 RUN sh /tmp_install/install_apache.sh
@@ -34,11 +34,11 @@ USER root
 COPY install_website.sh /tmp_install/
 RUN sh /tmp_install/install_website.sh
 
-COPY install_miniconda.sh /tmp_install/
-RUN sh /tmp_install/install_miniconda.sh
+#COPY install_miniconda.sh /tmp_install/
+#RUN sh /tmp_install/install_miniconda.sh
 
-COPY install_software.sh /tmp_install/
-RUN sh /tmp_install/install_software.sh
+#COPY install_software.sh /tmp_install/
+#RUN sh /tmp_install/install_software.sh
 
 COPY install_finish.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
