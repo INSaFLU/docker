@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ex
 
+source .env
+
 if [ ! -d "${BASE_PATH_DATA}/postgres/postgres_data" ]; then 
 	mkdir -p ${BASE_PATH_DATA}/postgres/postgres_data
 fi

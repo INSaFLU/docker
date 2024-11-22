@@ -23,11 +23,13 @@ Docker:
 
 - Install the docker extension [local-persist](https://github.com/MatchbookLab/local-persist);
 
+```bash
   $ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
 
   $ chmod a+x install.sh
 
   $ sudo ./install.sh
+```
 
 :warning: If you're uncomfortable running a script you downloaded off the internet with sudo, you can extract any of the steps out of the install.sh script and run them manually.
 
@@ -35,6 +37,7 @@ Docker:
 
 INSaFLU:
 
+```bash
     $ git clone https://github.com/INSaFLU/docker.git
     $ cd docker
 
@@ -44,11 +47,7 @@ INSaFLU:
     OR
     $ nano .env
 
-    ## add your user account to docker group to use docker without sudo
-    $ sudo usermod -aG docker $USER
-    $ sudo chmod 666 /var/run/docker.sock
-
-    ## test if everything is OK
+    ## test if docker is installed and running
     $ docker ps
     $ docker run hello-world
 
@@ -60,7 +59,8 @@ INSaFLU:
     $ ./up.sh
 
     ## create an user, in other terminal or you can use 'screen' in previous steps
-    $ docker exec -it insaflu-ubuntu create-user
+    $ docker exec -it insaflu-server create-user
+```
 
 Now, you can go to a web explorer and link to the address "127.0.0.1:<port defined in .env>". Default port is 8080
 
@@ -77,30 +77,30 @@ To start again:
 With these commands you can interact with INSaFLU image to do several tasks.
 
 How to run:
-$ docker exec -it insaflu-ubuntu <<command>>
+$ docker exec -it insaflu-server <<command>>
 
 Commands:
 
-    * create-user			## to create an user in insaflu;
+    * create-user			## create a user in insaflu;
     * list-all-users		## list all users in insaflu;
     * update-password		## update password for a specific user;
-    * remove-fastq-files	## remove fastq files to increase sample in hard drive. You must have a copy of these files;
+    * remove-fastq-files	        ## remove fastq files to increase sample in hard drive. You must have a copy of these files;
+    * unlock-upload-files	        ## unlock files samples thar are zombie when upload multiple samples;
     * restart-apache		## restart web server, for example, after change something in insaflu/env/insaflu.env file;
-    * test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file;
-    * unlock-upload-files	## unlock files samples thar are zombie when upload multiple samples;
-    * update-tbl2asn		## every year it is necessary update the tbl2asn ncbi software;
-    * upload-reference-dbs	## place new references in db/references and you can update them;
+    * upload-reference-dbs	        ## place new references in db/references and you can update them;
+    * update-nextstrain_builds	## update the nextstrain builds to the latest information;
     * update-insaflu		## update insaflu software to a new version;
+    * test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file;
     * confirm-email-account
 
 Examples:
 
-```
-$ docker exec -it insaflu-ubuntu create-user
-$ docker exec -it insaflu-ubuntu update-tbl2asn
-$ docker exec -it insaflu-ubuntu restart-apache
-$ docker exec -it insaflu-ubuntu update-password <some login>
-$ docker exec -it insaflu-ubuntu update-insaflu
+```bash
+$ docker exec -it insaflu-server create-user
+$ docker exec -it insaflu-server update-tbl2asn
+$ docker exec -it insaflu-server restart-apache
+$ docker exec -it insaflu-server update-password <some login>
+$ docker exec -it insaflu-server update-insaflu
 ```
 
 ## Change variables in your local environment
@@ -108,7 +108,7 @@ $ docker exec -it insaflu-ubuntu update-insaflu
 You can customize your environment. Some of the relevant variables include the maximum reads size for upload (e.g., MAX_FASTQ_FILE_UPLOAD = 104857600), indicate if the files should be (or not) downsized after upload (i.e., DOWN_SIZE_FASTQ_FILES = True/False), indicate the maximum files size after downsizing (e.g. MAX_FASTQ_FILE_WITH_DOWNSIZE = 429916160), maximum length of external consensus sequences for nextstrain analysis (eg. MAX_LENGTH_SEQUENCE_TOTAL_FROM_CONSENSUS_FASTA = 104857600), etc.
 To change these variables you need to edit the config file .env, as described below:
 
-```
+```bash
 ### get into INSaFLU docker
 $ docker exec -it insaflu-ubuntu /bin/bash
 ### change the values here
@@ -121,6 +121,21 @@ $ docker exec -it insaflu-ubuntu restart-apache
 
 If you want to perpetuate the changes in future updates of INSaFLU webserver you also need to update "insaflu/env/insaflu.env".
 
+## Change TELEVIR software install configuration
+
+TELEVIR is module that can be installed in INSaFLU. This module is used to detect viral sequences in metagenomic samples. The installation of this module is optional and can be done with the command "./up_televir.sh". The installation of this module can take several hours.
+
+TELEVIR offers a modular workflow framework, where each module can have multiple software available. TELEVIR software installation, with associated databases in the case of detection or host depletion, is controlled via the file `components/televir/config_install.py` by setting the individual variables to `True` or `False`.
+
+To configure installation, modify the file `components/televir/config_install.py` and set the variables to `True` or `False` according to the software you want to install. Then run the commands "./build.sh" and "./up_televir.sh" to install the software.
+
+### TELEVIR+
+
+TELEVIR local installation makes available aditional databases not available in the web version. These databases are:
+
+- The Centrifuge bacterial database
+- The Kraken2 bacterial database
+
 ## Update database for rapid assignment of segments/references to contigs
 
 Some influenza sequences of the abricate database for "contigs2sequences" assignment currently being used on INSaFLU free website (latest version can be found here: https://insaflu.readthedocs.io/en/latest/data_analysis.html#type-and-sub-type-identification) are not included as part of this repository as they are protected by the terms of GISAID sharing (we gratefully acknowledge the Authors, Originating and Submitting laboratories, as indicated in the lists provided in the Documentation). These sequences will need to be collected by the user and the database will need to be build based on abricate instructions on "making your own database" (https://github.com/tseemann/abricate). Please contact us if you need help for building the database currently being used on INSaFLU free website.
@@ -129,7 +144,7 @@ Some influenza sequences of the abricate database for "contigs2sequences" assign
 
 This steps are for the users that already have previous docker installations of INSaFLU. This re-installation maintains all previous data that were generated in older installations.
 
-```
+```bash
 $ cd <move to the previous instalation of insaflu docker>
 $ ./stop.sh
 $ git pull
@@ -146,13 +161,13 @@ funkyfuture/deck-chores                 1                   848ca42ff6aa        
 
 $ docker image rm -f <IMAGE ID that exist in your docker for insaflu-ubuntu>
 
-In my case:
+# In my case:
 $ docker image rm -f 637475d74da0
 $ ./build.sh
 $ ./up.sh
 
-It will give an error,
-Recreating insaflu-ubuntu ... error
+# It will give an error,
+Recreating insaflu-server ... error
 .....
 .....
 Continue with the new image? [yN]y    	"Press 'y' to update the insaflu-ubuntu"
@@ -166,7 +181,7 @@ You can update only **INSaFLU website** to last version (keep your previous data
 
 For INSaFlu versions **equal or higher 1.5.2**
 
-```
+```bash
 ### update INSaFLU website
 $ docker exec -it insaflu-ubuntu update-insaflu
 ```

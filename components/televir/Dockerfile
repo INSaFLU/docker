@@ -1,29 +1,39 @@
-FROM ubuntu:latest AS builder
+FROM ubuntu:20.04
 
 # Create a group and user to run insaflu
 ARG APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
-
+ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
 
-RUN set -xe && apt-get update && apt-get install -y python3 python3-pip 
-RUN pip install --upgrade pip
+RUN apt-get update
+RUN apt-get upgrade -y
+
+RUN apt-get install -y postgresql postgresql-contrib
+RUN apt-get -y install libpq-dev
+
+RUN set -xe && apt-get update && apt-get install -y python3.8 python3-pip 
+RUN apt-get -y install python3.8-venv python3.8-dev
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m venv /opt/venv
+
+RUN /opt/venv/bin/pip install setuptools numpy==1.24.3 pandas==2.0.1 psycopg2==2.9.6 sqlalchemy==2.0.30 python-decouple==3.8 danio xopen==1.7.0 fastq_filter==0.3.0
+RUN /opt/venv/bin/pip install --default-timeout=100 future
 
 RUN apt-get update
-RUN apt-get install -y build-essential wget curl rsync apt-utils setuptools python3-setuptools
+RUN apt-get install -y build-essential wget curl rsync apt-utils python3-setuptools
 
 RUN apt-get clean
 
 RUN rm -rf /var/lib/apt/lists/*
-RUN pip install --upgrade pip
 
 RUN apt-get update \
-    && apt-get install -y gcc python3-dev musl-dev 
-ENV DEBIAN_FRONTEND noninteractive
+    && apt-get install -y gcc musl-dev 
+
 
 RUN apt-get install -y git ncbi-entrez-direct tabix samtools bioperl 
 
-RUN apt-get -y install default-jre python3-pip
+RUN apt-get -y install default-jre 
 # Install miniconda
 ENV CONDA_DIR /opt/conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
@@ -41,13 +51,8 @@ ENV PATH $PATH:kallisto_linux-v0.43.1
 RUN apt-get install zlib1g-dev make g++
 
 ##
-RUN python -m venv /opt/venv
-RUN /opt/venv/bin/pip install --upgrade pip
-RUN \
-    apt-get install -y postgresql postgresql-contrib
-RUN apt-get install libpq-dev python3-dev
-RUN /opt/venv/bin/pip install setuptools numpy==1.24.3  pandas==2.0.1 psycopg2==2.9.6 sqlalchemy python-decouple==3.8 danio xopen==1.7.0 fastq_filter==0.3.0
-RUN /opt/venv/bin/pip install --default-timeout=100 future
+
+
 ## install televir dbs
 
 COPY taxdump.tar.gz /opt/
@@ -60,14 +65,13 @@ RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O telev
     mv TELEVIR-main TELEVIR && \
     chown -R ${APP_USER}:${APP_USER} TELEVIR
 
-
+COPY configs/config_install.py /insaflu_web/TELEVIR/install_scripts/config.py
 COPY configs/televir.env /insaflu_web/TELEVIR/.env
 
 WORKDIR /
 COPY entrypoint.sh entrypoint_original.sh
+
 RUN sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh; rm entrypoint_original.sh
 RUN chmod a+x entrypoint.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
-
-
