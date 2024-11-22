@@ -5,6 +5,11 @@ set -e
 echo "Install package dependencies"
 #apt-get -y install epel-release
 #apt-get -y install epel-release
+apt-get install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql httpd httpd-tools httpd-devel mod_wsgi bash file binutils gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* python36 python36-pip gcc zlib-devel bzip2-devel xz-devel python36-devel cmake cmake3 gcc-c++ autoconf bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+if [ $? -ne 0 ]; then
+    echo "Error installing system packages"
+    exit 1
+fi
 apt update -y
 
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
