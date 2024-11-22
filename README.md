@@ -24,7 +24,6 @@ Docker:
 - Install the docker extension [local-persist](https://github.com/MatchbookLab/local-persist);
 
 ```bash
-  $ curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh > install.sh
 
   $ chmod a+x install.sh
 
