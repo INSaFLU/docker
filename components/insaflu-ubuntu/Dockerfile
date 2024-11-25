@@ -19,6 +19,7 @@ RUN mkdir -p /tmp_install
 
 
 ENV APP_USER=flu_user
+RUN useradd -ms /bin/bash ${APP_USER}
 
 COPY */ /tmp_install/
 COPY entrypoint.sh /entrypoint.sh
@@ -32,6 +33,9 @@ RUN sh /tmp_install/install_apache.sh
 
 USER root
 COPY install_website.sh /tmp_install/
+COPY configs/insaflu.env /tmp_install/configs/insaflu.env
+COPY configs/insaflu.conf /tmp_install/configs/insaflu.conf
+COPY configs/insaflu_tmp_path.env /tmp_install/configs/insaflu_tmp_path.env
 RUN sh /tmp_install/install_website.sh
 
 #COPY install_miniconda.sh /tmp_install/
