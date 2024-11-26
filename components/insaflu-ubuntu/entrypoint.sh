@@ -39,10 +39,6 @@ if [ "$1" = "init_all" ]; then
         ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     fi
     
-    ### start sge
-    echo "---> Start sge ..."
-    /etc/init.d/sgemaster.p6444
-    /etc/init.d/sgeexecd.p6444
     
     ### some files/paths are made by "root" account and need to be accessed by "flu_user"
     ### It's done by tmpfiles.d
@@ -58,7 +54,7 @@ if [ "$1" = "init_all" ]; then
     #fi
     
     echo "---> Start apache server  ..."
-    /usr/sbin/httpd -k restart
+    #/usr/sbin/httpd -k restart
     echo "---> apache running  ..."
     
     tail -f /dev/null
