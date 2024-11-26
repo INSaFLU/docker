@@ -10,9 +10,6 @@ if [ "$1" = "move" ]; then
     cd insaflu_web/TELEVIR
     
     /opt/venv/bin/python main.py --docker --envs --setup_conda --seqdl --soft --partial
-    #/opt/venv/bin/python main.py --docker --envs --partial
-    #/opt/venv/bin/python main.py --docker --seqdl --partial
-    #/opt/venv/bin/python main.py --docker --soft --partial
     
     cp install_scripts/config.py /televir/mngs_benchmark/config.py
     
