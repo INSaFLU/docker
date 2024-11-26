@@ -9,10 +9,10 @@ if [ "$1" = "init_all" ]; then
     
     ### set all default insaflu data
     echo "---> Collect static data  ..."
-    cd /insaflu_web/INSaFLU; python3 manage.py collectstatic --noinput;
+    #cd /insaflu_web/INSaFLU; python3 manage.py collectstatic --noinput;
     
     echo "---> Create/Update database if necessary  ..."
-    cd /insaflu_web/INSaFLU; python3 manage.py migrate;
+    #cd /insaflu_web/INSaFLU; python3 manage.py migrate;
     
     #echo "---> Load default files  ..."
     #if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then

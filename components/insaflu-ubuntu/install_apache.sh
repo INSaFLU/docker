@@ -18,7 +18,6 @@ useradd apache
 useradd -ms /bin/bash ${APP_USER}
 
 echo `ls /usr/local/etc/httpd`
-echo "FIRST"
 
 ### apache server
 echo "Setup Apache httpd"
