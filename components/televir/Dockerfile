@@ -51,8 +51,6 @@ ENV PATH $PATH:kallisto_linux-v0.43.1
 RUN apt-get install zlib1g-dev make g++
 
 ##
-
-
 ## install televir dbs
 
 COPY taxdump.tar.gz /opt/
@@ -66,6 +64,8 @@ RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O telev
     chown -R ${APP_USER}:${APP_USER} TELEVIR
 
 COPY configs/config_install.py /insaflu_web/TELEVIR/install_scripts/config.py
+COPY configs/config.py /insaflu_web/TELEVIR/config.py
+
 COPY configs/televir.env /insaflu_web/TELEVIR/.env
 
 WORKDIR /
