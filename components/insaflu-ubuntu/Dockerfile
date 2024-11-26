@@ -35,7 +35,7 @@ USER root
 COPY install_website.sh /tmp_install/
 COPY configs/insaflu.env /tmp_install/configs/insaflu.env
 COPY configs/insaflu.conf /tmp_install/configs/insaflu.conf
-COPY configs/insaflu_tmp_path.env /tmp_install/configs/insaflu_tmp_path.env
+COPY configs/insaflu_tmp_path.conf /tmp_install/configs/insaflu_tmp_path.conf
 RUN sh /tmp_install/install_website.sh
 
 #COPY install_miniconda.sh /tmp_install/
