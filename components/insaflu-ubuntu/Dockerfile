@@ -28,8 +28,8 @@ COPY entrypoint.sh /entrypoint.sh
 #COPY install_system_pkgs.sh /tmp_install/
 #RUN sh /tmp_install/install_system_pkgs.sh
 
-COPY install_apache.sh /tmp_install/
-RUN sh /tmp_install/install_apache.sh
+#COPY install_apache.sh /tmp_install/
+#RUN sh /tmp_install/install_apache.sh
 
 USER root
 COPY install_website.sh /tmp_install/
