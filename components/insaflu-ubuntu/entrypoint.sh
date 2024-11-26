@@ -14,17 +14,17 @@ if [ "$1" = "init_all" ]; then
     echo "---> Create/Update database if necessary  ..."
     cd /insaflu_web/INSaFLU; python3 manage.py migrate;
     
-    echo "---> Load default files  ..."
-    if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
-        echo "---> Set prokka default databases  ..."
-        ## for fresh prokka instalations
-        /software/prokka/bin/prokka --setupdb
-    fi
-    cd /insaflu_web/INSaFLU; python3 manage.py load_default_files;
-    cd /insaflu_web/INSaFLU; python3 manage.py load_default_settings;
+    #echo "---> Load default files  ..."
+    #if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
+    #    echo "---> Set prokka default databases  ..."
+    #    ## for fresh prokka instalations
+    #    /software/prokka/bin/prokka --setupdb
+    #fi
+    #cd /insaflu_web/INSaFLU; python3 manage.py load_default_files;
+    #cd /insaflu_web/INSaFLU; python3 manage.py load_default_settings;
     
     ## update pangolin if necessary
-    cd /insaflu_web/INSaFLU; python3 manage.py update_pangolin;
+    #cd /insaflu_web/INSaFLU; python3 manage.py update_pangolin;
     
     ### set owners
     echo "---> Set owners APP_USER ..."
@@ -52,10 +52,10 @@ if [ "$1" = "init_all" ]; then
     fi
     
     # for televir
-    if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
-        cd /insaflu_web/INSaFLU; python3 manage.py generate_default_trees; python3 manage.py register_references_on_file -o /tmp/insaFlu/register
-        
-    fi
+    #if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
+    #    cd /insaflu_web/INSaFLU; python3 manage.py generate_default_trees; python3 manage.py register_references_on_file -o /tmp/insaFlu/register
+    #
+    #fi
     
     echo "---> Start apache server  ..."
     /usr/sbin/httpd -k restart
