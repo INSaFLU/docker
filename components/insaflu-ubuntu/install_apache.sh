@@ -15,7 +15,7 @@ useradd apache
 
 #### create a apache
 # Create a group and user to run insaflu
-useradd -ms /bin/bash ${APP_USER}
+#useradd -ms /bin/bash ${APP_USER}
 
 echo `ls /usr/local/etc/httpd`
 
