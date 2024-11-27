@@ -54,7 +54,7 @@ if [ "$1" = "init_all" ]; then
     #fi
     
     echo "---> Start apache server  ..."
-    #/usr/sbin/httpd -k restart
+    service apache2 start
     echo "---> apache running  ..."
     
     tail -f /dev/null
