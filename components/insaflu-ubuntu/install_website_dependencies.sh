@@ -7,7 +7,7 @@ echo "Install package dependencies"
 #apt-get -y install epel-release
 apt update -y
 
-apt install git curl wget libbz2-dev libffi-dev libreadline-dev libssl-dev -y
+apt install git curl wget libbz2-dev libffi-dev libreadline-dev libsqlite3-dev libssl-dev -y
 if [ $? -ne 0 ]; then
     echo "Error installing system packages"
     exit 1
@@ -24,4 +24,4 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi
 ~/.pyenv/bin/pyenv install 3.8.3
 ~/.pyenv/bin/pyenv global 3.8.3
 
-pip3 install Cython libsqlite3-dev mod_wsgi-standalone
+pip3 install Cython  mod_wsgi-standalone
