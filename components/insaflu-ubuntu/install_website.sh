@@ -15,6 +15,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+mkdir /home/personal && cd /home/personal
+git clone https://github.com/SantosJGND/INSaFLU.git #&& cd INSaFLU && pip3 install -r requirements.txt
+if [ $? -ne 0 ]; then
+    echo "Error installing INSaFLU base"
+    exit 1
+fi
+
+
 #mkdir -p /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
 
 

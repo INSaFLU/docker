@@ -45,8 +45,8 @@ RUN sh /tmp_install/install_website.sh
 #COPY install_software.sh /tmp_install/
 #RUN sh /tmp_install/install_software.sh
 
-#COPY install_finish.sh /tmp_install/
-#RUN sh /tmp_install/install_finish.sh
+COPY install_finish.sh /tmp_install/
+RUN sh /tmp_install/install_finish.sh
 
 
 #ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
