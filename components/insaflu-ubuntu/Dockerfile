@@ -28,8 +28,8 @@ COPY entrypoint.sh /entrypoint.sh
 #COPY install_system_pkgs.sh /tmp_install/
 #RUN sh /tmp_install/install_system_pkgs.sh
 
-#COPY install_apache.sh /tmp_install/
-#RUN sh /tmp_install/install_apache.sh
+COPY install_apache.sh /tmp_install/
+RUN sh /tmp_install/install_apache.sh
 
 USER root
 COPY install_website.sh /tmp_install/
@@ -49,7 +49,7 @@ COPY install_finish.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
 
 
-#ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
+ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
 
 ENTRYPOINT ["/entrypoint.sh"]
 
