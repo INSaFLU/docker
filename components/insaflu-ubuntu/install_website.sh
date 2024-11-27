@@ -8,14 +8,7 @@ echo `pip3 --version`
 
 
 #mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir -p /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
-mkdir /home/insaflu_web && cd /home/insaflu_web
-git clone https://github.com/SantosJGND/INSaFLU.git #&& cd INSaFLU && pip3 install -r requirements.txt
-if [ $? -ne 0 ]; then
-    echo "Error installing INSaFLU base"
-    exit 1
-fi
-
-mkdir /home/personal && cd /home/personal
+mkdir /insaflu_web && cd /insaflu_web
 git clone https://github.com/SantosJGND/INSaFLU.git #&& cd INSaFLU && pip3 install -r requirements.txt
 if [ $? -ne 0 ]; then
     echo "Error installing INSaFLU base"
@@ -23,7 +16,8 @@ if [ $? -ne 0 ]; then
 fi
 
 
-#mkdir -p /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
+
+mkdir -p /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
 
 
 ### Temp Directory /usr/lib/tmpfiles.d
