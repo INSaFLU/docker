@@ -7,7 +7,7 @@ echo "Install package dependencies"
 #apt-get -y install epel-release
 apt update -y
 
-apt install git curl wget libbz2-dev libffi-dev libreadline-dev libsqlite3-dev libssl-dev -y
+apt install git curl wget libbz2-dev libffi-dev libreadline-dev libsqlite3-dev liblzma-dev libssl-dev -y
 if [ $? -ne 0 ]; then
     echo "Error installing system packages"
     exit 1
