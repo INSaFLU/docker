@@ -192,3 +192,13 @@ if [ $? -ne 0 ]; then
 fi
 
 
+### install blast+ v2.7.1
+echo "Install blast+ v2.7.1"
+mkdir -p /software/blast+/2.7.1 && cd /software/blast+/2.7.1 && wget --no-check-certificate https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-x64-linux.tar.gz && tar -zxvf ncbi-blast-2.7.1+-x64-linux.tar.gz && rm ncbi-blast-2.7.1+-x64-linux.tar.gz
+### add blast+ to path
+echo 'export PATH="/software/blast+/2.7.1/ncbi-blast-2.7.1+/bin:${PATH}"' >> ~/.bashrc
+if [ $? -ne 0 ]; then
+    echo "Error installing blast+ v2.7.1"
+    exit 1
+fi
+
