@@ -1,6 +1,6 @@
 set -e -o pipefail
 
 echo "---> Stop apache server  ..."
-/usr/sbin/httpd -k stop
+service apache2 stop
 cd /insaflu_web/INSaFLU;
-python3 manage.py test pathogen_identification 
+python3 manage.py test pathogen_identification

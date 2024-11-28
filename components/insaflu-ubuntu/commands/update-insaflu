@@ -2,7 +2,7 @@
 set -e -o pipefail
 
 echo "---> Stop apache server  ..."
-/usr/sbin/httpd -k stop
+service apache2 stop
 
 ## change account
 echo "---> Update insaflu"
@@ -25,6 +25,6 @@ python3 manage.py load_default_files;
 python3 manage.py load_default_settings;
 
 echo "---> Restart apache server  ..."
-/usr/sbin/httpd -k restart
+service apache2 start
 
 echo "---> Everyhting was done"

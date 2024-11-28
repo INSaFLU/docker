@@ -2,4 +2,4 @@
 set -e
 
 echo "---> Restart apache server  ..."
-/usr/sbin/httpd -k restart
+service apache2 restart
