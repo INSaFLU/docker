@@ -301,7 +301,8 @@ push @cmd, (
   "fasta_generate_regions.py $refdir/ref.fa.fai $chunk_size > $refdir/ref.txt",
   "freebayes-parallel $refdir/ref.txt $cpus $fbopt -f $refdir/ref.fa $prefix.bam > $prefix.raw.vcf",
 #  "vcffilter -f 'DP > $min_DP' -f 'QUAL > 10' $prefix.raw.vcf > $prefix.filt.vcf",
-  "$BINDIR/snippy-vcf_filter --minqual 10 --mincov $mincov --minfrac $minfrac  $prefix.raw.vcf > $prefix.filt.vcf",
+#  "$BINDIR/snippy-vcf_filter --minqual 10 --mincov $mincov --minfrac $minfrac  $prefix.raw.vcf > $prefix.filt.vcf",
+  "$BINDIR/snippy-vcf_filter --minqual 0 --mincov $mincov --minfrac $minfrac  $prefix.raw.vcf > $prefix.filt.vcf",
   ( $nfeat > 0 ? "snpEff ann -no-downstream -no-upstream -no-intergenic -no-utr -c $refdir/snpeff.config -dataDir . -noStats ref $prefix.filt.vcf > $prefix.vcf" 
                : "cp $prefix.filt.vcf $prefix.vcf" ),
   "bgzip -c $prefix.vcf > $prefix.vcf.gz",
