@@ -39,11 +39,11 @@ COPY configs/insaflu_tmp_path.conf /tmp_install/configs/insaflu_tmp_path.conf
 RUN sh /tmp_install/install_website_dependencies.sh
 RUN sh /tmp_install/install_website.sh
 
-#COPY install_miniconda.sh /tmp_install/
-#RUN sh /tmp_install/install_miniconda.sh
+COPY install_miniconda.sh /tmp_install/
+RUN sh /tmp_install/install_miniconda.sh
 
-#COPY install_software.sh /tmp_install/
-#RUN sh /tmp_install/install_software.sh
+COPY install_software.sh /tmp_install/
+RUN sh /tmp_install/install_software.sh
 
 COPY install_finish.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
