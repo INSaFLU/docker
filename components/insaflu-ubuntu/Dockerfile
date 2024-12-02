@@ -21,7 +21,9 @@ RUN mkdir -p /tmp_install
 ENV APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
 
-ADD */ /tmp_install/
+ADD configs/ /tmp_install/configs/
+ADD commands/ /tmp_install/commands/
+ADD software/ /tmp_install/software/
 #ADD configs/ /tmp_install/configs/
 ADD *.sh /tmp_install/
 
