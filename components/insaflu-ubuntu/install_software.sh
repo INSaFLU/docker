@@ -59,8 +59,10 @@ if [ $? -ne 0 ]; then
 fi
 
 ### fastq-tools
+echo "Install PCRE"
+apt install libpcre3 libpcre3-dev -y
 echo "Install fastq-tools"
-cd /software && wget -O fastq-tools-0.8.tar.gz https://github.com/dcjones/fastq-tools/archive/v0.8.tar.gz && tar -zxvf fastq-tools-0.8.tar.gz; rm fastq-tools-0.8.tar.gz; mv fastq-tools-0.8 fastq-tools && cd /software/fastq-tools && ./autogen.sh && ./configure && make
+cd /software && wget -O fastq-tools-0.8.tar.gz https://github.com/dcjones/fastq-tools/archive/v0.8.3.tar.gz && tar -zxvf fastq-tools-0.8.tar.gz; rm fastq-tools-0.8.tar.gz; mv fastq-tools-0.8.3 fastq-tools && cd /software/fastq-tools && ./autogen.sh && ./configure && make
 if [ $? -ne 0 ]; then
     echo "Error installing fastq-tools"
     exit 1
