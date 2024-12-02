@@ -21,32 +21,34 @@ RUN mkdir -p /tmp_install
 ENV APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
 
-COPY */ /tmp_install/
-COPY entrypoint.sh /entrypoint.sh
+ADD */ /tmp_install/
+#ADD configs/ /tmp_install/configs/
+ADD *.sh /tmp_install/
+
+#COPY entrypoint.sh /entrypoint.sh
 
 # To reduce the number of layers
-COPY install_system_pkgs.sh /tmp_install/
+#COPY install_system_pkgs.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
 
-COPY install_apache.sh /tmp_install/
-COPY configs/insaflu.conf /tmp_install/configs/insaflu.conf
+#COPY install_apache.sh /tmp_install/
+#COPY configs/insaflu.conf /tmp_install/configs/insaflu.conf
 RUN sh /tmp_install/install_apache.sh
 
 USER root
-COPY install_website.sh /tmp_install/
-COPY configs/insaflu.env /tmp_install/configs/insaflu.env
-COPY configs/insaflu_tmp_path.conf /tmp_install/configs/insaflu_tmp_path.conf
+#COPY install_website.sh /tmp_install/
+#COPY configs/insaflu.env /tmp_install/configs/insaflu.env
+#COPY configs/insaflu_tmp_path.conf /tmp_install/configs/insaflu_tmp_path.conf
 RUN sh /tmp_install/install_website_dependencies.sh
 RUN sh /tmp_install/install_website.sh
 
-COPY install_miniconda.sh /tmp_install/
-ADD software/ /tmp_install/software/
+#COPY install_miniconda.sh /tmp_install/
 RUN sh /tmp_install/install_miniconda.sh
 
-COPY install_software.sh /tmp_install/
+#COPY install_software.sh /tmp_install/
 RUN sh /tmp_install/install_software.sh
 
-COPY install_finish.sh /tmp_install/
+#COPY install_finish.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
 
 
