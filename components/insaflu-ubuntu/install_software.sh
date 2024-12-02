@@ -28,7 +28,11 @@ fi
 
 ### abricate
 echo "Install abricate"
-cd /software && git clone --branch v0.8.4 https://github.com/tseemann/abricate.git && mv /tmp_install/software/abricate/nextstrain /software/abricate/db/
+cd /software
+if [ -d /software/abricate ]; then
+    rm -rf /software/abricate
+fi
+git clone --branch v0.8.4 https://github.com/tseemann/abricate.git && mv /tmp_install/software/abricate/nextstrain /software/abricate/db/
 if [ $? -ne 0 ]; then
     echo "Error installing abricate"
     exit 1
@@ -36,6 +40,10 @@ fi
 
 ### bamtools
 echo "Install bamtools"
+cd /software
+if [ -d /software/bamtools ]; then
+    rm -rf /software/bamtools
+fi
 git clone --branch v2.5.1 https://github.com/pezmaster31/bamtools.git && cd bamtools && mkdir build && cd build && cmake3 .. && make
 if [ $? -ne 0 ]; then
     echo "Error installing bamtools"
@@ -68,7 +76,12 @@ fi
 
 ### freebayes
 echo "Install freebayes"
-cd /software && git clone --branch v1.2.0 --recursive https://github.com/ekg/freebayes.git && cd freebayes && make
+
+cd /software
+if [ -d /software/freebayes ]; then
+    rm -rf /software/freebayes
+fi
+git clone --branch v1.2.0 --recursive https://github.com/ekg/freebayes.git && cd freebayes && make
 if [ $? -ne 0 ]; then
     echo "Error installing freebayes"
     exit 1
