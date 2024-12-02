@@ -40,6 +40,7 @@ RUN sh /tmp_install/install_website_dependencies.sh
 RUN sh /tmp_install/install_website.sh
 
 COPY install_miniconda.sh /tmp_install/
+ADD software/ /tmp_install/software/
 RUN sh /tmp_install/install_miniconda.sh
 
 COPY install_software.sh /tmp_install/
