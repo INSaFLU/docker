@@ -28,7 +28,7 @@ ADD *.sh /tmp_install/
 
 
 # To reduce the number of layers
-#RUN sh /tmp_install/install_system_pkgs.sh
+RUN sh /tmp_install/install_system_pkgs.sh
 #RUN sh /tmp_install/install_apache.sh
 
 USER root
