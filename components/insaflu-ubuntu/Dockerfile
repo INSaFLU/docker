@@ -23,7 +23,7 @@ RUN useradd -ms /bin/bash ${APP_USER}
 
 ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/
-ADD software/ /tmp_install/software/
+ADD software/ /software/
 ADD *.sh /tmp_install/
 
 
