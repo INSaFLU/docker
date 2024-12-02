@@ -15,6 +15,7 @@ LABEL vendor=INSA\
       pt.insa.insaflu.release-date="2023-06-13"
 
 RUN mkdir -p /tmp_install
+RUN mkdir -p /software
 
 
 
@@ -23,7 +24,7 @@ RUN useradd -ms /bin/bash ${APP_USER}
 
 ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/
-ADD software/ /software/
+ADD software/ /tmp_install/software/
 ADD *.sh /tmp_install/
 
 
