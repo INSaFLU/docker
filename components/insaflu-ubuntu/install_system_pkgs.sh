@@ -18,7 +18,6 @@ install_pyenv() {
     
     echo 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
     
-    
     ~/.pyenv/bin/pyenv install 3.8.3
     ~/.pyenv/bin/pyenv global 3.8.3
     
