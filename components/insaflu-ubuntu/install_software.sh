@@ -26,6 +26,15 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+## medaka
+echo "Install medaka"
+sh /tmp_install/software/install_soft_medaka.sh && mv /tmp_install/software/medaka/bwa /software/medaka/bin/ && chmod a+x /software/medaka/bin/bwa && mv /tmp_install/software/medaka/ivar /software/medaka/bin/ && chmod a+x /software/medaka/bin/ivar && mv /tmp_install/software/medaka/bedtools /software/medaka/bin/ && chmod a+x /software/medaka/bin/bedtools && mv /tmp_install/software/medaka/run_check_consensus /software/medaka/bin/ && chmod a+x /software/medaka/bin/run_check_consensus && mv /tmp_install/software/medaka/medaka_consensus /software/medaka/bin/ && chmod a+x /software/medaka/bin/medaka_consensus
+if [ $? -ne 0 ]; then
+    echo "Error installing Medaka"
+    exit 1
+fi
+
+
 ### abricate
 echo "Install abricate"
 cd /software
@@ -166,16 +175,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-###
+### RabbitQC
 cd /software && wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip && unzip v0.0.1.zip && rm -f v0.0.1.zip && mv RabbitQC-0.0.1/ RabbitQC && cd RabbitQC && sed 's/ -static//' Makefile > temp.txt && mv -f temp.txt Makefile && make && pip3 install nanostat==1.5.0 && pip3 install nanofilt==2.7.1
-
-## medaka
-echo "Install medaka"
-sh /tmp_install/software/install_soft_medaka.sh && mv /tmp_install/software/medaka/bwa /software/medaka/bin/ && chmod a+x /software/medaka/bin/bwa && mv /tmp_install/software/medaka/ivar /software/medaka/bin/ && chmod a+x /software/medaka/bin/ivar && mv /tmp_install/software/medaka/bedtools /software/medaka/bin/ && chmod a+x /software/medaka/bin/bedtools && mv /tmp_install/software/medaka/run_check_consensus /software/medaka/bin/ && chmod a+x /software/medaka/bin/run_check_consensus && mv /tmp_install/software/medaka/medaka_consensus /software/medaka/bin/ && chmod a+x /software/medaka/bin/medaka_consensus
-if [ $? -ne 0 ]; then
-    echo "Error installing Medaka"
-    exit 1
-fi
 
 ## pangolin
 #echo "Install pangolin"
