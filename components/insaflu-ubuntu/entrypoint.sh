@@ -15,11 +15,11 @@ if [ "$1" = "init_all" ]; then
     cd /insaflu_web/INSaFLU; python3 manage.py migrate;
     
     echo "---> Load default files  ..."
-    if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
-        echo "---> Set prokka default databases  ..."
-        ## for fresh prokka instalations
-        /software/prokka/bin/prokka --setupdb
-    fi
+    #if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
+    #    echo "---> Set prokka default databases  ..."
+    #    ## for fresh prokka instalations
+    #    /software/prokka/bin/prokka --setupdb
+    #fi
     cd /insaflu_web/INSaFLU; python3 manage.py load_default_files;
     cd /insaflu_web/INSaFLU; python3 manage.py load_default_settings;
     
