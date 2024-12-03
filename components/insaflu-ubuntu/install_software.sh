@@ -151,7 +151,8 @@ fi
 
 ### spades : it is better to recompile as in some instances (eg. windows WSL2) the precompiled does not work
 echo "Install spades"
-cd /software && wget https://github.com/ablab/spades/releases/download/v3.11.1/SPAdes-3.11.1.tar.gz && tar -xzf SPAdes-3.11.1.tar.gz && rm SPAdes-3.11.1.tar.gz && mv SPAdes-3.11.1 SPAdes-3.11.1-Linux && cd SPAdes-3.11.1-Linux && sh spades_compile.sh && sed s'~#!/usr/bin/env python~#!/usr/bin/env python3~' bin/spades.py > bin/spades_temp.py && mv bin/spades_temp.py bin/spades.py &&  chmod a+x bin/spades.py
+#cd /software && wget https://github.com/ablab/spades/releases/download/v3.11.1/SPAdes-3.11.1.tar.gz && tar -xzf SPAdes-3.11.1.tar.gz && rm SPAdes-3.11.1.tar.gz && mv SPAdes-3.11.1 SPAdes-3.11.1-Linux && cd SPAdes-3.11.1-Linux && sh spades_compile.sh && sed s'~#!/usr/bin/env python~#!/usr/bin/env python3~' bin/spades.py > bin/spades_temp.py && mv bin/spades_temp.py bin/spades.py &&  chmod a+x bin/spades.py
+cd /software && wget https://github.com/ablab/spades/releases/download/v4.0.0/SPAdes-4.0.0.tar.gz && tar -xzf SPAdes-4.0.0.tar.gz && rm SPAdes-4.0.0.tar.gz && mv SPAdes-4.0.0 SPAdes-4.0.0-Linux && cd SPAdes-4.0.0-Linux && sh spades_compile.sh && chmod a+x bin/spades.py
 if [ $? -ne 0 ]; then
     echo "Error installing SPAdes"
     exit 1
