@@ -12,18 +12,5 @@ if [ $? -ne 0 ]; then
     echo "Error installing system packages"
     exit 1
 fi
-apt install -y python3-pip
-#exec "$SHELL"
 
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-
-echo 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
-
-
-~/.pyenv/bin/pyenv install 3.8.3
-~/.pyenv/bin/pyenv global 3.8.3
-
-pip3  install --upgrade pip
 pip3 install Cython  mod_wsgi-standalone
