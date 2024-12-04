@@ -5,7 +5,6 @@ volumes:
   etc_munge:
   etc_slurm:
   slurm_jobdir:
-  var_lib_mysql:
   var_log_slurm:
   insaflu-website:
   insaflu-software:
@@ -153,7 +152,7 @@ services:
     expose:
       - "6819"
     depends_on:
-      - mysql
+      - "db_insaflu"
     networks:
       - slurm-network
 
