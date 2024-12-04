@@ -55,7 +55,7 @@ install_system_packages() {
         exit 1
     fi
     
-    apt-get install dos2unix parallel postgis postgresql-contrib postgresql bash file binutils gzip git unzip wget default-jdk default-jre perl libperl-dev libtime-piece-perl libxml-simple-perl libdigest-perl-md5-perl libmodule-build-perl libfile-slurp-unicode-perl libtest-simple-perl gcc zlib1g libbz2-dev xz-utils cmake g++ autoconf bzip2 lib32stdc++6 automake libtool -y
+    apt-get install dos2unix parallel postgis postgresql-contrib postgresql bash file binutils gzip git unzip wget default-jdk default-jre perl libconfig-yaml-perl libperl-dev libtime-piece-perl libxml-simple-perl libdigest-perl-md5-perl libmodule-build-perl libfile-slurp-unicode-perl libtest-simple-perl gcc zlib1g libbz2-dev xz-utils cmake g++ autoconf bzip2 lib32stdc++6 automake libtool -y
     if [ $? -ne 0 ]; then
         echo "Error installing various utilities and libraries"
         exit 1
