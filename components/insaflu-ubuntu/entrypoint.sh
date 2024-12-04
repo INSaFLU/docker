@@ -20,8 +20,8 @@ if [ "$1" = "init_all" ]; then
     #    ## for fresh prokka instalations
     #    /software/prokka/bin/prokka --setupdb
     #fi
-    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_files;
-    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_settings;
+    #cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_files;
+    #cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_settings;
     
     ## update pangolin if necessary
     cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py update_pangolin;
@@ -49,7 +49,7 @@ if [ "$1" = "init_all" ]; then
     
     # for televir
     if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
-        cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py generate_default_trees; /usr/bin/python3 manage.py register_references_on_file -o /tmp/insaFlu/register
+        cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py generate_default_trees; #/usr/bin/python3 manage.py register_references_on_file -o /tmp/insaFlu/register
         
     fi
     

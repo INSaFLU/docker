@@ -2,6 +2,13 @@ version: '3.4'
 
 ### places where the most important data is
 volumes:
+  etc_munge:
+  etc_slurm:
+  slurm_jobdir:
+  var_lib_mysql:
+  var_log_slurm:
+  insaflu-website:
+  insaflu-software:
 
   pg_data:
     driver: local-persist
@@ -31,6 +38,7 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/televir/
+
 ### this is necessary to set an ip to SGE in insaflu
 networks:
   insaflu_net:
@@ -39,6 +47,9 @@ networks:
       driver: default
       config:
         - subnet: 10.1.0.0/24
+
+  slurm-network:
+    driver: bridge
 
 services:
   # DB for Insaflu
@@ -105,6 +116,8 @@ services:
       - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
       - insaflu-ubuntu-log-insaflu:/var/log/insaFlu
       - insaflu-ubuntu-log-httpd:/var/log/httpd
+      - insaflu-website:/insaflu_web/INSaFLU
+      - insaflu-software:/software
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
@@ -122,3 +135,79 @@ services:
       insaflu_net:
         ipv4_address: 10.1.0.4
     command: [ "init_all" ]
+
+
+  slurmdbd:
+    image: slurm-docker-cluster:${IMAGE_TAG}
+    build:
+      context: components/slurm/.
+      args:
+        SLURM_TAG: ${SLURM_TAG}
+    command: ["slurmdbd"]
+    container_name: slurmdbd
+    hostname: slurmdbd
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - var_log_slurm:/var/log/slurm
+    expose:
+      - "6819"
+    depends_on:
+      - mysql
+    networks:
+      - slurm-network
+
+  slurmctld:
+    image: slurm-docker-cluster:${IMAGE_TAG}
+    command: ["slurmctld"]
+    container_name: slurmctld
+    hostname: slurmctld
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - slurm_jobdir:/data
+      - var_log_slurm:/var/log/slurm
+    expose:
+      - "6817"
+    depends_on:
+      - "slurmdbd"
+    networks:
+      - slurm-network
+
+  c1:
+    image: slurm-docker-cluster:${IMAGE_TAG}
+    command: ["slurmd"]
+    hostname: c1
+    container_name: c1
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - slurm_jobdir:/data
+      - var_log_slurm:/var/log/slurm
+      - insaflu-website:/insaflu_web/INSaFLU
+      - insaflu-software:/software
+    expose:
+      - "6818"
+    depends_on:
+      - "slurmctld"
+    networks:
+      - slurm-network
+
+  c2:
+    image: slurm-docker-cluster:${IMAGE_TAG}
+    command: ["slurmd"]
+    hostname: c2
+    container_name: c2
+    volumes:
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+      - slurm_jobdir:/data
+      - var_log_slurm:/var/log/slurm
+      - insaflu-website:/insaflu_web/INSaFLU  
+      - insaflu-software:/software
+    expose:
+      - "6818"
+    depends_on:
+      - "slurmctld"
+    networks:
+      - slurm-network

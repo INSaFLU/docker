@@ -24,6 +24,20 @@ install_pyenv() {
     pip3  install --upgrade pip
 }
 
+install_python310() {
+    apt install -y python3-pip
+    if [ $? -ne 0 ]; then
+        echo "Error installing python3-pip"
+        exit 1
+    fi
+    
+    apt install python3.10 -y
+    if [ $? -ne 0 ]; then
+        echo "Error installing python3.10"
+        exit 1
+    fi
+}
+
 install_system_packages() {
     apt update -y
     if [ $? -ne 0 ]; then
@@ -67,7 +81,8 @@ install_system_packages() {
         exit 1
     fi
     
-    install_pyenv
+    #install_pyenv
+    install_python310
     
 }
 
