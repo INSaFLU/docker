@@ -45,4 +45,3 @@ RUN sh /tmp_install/install_finish.sh
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
 
 ENTRYPOINT ["/entrypoint.sh"]
-
