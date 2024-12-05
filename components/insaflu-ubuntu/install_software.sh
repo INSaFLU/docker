@@ -53,7 +53,7 @@ cd /software
 if [ -d /software/bamtools ]; then
     rm -rf /software/bamtools
 fi
-git clone --branch v2.5.1 https://github.com/pezmaster31/bamtools.git && cd bamtools && mkdir build && cd build && cmake .. && make
+git clone --branch v2.5.2 https://github.com/pezmaster31/bamtools.git && cd bamtools && mkdir build && cd build && cmake .. && make
 if [ $? -ne 0 ]; then
     echo "Error installing bamtools"
     exit 1
