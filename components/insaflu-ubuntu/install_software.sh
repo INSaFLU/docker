@@ -92,7 +92,7 @@ cd /software
 if [ -d /software/freebayes ]; then
     rm -rf /software/freebayes
 fi
-git clone --branch v1.2.0 --recursive https://github.com/ekg/freebayes.git && cd freebayes && make
+git clone --branch v1.3.8 --recursive https://github.com/ekg/freebayes.git && cd freebayes && make
 if [ $? -ne 0 ]; then
     echo "Error installing freebayes"
     exit 1
