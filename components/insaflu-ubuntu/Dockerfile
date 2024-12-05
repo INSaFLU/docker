@@ -35,8 +35,8 @@ RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
 USER root
 
-#RUN sh /tmp_install/install_website_dependencies.sh
-#RUN sh /tmp_install/install_website.sh
+RUN sh /tmp_install/install_website_dependencies.sh
+RUN sh /tmp_install/install_website.sh
 
 #RUN sh /tmp_install/install_miniconda.sh
 #RUN sh /tmp_install/install_software.sh
