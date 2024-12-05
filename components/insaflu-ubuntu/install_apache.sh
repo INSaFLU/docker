@@ -3,7 +3,7 @@ set -e
 
 echo "Install Apache"
 apt update -y
-apt install apache2 apache2-utils ssl-cert libapache2-mod-wsgi-py3 -y
+apt install apache2 apache2-utils ssl-cert libapache2-mod-wsgi-py3 apache2-dev -y
 
 apt install software-properties-common -y
 #add-apt-repository ppa:ubuntugis/ppa && apt-get update
