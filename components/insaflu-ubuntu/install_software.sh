@@ -87,12 +87,12 @@ fi
 
 ### freebayes
 echo "Install freebayes"
-
+# sudo apt-get install bc samtools parallel meson ninja-build libvcflib-tools vcftools -y
 cd /software
 if [ -d /software/freebayes ]; then
     rm -rf /software/freebayes
 fi
-git clone --branch v1.3.8 --recursive https://github.com/ekg/freebayes.git && cd freebayes && make
+git clone --branch v1.3.6 --recursive https://github.com/ekg/freebayes.git && cd freebayes && wget https://github.com/freebayes/freebayes/releases/download/v1.3.6/freebayes-1.3.6-linux-amd64-static.gz && gunzip freebayes-1.3.6-linux-amd64-static.gz && mkdir bin && mv freebayes-1.3.6-linux-amd64-static bin/freebayes && chmod a+x bin/freebayes
 if [ $? -ne 0 ]; then
     echo "Error installing freebayes"
     exit 1
