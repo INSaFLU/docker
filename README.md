@@ -129,6 +129,10 @@ TELEVIR offers a modular workflow framework, where each module can have multiple
 
 To configure installation, modify the file `components/televir/config_install.py` and set the variables to `True` or `False` according to the software you want to install. Then run the commands "./build.sh" and "./up_televir.sh" to install the software.
 
+#### Update TELEVIR databases
+
+To update TELEVIR databases, modify the file `components/televir/config_install.py` and set the variable UPDATE to `True`. Then run the commands "./build.sh" and "./up_televir.sh" to update the databases. This will update the centrifuge index and the refseq nucleotide reference database.
+
 ### TELEVIR+
 
 TELEVIR local installation makes available aditional databases not available in the web version. These databases are:
