@@ -108,7 +108,7 @@ fi
 
 ### mafft
 echo "Install mafft"
-cd /software && wget --no-check-certificate -O mafft-7.453-without-extensions-src.tgz https://mafft.cbrc.jp/alignment/software/mafft-7.453-without-extensions-src.tgz && tar -zxvf mafft-7.453-without-extensions-src.tgz && rm mafft-7.453-without-extensions-src.tgz && cd /software/mafft-7.453-without-extensions/core && make clean && make
+cd /software && wget --no-check-certificate -O mafft-7.525-without-extensions-src.tgz https://mafft.cbrc.jp/alignment/software/mafft-7.525-without-extensions-src.tgz && tar -zxvf mafft-7.525-without-extensions-src.tgz && rm mafft-7.525-without-extensions-src.tgz && cd /software/mafft-7.525-without-extensions/core && make clean && make
 if [ $? -ne 0 ]; then
     echo "Error installing mafft"
     exit 1
@@ -123,9 +123,10 @@ if [ $? -ne 0 ]; then
 fi
 
 ### prokka
+################## ACTION NEEDED
+################## new version, check if we still need to be copying tbl2asn script
 echo "Install prokka"
-#cd /software && git clone --branch v1.12 https://github.com/tseemann/prokka.git && cd extra_software && wget -O tbl2asn.gz ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux64.tbl2asn.gz && gunzip tbl2asn.gz && chmod +x tbl2asn && mv tbl2asn /software/prokka/binaries/linux
-cd /software && git clone --branch v1.12 https://github.com/tseemann/prokka.git && mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
+cd /software && git clone --branch v1.14.5 https://github.com/tseemann/prokka.git && mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
 if [ $? -ne 0 ]; then
     echo "Error installing prokka"
     exit 1
@@ -136,7 +137,20 @@ mv /tmp_install/software/scripts /software/
 
 ### snippy
 echo "Install snippy"
-cd /software && git clone --branch v3.2 https://github.com/tseemann/snippy.git && ln -s snippy/perl5 perl5 && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence && mv /tmp_install/software/snippy/msa_masker.py /software/snippy/bin/ && chmod a+x /software/snippy/bin/msa_masker.py && mv /tmp_install/software/snippy/ivar /software/snippy/binaries/linux/ && chmod a+x /software/snippy/binaries/linux/ivar && mv /tmp_install/software/snippy/bedtools /software/snippy/binaries/linux/ && chmod a+x /software/snippy/binaries/linux/bedtools && mv /tmp_install/software/snippy/run_check_consensus /software/snippy/binaries/linux/ && chmod a+x /software/snippy/binaries/linux/run_check_consensus && mv /tmp_install/software/snippy/snippy /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy
+cd /software && git clone --branch v3.2 https://github.com/tseemann/snippy.git \
+&& ln -s snippy/perl5 perl5 && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/ \
+&& chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq \
+&& mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/ \
+&& chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq_and_evidence \
+&& mv /tmp_install/software/snippy/msa_masker.py /software/snippy/bin/ \
+&& chmod a+x /software/snippy/bin/msa_masker.py \
+&& mv /tmp_install/software/snippy/ivar /software/snippy/binaries/linux/ \
+&& chmod a+x /software/snippy/binaries/linux/ivar \
+&& mv /tmp_install/software/snippy/bedtools /software/snippy/binaries/linux/ \
+&& chmod a+x /software/snippy/binaries/linux/bedtools \
+&& mv /tmp_install/software/snippy/run_check_consensus /software/snippy/binaries/linux/ \
+&& chmod a+x /software/snippy/binaries/linux/run_check_consensus \
+&& mv /tmp_install/software/snippy/snippy /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy
 if [ $? -ne 0 ]; then
     echo "Error installing snippy"
     exit 1

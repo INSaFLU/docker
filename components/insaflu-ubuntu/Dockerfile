@@ -32,13 +32,13 @@ COPY cgroup.conf /etc/slurm-llnl/
 # To reduce the number of layers
 RUN sh /tmp_install/install_system_pkgs.sh
 RUN sh /tmp_install/install_apache.sh
-RUN sh /tmp_install/install_slurm.sh
+#RUN sh /tmp_install/install_slurm.sh
 USER root
 
-RUN sh /tmp_install/install_website_dependencies.sh
-RUN sh /tmp_install/install_website.sh
+#RUN sh /tmp_install/install_website_dependencies.sh
+#RUN sh /tmp_install/install_website.sh
 
-RUN sh /tmp_install/install_miniconda.sh
+#RUN sh /tmp_install/install_miniconda.sh
 RUN sh /tmp_install/install_software.sh
 RUN sh /tmp_install/install_finish.sh
 
