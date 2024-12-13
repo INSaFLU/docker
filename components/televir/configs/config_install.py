@@ -44,8 +44,6 @@ class TelevirLayout:
     install_diamond = True
     install_minimap2 = True
     install_fastviromeexplorer = True
-    install_clark = False
-    install_desamba = False
     install_blast = True
 
     # assemblers.
