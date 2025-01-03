@@ -2,40 +2,38 @@ FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docker-cluster" \
     org.opencontainers.image.title="slurm-docker-cluster" \
-    org.opencontainers.image.description="Slurm Docker cluster on Rocky Linux 8" \
+    org.opencontainers.image.description="Slurm Docker cluster on Ubuntu 20.04" \
     org.label-schema.docker.cmd="docker-compose up -d" \
     maintainer="Giovanni Torres"
 
 RUN set -ex \
-    && yum makecache \
-    && yum -y update \
-    && yum -y install dnf-plugins-core \
-    && yum config-manager --set-enabled powertools \
-    && yum -y install \
+    && apt-get update \
+    && apt-get -y upgrade \
+    && apt-get -y install \
     wget \
     bzip2 \
     perl \
     gcc \
-    gcc-c++\
+    g++ \
     git \
     gnupg \
     make \
     munge \
-    munge-devel \
-    python3-devel \
+    libmunge-dev \
+    python3-dev \
     python3-pip \
     python3 \
     mariadb-server \
-    mariadb-devel \
+    libmariadb-dev \
     psmisc \
     bash-completion \
-    vim-enhanced \
-    http-parser-devel \
-    json-c-devel \
-    && yum clean all \
-    && rm -rf /var/cache/yum
+    vim \
+    libhttp-parser-dev \
+    libjson-c-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN alternatives --set python /usr/bin/python3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 RUN pip3 install Cython pytest
 
@@ -57,7 +55,7 @@ RUN set -x \
     && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
     && pushd slurm \
     && ./configure --enable-debug --prefix=/usr --sysconfdir=/etc/slurm \
-    --with-mysql_config=/usr/bin  --libdir=/usr/lib64 \
+    --with-mysql_config=/usr/bin  --libdir=/usr/lib/x86_64-linux-gnu \
     && make install \
     && install -D -m644 etc/cgroup.conf.example /etc/slurm/cgroup.conf.example \
     && install -D -m644 etc/slurm.conf.example /etc/slurm/slurm.conf.example \
@@ -84,14 +82,13 @@ RUN set -x \
     /var/lib/slurmd/qos_usage \
     /var/lib/slurmd/fed_mgr_state \
     && chown -R slurm:slurm /var/*/slurm* \
-    && /sbin/create-munge-key
+    && /usr/sbin/create-munge-key
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
     && chmod 600 /etc/slurm/slurmdbd.conf
-
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
