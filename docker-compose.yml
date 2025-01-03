@@ -138,6 +138,20 @@ services:
         ipv4_address: 10.1.0.4
     command: [ "init_all" ]
 
+  mysql:
+    image: mariadb:10.11
+    hostname: mysql
+    container_name: mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: slurm_acct_db
+      MYSQL_USER: slurm
+      MYSQL_PASSWORD: password
+    volumes:
+      - var_lib_mysql:/var/lib/mysql
+    networks:
+      - slurm-network
+
   slurmdbd:
     image: slurm-docker-cluster:${IMAGE_TAG}
     build:
