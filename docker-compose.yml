@@ -110,7 +110,7 @@ services:
     hostname: insaflu
     restart: "on-failure"
     volumes:
-      - televir:/televir/mngs_benchmark    
+      - televir:/televir/mngs_benchmark
       - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media
       - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
@@ -118,6 +118,7 @@ services:
       - insaflu-ubuntu-log-httpd:/var/log/httpd
       - insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
+      - slurm_jobdir:/data
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
@@ -211,6 +212,8 @@ services:
       - var_log_slurm:/var/log/slurm
       - insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
+      - televir:/televir/mngs_benchmark
+
     expose:
       - "6818"
     depends_on:
@@ -234,6 +237,8 @@ services:
       - var_log_slurm:/var/log/slurm
       - insaflu-website:/insaflu_web/INSaFLU  
       - insaflu-software:/software
+      - televir:/televir/mngs_benchmark
+
     expose:
       - "6818"
     depends_on:

@@ -26,8 +26,7 @@ ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/
 ADD software/ /tmp_install/software/
 ADD *.sh /tmp_install/
-COPY slurm.conf /etc/slurm-llnl/
-COPY cgroup.conf /etc/slurm-llnl/
+
 
 
 RUN sh /tmp_install/install_system_pkgs.sh
@@ -43,5 +42,64 @@ RUN sh /tmp_install/install_software.sh
 RUN sh /tmp_install/install_finish.sh
 
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
+
+## slurm configuration
+
+RUN set -ex \
+      && apt-get update \
+      gnupg \
+      munge \
+      libmunge-dev \
+      libhttp-parser-dev \
+      libjson-c-dev
+
+
+ARG SLURM_TAG
+
+RUN set -x \
+      && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
+      && cd slurm \
+      && ./configure --enable-debug --prefix=/usr --sysconfdir=/etc/slurm \
+      --with-mysql_config=/usr/bin  --libdir=/usr/lib/x86_64-linux-gnu \
+      && make install \
+      && install -D -m644 etc/cgroup.conf.example /etc/slurm/cgroup.conf.example \
+      && install -D -m644 etc/slurm.conf.example /etc/slurm/slurm.conf.example \
+      && install -D -m644 etc/slurmdbd.conf.example /etc/slurm/slurmdbd.conf.example \
+      && install -D -m644 contribs/slurm_completion_help/slurm_completion.sh /etc/profile.d/slurm_completion.sh \
+      && cd .. \
+      && rm -rf slurm \
+      && groupadd -r --gid=990 slurm \
+      && useradd -r -g slurm --uid=990 slurm \
+      && mkdir -p /etc/sysconfig/slurm \
+      /var/spool/slurmd \
+      /var/run/slurmd \
+      /var/run/slurmdbd \
+      /var/lib/slurmd \
+      /var/log/slurm \
+      /data 
+
+RUN touch /var/lib/slurmd/node_state \
+      /var/lib/slurmd/front_end_state \
+      /var/lib/slurmd/job_state \
+      /var/lib/slurmd/resv_state \
+      /var/lib/slurmd/trigger_state \
+      /var/lib/slurmd/assoc_mgr_state \
+      /var/lib/slurmd/assoc_usage \
+      /var/lib/slurmd/qos_usage \
+      /var/lib/slurmd/fed_mgr_state \
+      && chown -R slurm:slurm /var/*/slurm* \
+      && /usr/sbin/create-munge-key
+
+COPY slurm.conf /etc/slurm/slurm.conf
+COPY cgroup.conf /etc/slurm/cgroup.conf 
+COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
+RUN set -x \
+      && chown slurm:slurm /etc/slurm/slurmdbd.conf \
+      && chmod 600 /etc/slurm/slurmdbd.conf
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
+
 
 ENTRYPOINT ["/entrypoint.sh"]
