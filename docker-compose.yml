@@ -124,6 +124,7 @@ services:
     depends_on:
       - db_insaflu
       - officer
+      - slurmctld
     environment:
       - SGE_ROOT=/opt/sge
     ports:
@@ -136,6 +137,7 @@ services:
     command: [ "init_all" ]
 
   slurmdbd:
+    image: slurm-docker-cluster:${IMAGE_TAG}
     build:
       context: components/slurm/.
       args:
