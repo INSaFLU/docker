@@ -92,6 +92,8 @@ RUN set -x \
     && chmod 600 /etc/slurm/slurmdbd.conf
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 CMD ["slurmdbd"]

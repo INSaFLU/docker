@@ -125,6 +125,8 @@ services:
       - db_insaflu
       - officer
       - slurmctld
+      - c1
+      - c2
     environment:
       - SGE_ROOT=/opt/sge
     ports:
