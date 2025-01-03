@@ -56,3 +56,7 @@ class TelevirLayout:
     # technology setup (exclusive technologies. overrides info above).
     install_illumina = True
     install_nanopore = True
+
+    # check files
+    check_index_files = False
+

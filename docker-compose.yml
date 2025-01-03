@@ -136,7 +136,6 @@ services:
     command: [ "init_all" ]
 
   slurmdbd:
-    image: slurm-docker-cluster:${IMAGE_TAG}
     build:
       context: components/slurm/.
       args:
@@ -156,7 +155,6 @@ services:
       - slurm-network
 
   slurmctld:
-    image: slurm-docker-cluster:${IMAGE_TAG}
     command: ["slurmctld"]
     container_name: slurmctld
     hostname: slurmctld

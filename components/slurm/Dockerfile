@@ -1,4 +1,4 @@
-FROM rockylinux:8
+FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docker-cluster" \
     org.opencontainers.image.title="slurm-docker-cluster" \
