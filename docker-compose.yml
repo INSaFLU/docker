@@ -6,6 +6,7 @@ volumes:
   etc_slurm:
   slurm_jobdir:
   var_log_slurm:
+  var_lib_mysql:
   insaflu-website:
   insaflu-software:
 
