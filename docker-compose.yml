@@ -155,6 +155,11 @@ services:
       - slurm-network
 
   slurmctld:
+    image: slurm-docker-cluster:${IMAGE_TAG}
+    build:
+      context: components/slurm/.
+      args:
+        SLURM_TAG: ${SLURM_TAG}
     command: ["slurmctld"]
     container_name: slurmctld
     hostname: slurmctld
@@ -172,6 +177,10 @@ services:
 
   c1:
     image: slurm-docker-cluster:${IMAGE_TAG}
+    build:
+      context: components/slurm/.
+      args:
+        SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]
     hostname: c1
     container_name: c1
@@ -191,6 +200,10 @@ services:
 
   c2:
     image: slurm-docker-cluster:${IMAGE_TAG}
+    build:
+      context: components/slurm/.
+      args:
+        SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]
     hostname: c2
     container_name: c2
