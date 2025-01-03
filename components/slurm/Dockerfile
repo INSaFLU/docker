@@ -53,7 +53,7 @@ ARG SLURM_TAG
 
 RUN set -x \
     && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
-    && pushd slurm \
+    && cd slurm \
     && ./configure --enable-debug --prefix=/usr --sysconfdir=/etc/slurm \
     --with-mysql_config=/usr/bin  --libdir=/usr/lib/x86_64-linux-gnu \
     && make install \
@@ -61,7 +61,7 @@ RUN set -x \
     && install -D -m644 etc/slurm.conf.example /etc/slurm/slurm.conf.example \
     && install -D -m644 etc/slurmdbd.conf.example /etc/slurm/slurmdbd.conf.example \
     && install -D -m644 contribs/slurm_completion_help/slurm_completion.sh /etc/profile.d/slurm_completion.sh \
-    && popd \
+    && cd .. \
     && rm -rf slurm \
     && groupadd -r --gid=990 slurm \
     && useradd -r -g slurm --uid=990 slurm \
