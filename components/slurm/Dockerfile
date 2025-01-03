@@ -65,14 +65,15 @@ RUN set -x \
     && rm -rf slurm \
     && groupadd -r --gid=990 slurm \
     && useradd -r -g slurm --uid=990 slurm \
-    && mkdir /etc/sysconfig/slurm \
+    && mkdir -p /etc/sysconfig/slurm \
     /var/spool/slurmd \
     /var/run/slurmd \
     /var/run/slurmdbd \
     /var/lib/slurmd \
     /var/log/slurm \
-    /data \
-    && touch /var/lib/slurmd/node_state \
+    /data 
+
+RUN touch /var/lib/slurmd/node_state \
     /var/lib/slurmd/front_end_state \
     /var/lib/slurmd/job_state \
     /var/lib/slurmd/resv_state \
