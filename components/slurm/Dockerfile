@@ -86,6 +86,7 @@ RUN touch /var/lib/slurmd/node_state \
     && /usr/sbin/create-munge-key
 
 COPY slurm.conf /etc/slurm/slurm.conf
+COPY cgroup.conf /etc/slurm/cgroup.conf 
 COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
