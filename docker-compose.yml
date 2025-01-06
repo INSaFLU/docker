@@ -141,6 +141,7 @@ services:
     networks:
       insaflu_net:
         ipv4_address: 10.1.0.4
+      slurm-network:
     command: [ "init_all" ]
 
   mysql:

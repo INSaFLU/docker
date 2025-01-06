@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docker-cluster" \
     org.opencontainers.image.title="slurm-docker-cluster" \
@@ -83,7 +83,7 @@ RUN touch /var/lib/slurmd/node_state \
     /var/lib/slurmd/qos_usage \
     /var/lib/slurmd/fed_mgr_state \
     && chown -R slurm:slurm /var/*/slurm* \
-    && /usr/sbin/create-munge-key
+    && /usr/sbin/mungekey
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY cgroup.conf /etc/slurm/cgroup.conf 

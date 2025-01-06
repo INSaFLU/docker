@@ -172,6 +172,8 @@ services:
       - "slurmdbd"
     networks:
       - slurm-network
+      insaflu_net:
+        ipv4_address: 10.1.0.3
 
   c1:
     image: slurm-docker-cluster:${IMAGE_TAG}

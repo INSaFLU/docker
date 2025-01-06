@@ -34,7 +34,7 @@ then
     echo "-- slurmdbd is now active ..."
     
     echo "---> Starting the Slurm Controller Daemon (slurmctld) ..."
-    if /usr/sbin/slurmctld -V | grep -q '21.08.6' ; then
+    if /usr/sbin/slurmctld -V | grep -q '21.08.8-2' ; then
         exec gosu slurm /usr/sbin/slurmctld -Dvvv
     else
         exec gosu slurm /usr/sbin/slurmctld -i -Dvvv
