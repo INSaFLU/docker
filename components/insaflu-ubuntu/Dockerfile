@@ -87,8 +87,7 @@ RUN touch /var/lib/slurmd/node_state \
       /var/lib/slurmd/assoc_usage \
       /var/lib/slurmd/qos_usage \
       /var/lib/slurmd/fed_mgr_state \
-      && chown -R slurm:slurm /var/*/slurm* \
-      && /usr/sbin/create-munge-key
+      && chown -R slurm:slurm /var/*/slurm*
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY cgroup.conf /etc/slurm/cgroup.conf 
