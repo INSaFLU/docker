@@ -47,6 +47,8 @@ ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/ka
 
 RUN set -ex \
       && apt-get update \
+      && apt-get -y upgrade \
+      && apt-get -y install \
       gnupg \
       munge \
       libmunge-dev \
