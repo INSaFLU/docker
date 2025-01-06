@@ -56,8 +56,6 @@ RUN set -ex \
       libjson-c-dev
 
 
-ARG SLURM_TAG
-
 RUN set -x \
       && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
       && cd slurm \
