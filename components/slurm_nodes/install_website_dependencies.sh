@@ -15,7 +15,7 @@ setup_website_dependencies() {
         exit 1
     fi
     
-    pip3 install Cython  mod_wsgi-standalone pytest
+    pip3 install Cython pytest
 }
 
 setup_website_requirements() {
