@@ -2,7 +2,6 @@ version: '3.4'
 
 ### places where the most important data is
 volumes:
-  etc_munge:
   etc_slurm:
   slurm_jobdir:
   var_log_slurm:
@@ -10,6 +9,10 @@ volumes:
   insaflu-website:
   insaflu-software:
 
+  etc_mung:
+    driver: local-persist
+    driver_opts:
+      mountpoint: ${BASE_PATH_DATA}/munge
   pg_data:
     driver: local-persist
     driver_opts:
@@ -122,6 +125,9 @@ services:
       - insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
       - slurm_jobdir:/data
+      - etc_munge:/etc/munge
+      - etc_slurm:/etc/slurm
+
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
