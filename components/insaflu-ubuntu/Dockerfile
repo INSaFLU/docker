@@ -37,8 +37,8 @@ USER root
 RUN sh /tmp_install/install_website_dependencies.sh
 RUN sh /tmp_install/install_website.sh
 
-RUN sh /tmp_install/install_miniconda.sh
-RUN sh /tmp_install/install_software.sh
+#RUN sh /tmp_install/install_miniconda.sh
+#RUN sh /tmp_install/install_software.sh
 RUN sh /tmp_install/install_finish.sh
 
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
@@ -49,6 +49,9 @@ RUN set -ex \
       && apt-get update \
       && apt-get -y upgrade \
       && apt-get -y install \
+      slurm-client munge \
+      libmunge-dev \
+      curl dirmngr apt-transport-https lsb-release ca-certificates \
       gnupg \
       munge \
       libmunge-dev \
