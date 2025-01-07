@@ -34,6 +34,9 @@ RUN set -ex \
     && rm -rf /var/lib/apt/lists/*
 
 ###### 
+
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN mkdir -p /tmp_install
 
 ADD *.sh /tmp_install/

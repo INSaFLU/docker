@@ -25,7 +25,7 @@ install_pyenv() {
 }
 
 install_python310() {
-    apt install -y python3-pip
+    apt install python3-pip -y
     if [ $? -ne 0 ]; then
         echo "Error installing python3-pip"
         exit 1
