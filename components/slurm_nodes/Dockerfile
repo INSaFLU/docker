@@ -33,10 +33,20 @@ RUN set -ex \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+###### 
+RUN mkdir -p /tmp_install
 
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+ADD *.sh /tmp_install/
 
-RUN pip3 install Cython pytest
+RUN sh /tmp_install/install_system_pkgs.sh
+
+RUN sh /tmp_install/install_website_dependencies.sh
+
+#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+#RUN pip3 install Cython pytest
+
+######
 
 ARG GOSU_VERSION=1.17
 

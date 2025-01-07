@@ -9,6 +9,7 @@ volumes:
   insaflu-website:
   insaflu-software:
   conda envs:
+  binaries:
 
   etc_munge:
     driver: local-persist
@@ -166,7 +167,7 @@ services:
       - slurm-network
 
   slurmdbd:
-    image: slurm-docker-cluster:${IMAGE_TAG}
+    image: slurm-docker-management:${IMAGE_TAG}
     build:
       context: components/slurm/.
       args:
@@ -186,7 +187,7 @@ services:
       - slurm-network
 
   slurmctld:
-    image: slurm-docker-cluster:${IMAGE_TAG}
+    image: slurm-docker-management:${IMAGE_TAG}
     build:
       context: components/slurm/.
       args:
@@ -208,9 +209,9 @@ services:
       - slurm-network
 
   c1:
-    image: slurm-docker-cluster:${IMAGE_TAG}
+    image: slurm-docker-nodes:${IMAGE_TAG}
     build:
-      context: components/slurm/.
+      context: components/slurm_nodes/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]
@@ -233,9 +234,9 @@ services:
       - slurm-network
 
   c2:
-    image: slurm-docker-cluster:${IMAGE_TAG}
+    image: slurm-docker-nodes:${IMAGE_TAG}
     build:
-      context: components/slurm/.
+      context: components/slurm_nodes/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]
