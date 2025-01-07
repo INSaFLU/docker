@@ -92,6 +92,9 @@ RUN touch /var/lib/slurmd/node_state \
       /var/lib/slurmd/fed_mgr_state \
       && chown -R slurm:slurm /var/*/slurm* 
 
+RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
+
+
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY cgroup.conf /etc/slurm/cgroup.conf 
 COPY slurmdbd.conf /etc/slurm/slurmdbd.conf

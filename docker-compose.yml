@@ -9,10 +9,6 @@ volumes:
   insaflu-website:
   insaflu-software:
 
-  etc_munge:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/munge
   pg_data:
     driver: local-persist
     driver_opts:
@@ -125,7 +121,6 @@ services:
       - insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
       - slurm_jobdir:/data
-      - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
 
     labels:
@@ -174,7 +169,6 @@ services:
     container_name: slurmdbd
     hostname: slurmdbd
     volumes:
-      - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - var_log_slurm:/var/log/slurm
     expose:
@@ -194,7 +188,6 @@ services:
     container_name: slurmctld
     hostname: slurmctld
     volumes:
-      - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
@@ -216,7 +209,6 @@ services:
     hostname: c1
     container_name: c1
     volumes:
-      - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
@@ -241,7 +233,6 @@ services:
     hostname: c2
     container_name: c2
     volumes:
-      - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
