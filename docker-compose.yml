@@ -9,7 +9,7 @@ volumes:
   insaflu-website:
   insaflu-software:
 
-  etc_mung:
+  etc_munge:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/munge
