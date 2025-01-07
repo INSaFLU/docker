@@ -33,6 +33,11 @@ RUN set -ex \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+###### 
+ADD *.sh /tmp_install/
+
+RUN sh /tmp_install/install_system_pkgs.sh
+
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 RUN pip3 install Cython pytest

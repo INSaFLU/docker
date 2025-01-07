@@ -8,6 +8,7 @@ volumes:
   var_lib_mysql:
   insaflu-website:
   insaflu-software:
+  conda envs:
 
   etc_munge:
     driver: local-persist
