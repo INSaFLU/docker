@@ -8,6 +8,7 @@ volumes:
   var_lib_mysql:
   insaflu-website:
   insaflu-software:
+  etc_munge:
 
   pg_data:
     driver: local-persist
@@ -122,6 +123,7 @@ services:
       - insaflu-software:/software
       - slurm_jobdir:/data
       - etc_slurm:/etc/slurm
+      - etc_munge:/etc/munge
 
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
@@ -189,6 +191,7 @@ services:
     hostname: slurmctld
     volumes:
       - etc_slurm:/etc/slurm
+      - etc_munge:/etc/munge
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
     expose:
@@ -215,6 +218,7 @@ services:
       - insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
+      - etc_munge:/etc/munge
 
     expose:
       - "6818"
@@ -239,6 +243,7 @@ services:
       - insaflu-website:/insaflu_web/INSaFLU  
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
+      - etc_munge:/etc/munge
 
     expose:
       - "6818"
