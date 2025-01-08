@@ -197,8 +197,8 @@ services:
     expose:
       - "6817"
     depends_on:
-      - "slurmdbd"
-      - "mysql"
+      - slurmdbd
+      - mysql
     networks:
       - slurm-network
 
