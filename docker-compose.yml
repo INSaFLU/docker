@@ -162,7 +162,7 @@ services:
       - slurm-network
 
   slurmdbd:
-    image: slurm-docker-management:${IMAGE_TAG}
+    image: slurm-docker-cluster:${IMAGE_TAG}
     build:
       context: components/slurm/.
       args:
@@ -172,6 +172,7 @@ services:
     hostname: slurmdbd
     volumes:
       - etc_slurm:/etc/slurm
+      - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
     expose:
       - "6819"
@@ -181,7 +182,7 @@ services:
       - slurm-network
 
   slurmctld:
-    image: slurm-docker-management:${IMAGE_TAG}
+    image: slurm-docker-cluster:${IMAGE_TAG}
     build:
       context: components/slurm/.
       args:
@@ -203,9 +204,9 @@ services:
       - slurm-network
 
   c1:
-    image: slurm-docker-nodes:${IMAGE_TAG}
+    image: slurm-docker-cluster:${IMAGE_TAG}
     build:
-      context: components/slurm_nodes/.
+      context: components/slurm/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]
@@ -228,9 +229,9 @@ services:
       - slurm-network
 
   c2:
-    image: slurm-docker-nodes:${IMAGE_TAG}
+    image: slurm-docker-cluster:${IMAGE_TAG}
     build:
-      context: components/slurm_nodes/.
+      context: components/slurm/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]

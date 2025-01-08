@@ -147,6 +147,7 @@ services:
     hostname: slurmdbd
     volumes:
       - etc_munge:/etc/munge
+      - slurm_jobdir:/data
       - etc_slurm:/etc/slurm
       - var_log_slurm:/var/log/slurm
     expose:

@@ -8,6 +8,10 @@ ADD VERSION .
 ARG DEBIAN_FRONTEND=noninteractive
 ARG RUNLEVEL=1
 ARG SLURM_TAG
+ARG SHARED_USER_NAME=user
+ARG SHARED_USER_UID=1000
+ARG SHARED_GROUP_NAME=user
+ARG SHARED_GROUP_GID=1000
 
 
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
@@ -97,6 +101,12 @@ COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
       && chown slurm:slurm /etc/slurm/slurmdbd.conf \
       && chmod 600 /etc/slurm/slurmdbd.conf
+
+RUN set -x \
+      && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
+      && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+
+
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

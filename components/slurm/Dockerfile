@@ -1,13 +1,19 @@
 FROM ubuntu:22.04
 
-ARG GOSU_VERSION=1.17
-ARG SLURM_TAG
 
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docker-cluster" \
     org.opencontainers.image.title="slurm-docker-cluster" \
     org.opencontainers.image.description="Slurm Docker cluster on Ubuntu 20.04" \
     org.label-schema.docker.cmd="docker-compose up -d" \
     maintainer="Giovanni Torres"
+
+ARG GOSU_VERSION=1.17
+ARG SLURM_TAG
+ARG SHARED_USER_NAME=user
+ARG SHARED_USER_UID=1000
+ARG SHARED_GROUP_NAME=user
+ARG SHARED_GROUP_GID=1000
+
 
 RUN set -ex \
     && apt-get update \
@@ -52,7 +58,6 @@ RUN set -ex \
     && gosu nobody true
 
 
-
 RUN set -x \
     && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
     && cd slurm \
@@ -85,7 +90,7 @@ RUN touch /var/lib/slurmd/node_state \
     /var/lib/slurmd/qos_usage \
     /var/lib/slurmd/fed_mgr_state \
     && chown -R slurm:slurm /var/*/slurm* \
-    && /sbin/mungekey -cf \
+    && test -f /etc/munge/munge.key || /sbin/mungekey -cf \
     && chown -R munge:munge /etc/munge \
     && chmod 600 /etc/munge/munge.key \
     && chmod 700 /etc/munge 
@@ -106,6 +111,13 @@ RUN set -x \
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
+
+RUN set -x \
+    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
+    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+
+
+
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 

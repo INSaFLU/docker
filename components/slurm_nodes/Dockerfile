@@ -10,6 +10,10 @@ LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docke
 ARG DEBIAN_FRONTEND=noninteractive
 ARG GOSU_VERSION=1.17
 ARG SLURM_TAG
+ARG SHARED_USER_NAME=user
+ARG SHARED_USER_UID=1000
+ARG SHARED_GROUP_NAME=user
+ARG SHARED_GROUP_GID=1000
 
 
 RUN set -ex \
@@ -101,8 +105,8 @@ RUN touch /var/lib/slurmd/node_state \
     && chown -R slurm:slurm /var/*/slurm* \
     && mungekey -cf \
     && chown -R munge:munge /etc/munge \
-    && chmod 600 /etc/munge/munge.key \
-    && chmod 700 /etc/munge
+    && chmod 644 /etc/munge/munge.key \
+    && chmod 755 /etc/munge
 
 # create mungekey if it does not exist
 #RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
@@ -117,6 +121,13 @@ RUN set -x \
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
+
+RUN set -x \
+    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
+    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+
+
+
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
