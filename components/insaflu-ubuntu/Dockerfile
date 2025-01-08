@@ -31,6 +31,7 @@ ADD *.sh /tmp_install/
 
 
 RUN sh /tmp_install/install_system_pkgs.sh
+RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
 #USER root
 
@@ -57,7 +58,6 @@ RUN set -ex \
       libmunge-dev \
       libhttp-parser-dev \
       libjson-c-dev
-
 
 
 RUN set -x \
