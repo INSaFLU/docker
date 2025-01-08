@@ -44,6 +44,7 @@ RUN sh /tmp_install/install_slurm.sh
 
 #RUN sh /tmp_install/install_miniconda.sh
 #RUN sh /tmp_install/install_software.sh
+WORKDIR /insaflu_web/commands
 RUN sh /tmp_install/install_finish.sh
 
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
