@@ -90,10 +90,12 @@ RUN touch /var/lib/slurmd/node_state \
     /var/lib/slurmd/qos_usage \
     /var/lib/slurmd/fed_mgr_state \
     && chown -R slurm:slurm /var/*/slurm* \
-    && test -f /etc/munge/munge.key || /sbin/mungekey -cf \
-    && chown -R munge:munge /etc/munge \
-    && chmod 600 /etc/munge/munge.key \
-    && chmod 700 /etc/munge 
+    && /sbin/mungekey --create 
+
+#    && test -f /etc/munge/munge.key || /sbin/mungekey -cf \
+#    && chown -R munge:munge /etc/munge \
+#    && chmod 600 /etc/munge/munge.key \
+#    && chmod 700 /etc/munge 
 
 # create mungekey if it does not exist
 #RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
