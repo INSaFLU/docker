@@ -7,6 +7,9 @@ LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 ADD VERSION .
 ARG DEBIAN_FRONTEND=noninteractive
 ARG RUNLEVEL=1
+ARG SLURM_TAG
+
+
 RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
 
 LABEL vendor=INSA\
@@ -16,8 +19,6 @@ LABEL vendor=INSA\
 
 RUN mkdir -p /tmp_install
 RUN mkdir -p /software
-
-
 
 ENV APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}
@@ -39,7 +40,8 @@ ADD *.sh /tmp_install/
 
 #RUN sh /tmp_install/install_miniconda.sh
 #RUN sh /tmp_install/install_software.sh
-#RUN sh /tmp_install/install_finish.sh
+WORKDIR /insaflu_web
+RUN sh /tmp_install/install_finish.sh
 
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
 
@@ -59,7 +61,6 @@ RUN set -ex \
       libjson-c-dev
 
 
-ARG SLURM_TAG
 
 RUN set -x \
       && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
@@ -91,9 +92,6 @@ RUN touch /var/lib/slurmd/node_state \
       /var/lib/slurmd/qos_usage \
       /var/lib/slurmd/fed_mgr_state \
       && chown -R slurm:slurm /var/*/slurm* 
-
-RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
-
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY cgroup.conf /etc/slurm/cgroup.conf 

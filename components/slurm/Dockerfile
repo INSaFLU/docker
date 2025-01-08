@@ -1,5 +1,8 @@
 FROM ubuntu:22.04
 
+ARG GOSU_VERSION=1.17
+ARG SLURM_TAG
+
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/slurm-docker-cluster" \
     org.opencontainers.image.title="slurm-docker-cluster" \
     org.opencontainers.image.description="Slurm Docker cluster on Ubuntu 20.04" \
@@ -38,8 +41,6 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 RUN pip3 install Cython pytest
 
-ARG GOSU_VERSION=1.17
-
 RUN set -ex \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64.asc" \
@@ -50,7 +51,7 @@ RUN set -ex \
     && chmod +x /usr/local/bin/gosu \
     && gosu nobody true
 
-ARG SLURM_TAG
+
 
 RUN set -x \
     && git clone -b ${SLURM_TAG} --single-branch --depth=1 https://github.com/SchedMD/slurm.git \
@@ -83,10 +84,11 @@ RUN touch /var/lib/slurmd/node_state \
     /var/lib/slurmd/assoc_usage \
     /var/lib/slurmd/qos_usage \
     /var/lib/slurmd/fed_mgr_state \
-    && chown -R slurm:slurm /var/*/slurm* 
+    && chown -R slurm:slurm /var/*/slurm* \
+    && /sbin/create-munge-key
 
 # create mungekey if it does not exist
-RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
+#RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
 #RUN chown -R munge:munge /etc/munge \
 #    && chmod 600 /etc/munge/munge.key \
 #    && chmod 700 /etc/munge
