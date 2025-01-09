@@ -96,15 +96,7 @@ RUN touch /var/lib/slurmd/node_state \
     && /sbin/mungekey --create \
     && chown -R munge:munge /etc/munge \
     && chmod 600 /etc/munge/munge.key \
-    && chmod 755 /etc/munge 
-
-#    && test -f /etc/munge/munge.key || /sbin/mungekey -cf \
-
-# create mungekey if it does not exist
-#RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
-#RUN chown -R munge:munge /etc/munge \
-#    && chmod 600 /etc/munge/munge.key \
-#    && chmod 700 /etc/munge
+    && chmod 700 /etc/munge 
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY cgroup.conf /etc/slurm/cgroup.conf 

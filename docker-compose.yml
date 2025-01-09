@@ -205,9 +205,9 @@ services:
       - slurm-network
 
   c1:
-    image: slurm-docker-cluster:${IMAGE_TAG}
+    image: slurm-docker-nodes:${IMAGE_TAG}
     build:
-      context: components/slurm/.
+      context: components/slurm_nodes/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]
@@ -230,9 +230,9 @@ services:
       - slurm-network
 
   c2:
-    image: slurm-docker-cluster:${IMAGE_TAG}
+    image: slurm-docker-nodes:${IMAGE_TAG}
     build:
-      context: components/slurm/.
+      context: components/slurm_nodes/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmd"]

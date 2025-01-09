@@ -56,18 +56,17 @@ RUN set -ex \
 
 ###### 
 
+RUN mkdir -p /tmp_install
 
-#RUN mkdir -p /tmp_install
-#
-#ADD *.sh /tmp_install/
-#
-#RUN sh /tmp_install/install_system_pkgs.sh
-#
-#RUN sh /tmp_install/install_website_dependencies.sh
-#
-#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-#
-#RUN pip3 install Cython pytest
+ADD *.sh /tmp_install/
+
+RUN sh /tmp_install/install_system_pkgs.sh
+
+RUN sh /tmp_install/install_website_dependencies.sh
+
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+RUN pip3 install Cython pytest
 
 ######
 
@@ -114,11 +113,8 @@ RUN touch /var/lib/slurmd/node_state \
     && chown -R slurm:slurm /var/*/slurm* \
     && mungekey -cf \
     && chown -R munge:munge /etc/munge \
-    && chmod 644 /etc/munge/munge.key \
-    && chmod 755 /etc/munge
-
-# create mungekey if it does not exist
-#RUN test -f /etc/munge/munge.key || /usr/sbin/mungekey --create
+    && chmod 600 /etc/munge/munge.key \
+    && chmod 700 /etc/munge
 
 COPY slurm.conf /etc/slurm/slurm.conf
 COPY cgroup.conf /etc/slurm/cgroup.conf 
@@ -134,9 +130,6 @@ RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 RUN set -x \
     && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
     && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
-
-
-
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
