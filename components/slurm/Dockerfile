@@ -16,11 +16,11 @@ ARG SHARED_GROUP_GID=1000
 
 #### standardize munge and slurm users and groups across machines.
 RUN set -x \
-    groupadd -r --gid=990 slurm \
+    && groupadd -r --gid=990 slurm \
     && useradd -r -g slurm --uid=990 slurm
 
 RUN set -x \
-    groupadd -r --gid=102 munge \
+    && groupadd -r --gid=102 munge \
     && useradd -r -g munge --uid=102 munge 
 
 ####
@@ -89,11 +89,6 @@ RUN set -x \
     /data 
 
 RUN touch /var/lib/slurmd/node_state \
-    /var/lib/slurmd/front_end_state \
-    /var/lib/slurmd/job_state \
-    /var/lib/slurmd/resv_state \
-    /var/lib/slurmd/trigger_state \
-    /var/lib/slurmd/assoc_mgr_state \
     /var/lib/slurmd/assoc_usage \
     /var/lib/slurmd/qos_usage \
     /var/lib/slurmd/fed_mgr_state \
