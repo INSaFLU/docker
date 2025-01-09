@@ -13,10 +13,14 @@ ARG SHARED_USER_UID=1000
 ARG SHARED_GROUP_NAME=user
 ARG SHARED_GROUP_GID=1000
 
+
 #### standardize munge and slurm users and groups across machines.
-RUN groupadd -r --gid=990 slurm \
+RUN set -ex \
+      groupadd -r --gid=990 slurm \
       && useradd -r -g slurm --uid=990 slurm
-RUN groupadd -r --gid=102 munge \
+
+RUN set -ex \
+      groupadd -r --gid=102 munge \
       && useradd -r -g munge --uid=102 munge 
 
 ####
