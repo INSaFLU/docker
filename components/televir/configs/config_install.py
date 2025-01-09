@@ -29,8 +29,8 @@ class TelevirLayout:
 
     # host mappers
     install_bowtie2_remap = True
-    install_bowtie2_depletion = True
-    install_bwa = True
+    install_bowtie2_depletion = False
+    install_bwa_host = True
 
     # classification software.
     install_centrifuge = True
@@ -39,24 +39,19 @@ class TelevirLayout:
     install_kraken2_bacteria = False
     install_kraken2_eupathdb46 = False
     install_krakenuniq = True
-    install_krakenuniq_fungi = False
     install_kaiju = True
     install_diamond = True
     install_minimap2 = True
     install_fastviromeexplorer = True
-    install_clark = False
-    install_desamba = False
     install_blast = True
 
     # assemblers.
     install_spades = True
     install_raven = True
-    install_flye = True
 
     # technology setup (exclusive technologies. overrides info above).
     install_illumina = True
     install_nanopore = True
 
     # check files
-    check_index_files = False
-
+    check_index_files = True
