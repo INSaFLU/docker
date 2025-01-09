@@ -178,6 +178,7 @@ services:
       - "6819"
     depends_on:
       - "db_insaflu"
+      - "mysql"
     networks:
       - slurm-network
 

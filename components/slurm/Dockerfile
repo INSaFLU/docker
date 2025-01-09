@@ -14,6 +14,13 @@ ARG SHARED_USER_UID=1000
 ARG SHARED_GROUP_NAME=user
 ARG SHARED_GROUP_GID=1000
 
+#### standardize munge and slurm users and groups across machines.
+RUN groupadd -r --gid=990 slurm \
+    && useradd -r -g slurm --uid=990 slurm
+RUN groupadd -r --gid=102 munge \
+    && useradd -r -g munge --uid=102 munge 
+
+####
 
 RUN set -ex \
     && apt-get update \
@@ -117,8 +124,6 @@ RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 RUN set -x \
     && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
     && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
-
-
 
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
