@@ -54,6 +54,10 @@ RUN set -ex \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+RUN pip3 install Cython pytest
+
 RUN set -ex \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64.asc" \
@@ -124,10 +128,6 @@ RUN set -x \
 #RUN sh /tmp_install/install_system_pkgs.sh
 
 #RUN sh /tmp_install/install_website_dependencies.sh
-
-#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-
-#RUN pip3 install Cython pytest
 
 ######
 
