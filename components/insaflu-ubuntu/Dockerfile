@@ -3,6 +3,27 @@ USER root
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 LABEL authors="monsantopinheiro@gmail.com,daniel.sobral@insa.min-saude.pt"
 
+
+RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
+
+LABEL vendor=INSA\
+      pt.insa.insaflu.is-production="" \
+      pt.insa.insaflu.version="1.7.0-beta" \
+      pt.insa.insaflu.release-date="2023-06-13"
+
+RUN mkdir -p /tmp_install
+RUN mkdir -p /software
+
+ENV APP_USER=flu_user
+RUN useradd -ms /bin/bash ${APP_USER}
+
+ADD configs/ /tmp_install/configs/
+ADD commands/ /tmp_install/commands/
+ADD software/ /tmp_install/software/
+ADD *.sh /tmp_install/
+
+
+
 # version
 ADD VERSION .
 ARG DEBIAN_FRONTEND=noninteractive
@@ -88,25 +109,6 @@ RUN set -x \
 
 
 ####
-
-RUN printf '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d
-
-LABEL vendor=INSA\
-      pt.insa.insaflu.is-production="" \
-      pt.insa.insaflu.version="1.7.0-beta" \
-      pt.insa.insaflu.release-date="2023-06-13"
-
-RUN mkdir -p /tmp_install
-RUN mkdir -p /software
-
-ENV APP_USER=flu_user
-RUN useradd -ms /bin/bash ${APP_USER}
-
-ADD configs/ /tmp_install/configs/
-ADD commands/ /tmp_install/commands/
-ADD software/ /tmp_install/software/
-ADD *.sh /tmp_install/
-
 
 
 #RUN sh /tmp_install/install_apache.sh
