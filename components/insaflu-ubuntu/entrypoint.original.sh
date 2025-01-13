@@ -4,7 +4,8 @@ set -e
 # build DBs and launch frontend
 if [ "$1" = "init_all" ]; then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
-    service munge start
+    #service munge start
+    gosu munge munged --pid-file=/var/run/munge/munged.pid
     
     echo "---> Wait 45 seconds for all pgsql services  ..."
     sleep 45	## wait for postgis extension

@@ -4,7 +4,8 @@ set -e
 if [ "$1" = "slurmdbd" ]
 then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
-    service munge start
+    #service munge start
+    gosu munge munged --pid-file=/var/run/munge/munged.pid
     echo "---> Starting the Slurm Database Daemon (slurmdbd) ..."
     
     {
@@ -23,7 +24,9 @@ fi
 if [ "$1" = "slurmctld" ]
 then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
-    service munge start
+    #service munge start
+    gosu munge munged --pid-file=/var/run/munge/munged.pid
+    
     echo "---> Waiting for slurmdbd to become active before starting slurmctld ..."
     
     until 2>/dev/null >/dev/tcp/slurmdbd/6819
@@ -44,7 +47,8 @@ fi
 if [ "$1" = "slurmd" ]
 then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
-    service munge start
+    #service munge start
+    gosu munge munged --pid-file=/var/run/munge/munged.pid
     echo "---> Waiting for slurmctld to become active before starting slurmd..."
     
     until 2>/dev/null >/dev/tcp/slurmctld/6817
