@@ -109,9 +109,9 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
-RUN set -x \
-    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
-    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+#RUN set -x \
+#    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
+#    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
 
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

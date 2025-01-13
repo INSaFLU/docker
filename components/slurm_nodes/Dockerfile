@@ -111,13 +111,13 @@ RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
     && chmod 600 /etc/slurm/slurmdbd.conf
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
+#COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+#RUN chmod +x /usr/local/bin/entrypoint.sh
+#RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
-RUN set -x \
-    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
-    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+#RUN set -x \
+#    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
+#    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
 
 ###### 
 
