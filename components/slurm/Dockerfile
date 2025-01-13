@@ -97,6 +97,7 @@ RUN touch /var/lib/slurmd/node_state \
     && chown -R munge:munge /etc/munge \
     && chmod 600 /etc/munge/munge.key \
     && chmod 755 /etc/munge \
+    && mkdir -p /run/munge \
     && chown -R munge:munge /run/munge \
     && chmod 700 /run/munge
 
