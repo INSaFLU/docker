@@ -9,6 +9,7 @@ volumes:
   insaflu-website:
   insaflu-software:
   etc_munge:
+  run_munge:
 
   pg_data:
     driver: local-persist
@@ -124,6 +125,7 @@ services:
       - slurm_jobdir:/data
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
+      - run_munge:/run/munge
 
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
@@ -172,6 +174,7 @@ services:
     hostname: slurmdbd
     volumes:
       - etc_slurm:/etc/slurm
+      - run_munge:/run/munge
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
     expose:
@@ -194,6 +197,7 @@ services:
     volumes:
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
+      - run_munge:/run/munge
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
     expose:
@@ -215,6 +219,7 @@ services:
     container_name: c1
     volumes:
       - etc_slurm:/etc/slurm
+      - run_munge:/run/munge
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       - insaflu-website:/insaflu_web/INSaFLU
@@ -240,6 +245,7 @@ services:
     container_name: c2
     volumes:
       - etc_slurm:/etc/slurm
+      - run_munge:/run/munge
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       - insaflu-website:/insaflu_web/INSaFLU  

@@ -22,8 +22,6 @@ ADD commands/ /tmp_install/commands/
 ADD software/ /tmp_install/software/
 ADD *.sh /tmp_install/
 
-
-
 # version
 ADD VERSION .
 ARG DEBIAN_FRONTEND=noninteractive
