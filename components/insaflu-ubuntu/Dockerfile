@@ -103,25 +103,17 @@ RUN set -x \
       && chown slurm:slurm /etc/slurm/slurmdbd.conf \
       && chmod 600 /etc/slurm/slurmdbd.conf
 
-#RUN set -x \
-#      && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
-#      && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
-
-
 
 ####
+RUN sh /tmp_install/install_apache.sh
+RUN sh /tmp_install/install_slurm.sh
+USER root
 
+RUN sh /tmp_install/install_website_dependencies.sh
+RUN sh /tmp_install/install_website.sh
 
-#RUN sh /tmp_install/install_apache.sh
-#RUN sh /tmp_install/install_slurm.sh
-#USER root
-
-#RUN sh /tmp_install/install_website_dependencies.sh
-#RUN sh /tmp_install/install_website.sh
-
-#RUN sh /tmp_install/install_miniconda.sh
-#RUN sh /tmp_install/install_software.sh
-WORKDIR /insaflu_web/commands/
+RUN sh /tmp_install/install_miniconda.sh
+RUN sh /tmp_install/install_software.sh
 RUN sh /tmp_install/install_finish.sh
 
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 

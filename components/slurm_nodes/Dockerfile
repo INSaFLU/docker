@@ -127,13 +127,13 @@ RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
 ###### 
 
-#RUN mkdir -p /tmp_install
+RUN mkdir -p /tmp_install
 
-#ADD *.sh /tmp_install/
+ADD *.sh /tmp_install/
 
-#RUN sh /tmp_install/install_system_pkgs.sh
+RUN sh /tmp_install/install_system_pkgs.sh
 
-#RUN sh /tmp_install/install_website_dependencies.sh
+RUN sh /tmp_install/install_website_dependencies.sh
 
 ######
 
