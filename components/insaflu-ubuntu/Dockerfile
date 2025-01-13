@@ -23,6 +23,9 @@ RUN set -x \
       && groupadd -r --gid=102 munge \
       && useradd -r -g munge --uid=102 munge 
 
+# 
+RUN sh /tmp_install/install_system_pkgs.sh
+
 
 ## slurm configuration
 
@@ -106,8 +109,7 @@ ADD *.sh /tmp_install/
 
 
 
-RUN sh /tmp_install/install_system_pkgs.sh
-RUN sh /tmp_install/install_apache.sh
+#RUN sh /tmp_install/install_apache.sh
 #RUN sh /tmp_install/install_slurm.sh
 #USER root
 
