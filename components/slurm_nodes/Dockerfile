@@ -54,22 +54,6 @@ RUN set -ex \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-###### 
-
-RUN mkdir -p /tmp_install
-
-ADD *.sh /tmp_install/
-
-RUN sh /tmp_install/install_system_pkgs.sh
-
-RUN sh /tmp_install/install_website_dependencies.sh
-
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-
-RUN pip3 install Cython pytest
-
-######
-
 RUN set -ex \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64.asc" \
@@ -130,6 +114,22 @@ RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 RUN set -x \
     && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
     && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+
+###### 
+
+#RUN mkdir -p /tmp_install
+
+#ADD *.sh /tmp_install/
+
+#RUN sh /tmp_install/install_system_pkgs.sh
+
+#RUN sh /tmp_install/install_website_dependencies.sh
+
+#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+#RUN pip3 install Cython pytest
+
+######
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
