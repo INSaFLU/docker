@@ -20,7 +20,7 @@ RUN useradd -ms /bin/bash ${APP_USER}
 ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/
 ADD software/ /tmp_install/software/
-ADD *.sh /tmp_install/
+ADD install_scripts/*.sh /tmp_install/
 
 # version
 ADD VERSION .
@@ -93,12 +93,12 @@ RUN touch /var/lib/slurmd/node_state \
       /var/lib/slurmd/fed_mgr_state \
       && chown -R slurm:slurm /var/*/slurm* 
 
-COPY munged.pid /var/run/munge/munged.pid
+COPY configs/munge/munged.pid /var/run/munge/munged.pid
 RUN chown munge:munge /var/run/munge/munged.pid
 
-COPY slurm.conf /etc/slurm/slurm.conf
-COPY cgroup.conf /etc/slurm/cgroup.conf 
-COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
+COPY configs/slurm/slurm.conf /etc/slurm/slurm.conf
+COPY configs/slurm/cgroup.conf /etc/slurm/cgroup.conf 
+COPY configs/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
       && chown slurm:slurm /etc/slurm/slurmdbd.conf \
       && chmod 600 /etc/slurm/slurmdbd.conf

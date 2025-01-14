@@ -2,7 +2,7 @@
 
 set -e
 
-apt install slurm-client munge -y
+#apt install slurm-client munge -y
 apt install curl dirmngr apt-transport-https lsb-release ca-certificates -y
 
 curl -sL https://deb.nodesource.com/setup_18.x | bash -

@@ -107,12 +107,12 @@ RUN touch /var/lib/slurmd/node_state \
     && chown -R munge:munge /run/munge \
     && chmod 755 /run/munge
 
-COPY munged.pid /var/run/munge/munged.pid
+COPY configs/munge/munged.pid /var/run/munge/munged.pid
 RUN chown munge:munge /var/run/munge/munged.pid
 
-COPY slurm.conf /etc/slurm/slurm.conf
-COPY cgroup.conf /etc/slurm/cgroup.conf 
-COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
+COPY configs/slurm/slurm.conf /etc/slurm/slurm.conf
+COPY configs/slurm/cgroup.conf /etc/slurm/cgroup.conf 
+COPY configs/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
     && chmod 600 /etc/slurm/slurmdbd.conf
