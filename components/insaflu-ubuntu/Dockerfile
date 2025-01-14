@@ -114,7 +114,6 @@ RUN sh /tmp_install/install_website.sh
 
 RUN sh /tmp_install/install_miniconda.sh
 RUN sh /tmp_install/install_software.sh
-RUN sh /tmp_install/install_finish.sh
 
 #### gosu - for running munge daemon
 ARG GOSU_VERSION=1.17
@@ -130,11 +129,10 @@ RUN set -ex \
       && gosu nobody true
 
 
+
+ADD entrypoint.sh /tmp_install/
+RUN sh /tmp_install/install_finish.sh
+
 ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
-
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
-
 
 ENTRYPOINT ["/entrypoint.sh"]
