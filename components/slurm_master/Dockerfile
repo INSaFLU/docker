@@ -120,9 +120,9 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
-COPY configs/munge.key /etc/munge/
-RUN sudo chmod 400 /etc/munge/munge.key
-RUN sudo chown munge:munge /etc/munge/munge.key
+COPY configs/munge/munge.key /etc/munge/
+RUN chmod 400 /etc/munge/munge.key
+RUN chown munge:munge /etc/munge/munge.key
 
 RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER admin
