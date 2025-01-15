@@ -20,8 +20,13 @@ RUN set -x \
     && useradd -r -g slurm --uid=990 slurm
 
 RUN set -x \
+    && groupadd -r --gid=999 mysql \
+    && useradd -r -g mysql --uid=999 mysql 
+
+RUN set -x \
     && groupadd -r --gid=102 munge \
     && useradd -r -g munge --uid=102 munge 
+
 
 ####
 

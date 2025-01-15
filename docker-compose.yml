@@ -164,7 +164,7 @@ services:
   slurmdbd:
     image: slurm-docker-cluster:${IMAGE_TAG}
     build:
-      context: components/slurm/.
+      context: components/slurm_master/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmdbd"]
@@ -185,7 +185,7 @@ services:
   slurmctld:
     image: slurm-docker-cluster:${IMAGE_TAG}
     build:
-      context: components/slurm/.
+      context: components/slurm_master/.
       args:
         SLURM_TAG: ${SLURM_TAG}
     command: ["slurmctld"]
