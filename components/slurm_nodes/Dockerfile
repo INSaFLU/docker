@@ -137,7 +137,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
-COPY configs/munge.key /etc/munge/
+COPY configs/munge/munge.key /etc/munge/
 RUN sudo chmod 400 /etc/munge/munge.key
 RUN sudo chown munge:munge /etc/munge/munge.key
 
