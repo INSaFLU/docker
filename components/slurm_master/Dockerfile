@@ -120,6 +120,14 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
+COPY configs/munge.key /etc/munge/
+RUN sudo chmod 400 /etc/munge/munge.key
+RUN sudo chown munge:munge /etc/munge/munge.key
+
+RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+USER admin
+ENV USER=admin
+
 #RUN set -x \
 #    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
 #    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
