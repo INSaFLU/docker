@@ -134,9 +134,10 @@ RUN chown munge:munge /etc/munge/munge.key
 
 RUN apt-get update \
       && apt-get install -y sudo
-RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-USER admin
-ENV USER=admin
+
+#RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+#USER admin
+#ENV USER=admin
 
 ADD entrypoint.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh

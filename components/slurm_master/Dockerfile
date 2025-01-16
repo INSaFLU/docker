@@ -126,9 +126,9 @@ RUN chown munge:munge /etc/munge/munge.key
 
 RUN apt-get update \
     && apt-get install -y sudo
-RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-USER admin
-ENV USER=admin
+#RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+#USER admin
+#ENV USER=admin
 
 #RUN set -x \
 #    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
