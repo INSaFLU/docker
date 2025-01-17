@@ -4,6 +4,7 @@ version: '3.4'
 volumes:
   etc_slurm:
   slurm_jobdir:
+  var_log_insaflu:
   var_log_slurm:
   var_lib_mysql:
   insaflu-website:
@@ -124,6 +125,7 @@ services:
       - slurm_jobdir:/data
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
+      - var_log_insaflu:/var/log/insaFlu
 
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
@@ -221,6 +223,7 @@ services:
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
+      - var_log_insaflu:/var/log/insaFlu
 
     expose:
       - "6818"
@@ -246,6 +249,7 @@ services:
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
+      - var_log_insaflu:/var/log/insaFlu
 
     expose:
       - "6818"
