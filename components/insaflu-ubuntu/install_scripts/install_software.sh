@@ -41,11 +41,16 @@ cd /software
 if [ -d /software/abricate ]; then
     rm -rf /software/abricate
 fi
-git clone --branch v0.8.4 https://github.com/tseemann/abricate.git && mv /tmp_install/software/abricate/nextstrain /software/abricate/db/
+git clone --branch v1.0.0 https://github.com/tseemann/abricate.git && mv /tmp_install/software/abricate/nextstrain /software/abricate/db/
 if [ $? -ne 0 ]; then
     echo "Error installing abricate"
     exit 1
 fi
+
+### any2fasta - necessary for abricate
+echo "Install any2fasta"
+git clone https://github.com/tseemann/any2fasta.git
+cp any2fasta/any2fasta /usr/local/bin
 
 ### bamtools
 echo "Install bamtools"
