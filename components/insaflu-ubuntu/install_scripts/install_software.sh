@@ -230,7 +230,7 @@ fi
 echo "Install blast+ v2.16.0"
 mkdir -p /software/blast+/2.16.0 && cd /software/blast+/2.16.0 && wget --no-check-certificate -O ncbi-blast-2.16.0+-x64-linux.tar.gz https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.16.0/ncbi-blast-2.16.0+-src.tar.gz && tar -zxvf ncbi-blast-2.16.0+-x64-linux.tar.gz && rm ncbi-blast-2.16.0+-x64-linux.tar.gz && cd /software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++ && ./configure && cd ReleaseMT/build && make all_r
 ### add blast+ to path
-echo 'export PATH="/software/blast+/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:$PATH"' >> /root/.bashrc
+echo 'export PATH="/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin/"' >> /root/.bashrc
 if [ $? -ne 0 ]; then
     echo "Error installing blast+ v2.16.0"
     exit 1
