@@ -143,6 +143,6 @@ RUN apt-get update \
 ADD entrypoint.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
 
-ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:${PATH}" 
+ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}" 
 
 ENTRYPOINT ["/entrypoint.sh"]
