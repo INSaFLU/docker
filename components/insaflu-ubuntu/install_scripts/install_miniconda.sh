@@ -22,6 +22,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# FluMut
+echo "Install FluMut"
+eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=flumut -c conda-forge -c bioconda flumut=0.6.3
+if [ $? -ne 0 ]; then
+    echo "Error installing FluMut"
+    exit 1
+fi
+
 # Nextstrain
 echo "Install Nextstrain"
 conda create --name=nextstrain -c conda-forge mamba python=3.9 --yes && conda activate nextstrain && mamba install -c bioconda -c conda-forge --yes nextstrain-cli=3.2.4 augur=15.0.2 auspice nextalign=1.11.0 nextclade=1.11.0 snakemake git epiweeks pangolin pangolearn && conda deactivate && mv /tmp_install/software/nextstrain/ /software/ && chmod u+x /software/nextstrain/nextstrain.sh && chmod u+x /software/nextstrain/nextstrain_mpx.sh && chmod u+x /software/nextstrain/auspice_tree_to_table.sh && chmod u+x /software/nextstrain/nextstrain_snake.sh && chmod u+x /software/nextstrain/nextstrain_rsv.sh && chmod u+x /software/nextstrain/scripts/auspice_tree_to_table.py && conda deactivate
