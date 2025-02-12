@@ -39,7 +39,7 @@ my(@Options, $quiet, $force, $outdir, $prefix,
              $pe1, $pe2, $se, $peil, $ctgs, $unmapped,
              $report, $mapqual, $basequal,
              $mincov, $minfrac, $rgid, $bwaopt, $primer,
-             $cleanup);
+             $cleanup, $is_ivar);
 setOptions();
 
 # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -294,27 +294,43 @@ if($primer && ($primer ne "None")){
 
 }
 
-
 push @cmd, (
   "samtools depth -aa -q $basequal $prefix.bam | bgzip > $prefix.depth.gz",
   "tabix -s 1 -b 2 -e 2 $prefix.depth.gz",
-  "fasta_generate_regions.py $refdir/ref.fa.fai $chunk_size > $refdir/ref.txt",
-  "freebayes-parallel $refdir/ref.txt $cpus $fbopt -f $refdir/ref.fa $prefix.bam > $prefix.raw.vcf",
-#  "vcffilter -f 'DP > $min_DP' -f 'QUAL > 10' $prefix.raw.vcf > $prefix.filt.vcf",
-#  "$BINDIR/snippy-vcf_filter --minqual 10 --mincov $mincov --minfrac $minfrac  $prefix.raw.vcf > $prefix.filt.vcf",
-  "$BINDIR/snippy-vcf_filter --minqual 0 --mincov $mincov --minfrac $minfrac  $prefix.raw.vcf > $prefix.filt.vcf",
-  ( $nfeat > 0 ? "snpEff ann -no-downstream -no-upstream -no-intergenic -no-utr -c $refdir/snpeff.config -dataDir . -noStats ref $prefix.filt.vcf > $prefix.vcf" 
-               : "cp $prefix.filt.vcf $prefix.vcf" ),
-  "bgzip -c $prefix.vcf > $prefix.vcf.gz",
-  "tabix -p vcf $prefix.vcf.gz",
-  "$BINDIR/snippy-vcf_to_tab --gff $refdir/ref.gff --ref $refdir/ref.fa --vcf $prefix.vcf > $prefix.tab",
-  "vcf-consensus $prefix.vcf.gz < $refdir/ref.fa > $prefix.consensus.fa",
-#  "vcffilter -f 'TYPE = snp' --or -f 'TYPE = mnp' $prefix.filt.vcf > $prefix.filt.subs.vcf",
-  "$BINDIR/snippy-vcf_filter --subs $prefix.filt.vcf > $prefix.filt.subs.vcf",
-  "bgzip -c $prefix.filt.subs.vcf > $prefix.filt.subs.vcf.gz",
-  "tabix -p vcf $prefix.filt.subs.vcf.gz",
-  "vcf-consensus $prefix.filt.subs.vcf.gz < $refdir/ref.fa > $prefix.consensus.subs.fa",
 );
+
+$is_ivar = 1;
+if($is_ivar == 1){
+  push @cmd, (
+    "samtools mpileup -A -d 0 -Q 0 --reference $refdir/ref.fa $prefix.bam | ivar variants -r $refdir/ref.fa -p $prefix -q $basequal -t $minfrac -m $mincov",
+    "ivar_variants_to_vcf.pl --tab $prefix.tsv --ref $refdir/ref.fa > $prefix.raw.vcf",
+    ( $nfeat > 0 ? "snpEff ann -no-downstream -no-upstream -no-intergenic -no-utr -c $refdir/snpeff.config -dataDir . -noStats ref $prefix.raw.vcf > $prefix.vcf" 
+               : "cp $prefix.raw.vcf $prefix.vcf" ),               
+    "$BINDIR/snippy-vcf_to_tab --gff $refdir/ref.gff --ref $refdir/ref.fa --vcf $prefix.vcf > $prefix.tab",               
+    "bgzip -c $prefix.vcf > $prefix.vcf.gz",
+    "tabix -p vcf $prefix.vcf.gz",
+    "vcf-consensus $prefix.vcf.gz < $refdir/ref.fa > $prefix.consensus.fa",
+    #"samtools mpileup -A -d 0 -Q 0 $prefix.bam | ivar consensus -p $prefix.consensus -q $basequal -t $minfrac -m $mincov",
+  );
+} else {
+  push @cmd, (
+    "fasta_generate_regions.py $refdir/ref.fa.fai $chunk_size > $refdir/ref.txt",
+    "freebayes-parallel $refdir/ref.txt $cpus $fbopt -f $refdir/ref.fa $prefix.bam > $prefix.raw.vcf",
+    #  "vcffilter -f 'DP > $min_DP' -f 'QUAL > 10' $prefix.raw.vcf > $prefix.filt.vcf",
+    "$BINDIR/snippy-vcf_filter --minqual 0 --mincov $mincov --minfrac $minfrac  $prefix.raw.vcf > $prefix.filt.vcf",
+    ( $nfeat > 0 ? "snpEff ann -no-downstream -no-upstream -no-intergenic -no-utr -c $refdir/snpeff.config -dataDir . -noStats ref $prefix.filt.vcf > $prefix.vcf" 
+               : "cp $prefix.filt.vcf $prefix.vcf" ),
+    "bgzip -c $prefix.vcf > $prefix.vcf.gz",
+    "tabix -p vcf $prefix.vcf.gz",
+    "$BINDIR/snippy-vcf_to_tab --gff $refdir/ref.gff --ref $refdir/ref.fa --vcf $prefix.vcf > $prefix.tab",
+    "vcf-consensus $prefix.vcf.gz < $refdir/ref.fa > $prefix.consensus.fa",
+    #  "vcffilter -f 'TYPE = snp' --or -f 'TYPE = mnp' $prefix.filt.vcf > $prefix.filt.subs.vcf",
+    ##"$BINDIR/snippy-vcf_filter --subs $prefix.filt.vcf > $prefix.filt.subs.vcf",
+    ##"bgzip -c $prefix.filt.subs.vcf > $prefix.filt.subs.vcf.gz",
+    ##"tabix -p vcf $prefix.filt.subs.vcf.gz",
+    ##"vcf-consensus $prefix.filt.subs.vcf.gz < $refdir/ref.fa > $prefix.consensus.subs.fa",
+  );
+}
 
 if ($unmapped) {
   push @cmd, "(samtools view -u -b -f 12 $prefix.bam | samtools bam2fq - | gzip -1 > $prefix.unmapped.fastq.gz)";
@@ -348,7 +364,6 @@ for my $cmd (@cmd) {
 #   . start with a sequence full of "-"
 #   . if coverage < mindepth add "N"
 #   . else add "[AGTC]" as appropriate (*** but NOT the SNPS ***)
-
 my $afa_fn = "$prefix.aligned.fa";
 msg("Generating aligned/masked FASTA relative to reference: $afa_fn");
 my %masked;
@@ -573,6 +588,7 @@ sub setOptions {
     {OPT=>"rgid=s",  VAR=>\$rgid, DEFAULT=>'',  DESC=>"Use this \@RG ID: in the BAM header"},
     {OPT=>"bwaopt=s",  VAR=>\$bwaopt, DEFAULT=>'',  DESC=>"Extra BWA MEM options, eg. -x pacbio"},
     {OPT=>"primer=s",  VAR=>\$primer, DEFAULT=>'',  DESC=>"Primer fasta file"},    
+    {OPT=>"ivar!",  VAR=>\$is_ivar, DEFAULT=>0,  DESC=>"Run ivar variants and consensus"},      
   );
 
   (!@ARGV) && (usage(1));
