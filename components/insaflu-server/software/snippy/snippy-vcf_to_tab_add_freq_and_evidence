@@ -64,6 +64,7 @@ while (<VCF>) {
 
   # [VCF] CHROM POS ID REF ALT QUAL FILTER INFO [FORMAT DATA DATA2 ...]
   my($chr,$pos,undef,$ref_base,$alt_base,undef,undef,$tags) = split m/\t/;
+
   my $tag = vcf_tags_to_hash($tags);
 
   my %anno = (map { ($_ => '') } @ANNO);
