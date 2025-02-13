@@ -299,7 +299,6 @@ push @cmd, (
   "tabix -s 1 -b 2 -e 2 $prefix.depth.gz",
 );
 
-$is_ivar = 1;
 if($is_ivar == 1){
   push @cmd, (
     "samtools mpileup -A -d 0 -Q 0 --reference $refdir/ref.fa $prefix.bam | ivar variants -r $refdir/ref.fa -p $prefix -q $basequal -t $minfrac -m $mincov",
