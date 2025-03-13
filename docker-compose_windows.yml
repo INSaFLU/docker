@@ -1,31 +1,5 @@
 version: '3.4'
 
-### places where the most important data is
-volumes:
-  pg_data:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/postgres/postgres_data
-  pgbackups:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/postgres/backups
-  insaflu-server-data:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/data/all_data
-  insaflu-server-predefined_dbs:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/data/predefined_dbs
-  insaflu-server-env:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/env
-  televir:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/televir/
 ### this is necessary to set an ip to SGE in insaflu
 networks:
   insaflu_net:
@@ -44,7 +18,7 @@ services:
     container_name: postgres
     hostname: db_insaflu
     volumes:
-       - pg_data:/var/lib/postgresql/data
+       - ${BASE_PATH_DATA}/postgres/postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: "flu_user"
       POSTGRES_PASSWORD: "flu_user_pass"
@@ -62,7 +36,7 @@ services:
      container_name: postgres_backup
      hostname: insaflu_backup
      volumes:
-         - pgbackups:/backups
+         - ${BASE_PATH_DATA}/postgres/backups:/backups
      depends_on:
          - db_insaflu
      environment:
@@ -97,7 +71,7 @@ services:
     hostname: televir
     restart: on-failure
     volumes:
-      - televir:/televir/mngs_benchmark
+      - ${BASE_PATH_DATA}/televir/:/televir/mngs_benchmark
     depends_on:
       - pgbackups
       - officer
@@ -118,10 +92,10 @@ services:
     hostname: insaflu
     restart: no
     volumes:
-      - televir:/televir/mngs_benchmark    
-      - insaflu-server-data:/insaflu_web/INSaFLU/media
-      - insaflu-server-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
-      - insaflu-server-env:/insaflu_web/INSaFLU/env
+      - ${BASE_PATH_DATA}/televir/:/televir/mngs_benchmark    
+      - ${BASE_PATH_DATA}/insaflu/data/all_data:/insaflu_web/INSaFLU/media
+      - ${BASE_PATH_DATA}/insaflu/data/predefined_dbs:/insaflu_web/INSaFLU/static_all/db
+      - ${BASE_PATH_DATA}/insaflu/env:/insaflu_web/INSaFLU/env
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
