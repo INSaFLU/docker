@@ -32,7 +32,7 @@ Docker:
 
 :warning: If you're uncomfortable running a script you downloaded off the internet with sudo, you can extract any of the steps out of the install.sh script and run them manually.
 
-:warning: local-persist does not seem to be supported in windows environments eg. WSL2. In this case you may need to adjust the Dockerfile(s) to use bind volumes instead.
+:warning: local-persist does not seem to be supported in windows environments eg. WSL2. In this case you may need to adjust the Dockerfile(s) to use bind volumes instead. We provide a windows docker compose file as a suggestion that can be used.
 
 INSaFLU:
 
