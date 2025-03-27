@@ -77,8 +77,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Nextstrain Dengue
+echo "Install Nextstrain Dengue"
+conda create --name=nextstrain_dengue -c conda-forge mamba python=3.10 --yes && conda activate nextstrain_dengue && mamba install -c conda-forge -c bioconda mafft iqtree --yes && pip install nextstrain-cli nextstrain-augur snakemake && pip install pulp==2.7 && pip install epiweeks && curl -fsSL "https://github.com/nextstrain/nextclade/releases/download/3.10.2/nextclade-x86_64-unknown-linux-gnu" -o "/software/nextclade" && chmod +x /software/nextclade && mv /software/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/ && ln -s /software/miniconda2/envs/nextstrain_dengue/bin/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/nextclade3  && conda deactivate 
+
 # Nextstrain builds
-cd /software/nextstrain/ && git clone https://github.com/INSaFLU/nextstrain_builds.git
+cd /software/nextstrain/ && git clone https://github.com/INSaFLU/nextstrain_builds.git && cd nextstrain_builds && rm -R -f ncov && git clone https://github.com/INSaFLU/dengue.git $$ git clone https://github.com/INSaFLU/mpox.git && https://github.com/INSaFLU/ncov.git 
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain builds"
     exit 1
