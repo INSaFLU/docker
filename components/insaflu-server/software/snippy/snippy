@@ -308,8 +308,20 @@ if($is_ivar == 1){
     "$BINDIR/snippy-vcf_to_tab --gff $refdir/ref.gff --ref $refdir/ref.fa --vcf $prefix.vcf > $prefix.tab",               
     "bgzip -c $prefix.vcf > $prefix.vcf.gz",
     "tabix -p vcf $prefix.vcf.gz",
-    "vcf-consensus $prefix.vcf.gz < $refdir/ref.fa > $prefix.consensus.fa",
-    #"samtools mpileup -A -d 0 -Q 0 $prefix.bam | ivar consensus -p $prefix.consensus -q $basequal -t $minfrac -m $mincov",
+  );
+  my @id = keys %refseq;
+  foreach my $id (@id){
+    $id =~ s/\s.*//;
+    push @cmd, (
+      #"vcf-consensus $prefix.vcf.gz < $refdir/ref.fa > $prefix.consensus.fa",
+      "samtools mpileup -r $id -A -d 0 -Q 0 $prefix.bam | ivar consensus -i $id -p $prefix.consensus.$id.tmp -q $basequal -t $minfrac -m $mincov",
+      #"fixids.pl $id $prefix.consensus.tmp.fa > $prefix.consensus.fa",
+      #"rm -f $prefix.consensus.tmp.fa",
+    );
+  }
+  push @cmd, (
+    "cat $prefix.consensus.*.tmp.fa > $prefix.consensus.fa",
+    "rm -f $prefix.consensus.*.tmp.fa",
   );
 } else {
   push @cmd, (
