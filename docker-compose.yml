@@ -228,7 +228,9 @@ services:
     expose:
       - "6818"
     depends_on:
-      - "slurmctld"
+      - slurmctld
+      - db_insaflu
+      - officer
     networks:
       - slurm-network
 
@@ -254,6 +256,8 @@ services:
     expose:
       - "6818"
     depends_on:
-      - "slurmctld"
+      - slurmctld
+      - db_insaflu
+      - officer
     networks:
       - slurm-network

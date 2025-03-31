@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 eval "$(/software/miniconda2/bin/conda shell.bash hook)"
-conda activate flumut
-flumut $@
+conda activate irma
+IRMA $@
 conda deactivate
