@@ -87,7 +87,7 @@ services:
   # insaflu
   # password and database login are defined in components/insaflu/configs/insaflu.env 
   insaflu-server:
-    image: insapathogenomics/insaflu-server:2.1.3
+    image: insapathogenomics/insaflu-server:2.2.0
     container_name: insaflu-server
     hostname: insaflu
     restart: no
