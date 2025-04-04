@@ -47,11 +47,11 @@ if [ $? -ne 0 ]; then
 fi
 
 # LABEL for Nextstrain (avian flu)
-cd /software/nextstrain && wget https://wonder.cdc.gov/amd/flu/label/flu-amd-LABEL-202209.zip && unzip flu-amd-LABEL-202209.zip && rm -f flu-amd-LABEL-202209.zip
-if [ $? -ne 0 ]; then
-    echo "Error installing LABEL for Nextstrain"
-    exit 1
-fi
+#cd /software/nextstrain && wget https://wonder.cdc.gov/amd/flu/label/flu-amd-LABEL-202209.zip && unzip flu-amd-LABEL-202209.zip && rm -f flu-amd-LABEL-202209.zip
+#if [ $? -ne 0 ]; then
+#    echo "Error installing LABEL for Nextstrain"
+#    exit 1
+#fi
 
 # Nextstrain_rsv
 echo "Install Nextstrain RSV"

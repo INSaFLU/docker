@@ -40,7 +40,7 @@ volumes:
 
 ### this is necessary to set an ip to SGE in insaflu
 networks:
-  insaflu_net:
+  insaflu_ubuntu_net:
     driver: bridge
     ipam:
       driver: default
@@ -68,7 +68,7 @@ services:
     expose:
       - 5432
     networks:
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.2
 
   # responsible to m
@@ -96,7 +96,7 @@ services:
     tty: true
     stdin_open: true
     networks:
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.5
     command: [ "move" ]
     
@@ -131,7 +131,7 @@ services:
     tty: true
     stdin_open: true
     networks:
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.4
     command: [ "init_all" ]
 
@@ -173,7 +173,7 @@ services:
       - "slurmdbd"
     networks:
       - slurm-network
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.3
 
   c1:
