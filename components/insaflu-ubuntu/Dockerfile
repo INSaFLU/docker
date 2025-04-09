@@ -15,7 +15,7 @@ RUN mkdir -p /tmp_install
 RUN mkdir -p /software
 
 ENV APP_USER=flu_user
-RUN useradd -ms /bin/bash ${APP_USER}
+RUN useradd -ms /bin/bash ${APP_USER} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
 
 ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/
