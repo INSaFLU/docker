@@ -14,9 +14,6 @@ LABEL vendor=INSA\
 RUN mkdir -p /tmp_install
 RUN mkdir -p /software
 
-ENV APP_USER=flu_user
-RUN useradd -ms /bin/bash ${APP_USER} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
-
 ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/
 ADD software/ /tmp_install/software/
@@ -32,6 +29,9 @@ ARG SHARED_USER_UID=1000
 ARG SHARED_GROUP_NAME=user
 ARG SHARED_GROUP_GID=1000
 
+
+ENV APP_USER=flu_user
+RUN useradd -ms /bin/bash ${APP_USER} --uid=${SHARED_USER_UID} 
 
 #### standardize munge and slurm users and groups across machines.
 RUN set -x \
