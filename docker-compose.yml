@@ -244,7 +244,7 @@ services:
       - officer
     networks:
       insaflu_ubuntu_net:
-        ipv4_address: 10.1.0.5
+        ipv4_address: 10.1.0.7
       slurm-network:
 
   c2:
