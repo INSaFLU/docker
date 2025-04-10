@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 ### places where the most important data is
 volumes:
@@ -9,8 +9,14 @@ volumes:
   var_lib_mysql:
   insaflu-website:
   insaflu-software:
+  local-bin:
   etc_munge:
+<<<<<<< HEAD
   tmp_insaflu:
+=======
+  insaflu_media:
+  insaflu_static:
+>>>>>>> de0ca172a31dae09249fec4c118c984561131f69
 
   pg_data:
     driver: local-persist
@@ -43,7 +49,7 @@ volumes:
 
 ### this is necessary to set an ip to SGE in insaflu
 networks:
-  insaflu_net:
+  insaflu_ubuntu_net:
     driver: bridge
     ipam:
       driver: default
@@ -71,7 +77,7 @@ services:
     expose:
       - 5432
     networks:
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.2
 
   # responsible to m
@@ -82,7 +88,7 @@ services:
       TIMEZONE: "${TIMEZONE}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      
+
   # TELEVIR
   televir-server:
     build: components/televir/.
@@ -99,14 +105,14 @@ services:
     tty: true
     stdin_open: true
     networks:
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.5
-    command: [ "move" ]
-  
+    command: ["move"]
+
   # insaflu
-  # password and database login are defined in components/insaflu/configs/insaflu.env 
+  # password and database login are defined in components/insaflu/configs/insaflu.env
   insaflu-ubuntu:
-    build: 
+    build:
       context: components/insaflu-ubuntu/.
       args:
         SLURM_TAG: ${SLURM_TAG}
@@ -127,8 +133,14 @@ services:
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
+<<<<<<< HEAD
       - tmp_insaflu:/tmp/insaFlu
 
+=======
+      - insaflu_media:/insaflu_web/INSaFLU/media
+      - insaflu_static:/insaflu_web/INSaFLU/static_all
+      - local-bin:/usr/local/bin
+>>>>>>> de0ca172a31dae09249fec4c118c984561131f69
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
@@ -146,10 +158,10 @@ services:
     tty: true
     stdin_open: true
     networks:
-      insaflu_net:
+      insaflu_ubuntu_net:
         ipv4_address: 10.1.0.4
       slurm-network:
-    command: [ "init_all" ]
+    command: ["init_all"]
 
   mysql:
     image: mariadb:10.11
@@ -226,7 +238,13 @@ services:
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
+<<<<<<< HEAD
       - tmp_insaflu:/tmp/insaFlu
+=======
+      - insaflu_media:/insaflu_web/INSaFLU/media
+      - insaflu_static:/insaflu_web/INSaFLU/static_all
+      - local-bin:/usr/local/bin
+>>>>>>> de0ca172a31dae09249fec4c118c984561131f69
 
     expose:
       - "6818"
@@ -235,7 +253,9 @@ services:
       - db_insaflu
       - officer
     networks:
-      - slurm-network
+      insaflu_ubuntu_net:
+        ipv4_address: 10.1.0.6
+      slurm-network:
 
   c2:
     image: slurm-docker-nodes:${IMAGE_TAG}
@@ -250,12 +270,19 @@ services:
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-      - insaflu-website:/insaflu_web/INSaFLU  
+      - insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
+<<<<<<< HEAD
       - var_log_insaflu:/var/log/insaflu
       - tmp_insaflu:/tmp/insaFlu
+=======
+      - var_log_insaflu:/var/log/insaFlu
+      - insaflu_media:/insaflu_web/INSaFLU/media
+      - insaflu_static:/insaflu_web/INSaFLU/static_all
+      - local-bin:/usr/local/bin
+>>>>>>> de0ca172a31dae09249fec4c118c984561131f69
 
     expose:
       - "6818"
@@ -264,4 +291,7 @@ services:
       - db_insaflu
       - officer
     networks:
-      - slurm-network
+      insaflu_ubuntu_net:
+        ipv4_address: 10.1.0.6
+      slurm-network:
+

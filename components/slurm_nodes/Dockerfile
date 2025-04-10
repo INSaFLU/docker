@@ -29,6 +29,9 @@ RUN set -x \
     && groupadd -r --gid=102 munge \
     && useradd -r -g munge --uid=102 munge 
 
+ENV APP_USER=flu_user
+RUN useradd -ms /bin/bash ${APP_USER} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+
 ####
 
 RUN set -ex \
