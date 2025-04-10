@@ -11,12 +11,9 @@ volumes:
   insaflu-software:
   local-bin:
   etc_munge:
-<<<<<<< HEAD
   tmp_insaflu:
-=======
   insaflu_media:
   insaflu_static:
->>>>>>> de0ca172a31dae09249fec4c118c984561131f69
 
   pg_data:
     driver: local-persist
@@ -133,14 +130,10 @@ services:
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
-<<<<<<< HEAD
       - tmp_insaflu:/tmp/insaFlu
-
-=======
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
       - local-bin:/usr/local/bin
->>>>>>> de0ca172a31dae09249fec4c118c984561131f69
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
@@ -238,13 +231,10 @@ services:
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
-<<<<<<< HEAD
       - tmp_insaflu:/tmp/insaFlu
-=======
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
       - local-bin:/usr/local/bin
->>>>>>> de0ca172a31dae09249fec4c118c984561131f69
 
     expose:
       - "6818"
@@ -254,7 +244,7 @@ services:
       - officer
     networks:
       insaflu_ubuntu_net:
-        ipv4_address: 10.1.0.6
+        ipv4_address: 10.1.0.5
       slurm-network:
 
   c2:
@@ -274,15 +264,12 @@ services:
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
-<<<<<<< HEAD
       - var_log_insaflu:/var/log/insaflu
       - tmp_insaflu:/tmp/insaFlu
-=======
       - var_log_insaflu:/var/log/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
       - local-bin:/usr/local/bin
->>>>>>> de0ca172a31dae09249fec4c118c984561131f69
 
     expose:
       - "6818"
