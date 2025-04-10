@@ -11,8 +11,10 @@ LABEL vendor=INSA\
       pt.insa.insaflu.version="1.7.0-beta" \
       pt.insa.insaflu.release-date="2023-06-13"
 
+
 RUN mkdir -p /tmp_install
 RUN mkdir -p /software
+RUN mkdir -p /tmp/insaFlu
 
 ENV APP_USER=flu_user
 RUN useradd -ms /bin/bash ${APP_USER}

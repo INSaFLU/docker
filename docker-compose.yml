@@ -10,6 +10,7 @@ volumes:
   insaflu-website:
   insaflu-software:
   etc_munge:
+  tmp_insaflu:
 
   pg_data:
     driver: local-persist
@@ -126,6 +127,7 @@ services:
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
+      - tmp_insaflu:/tmp/insaFlu
 
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
@@ -224,6 +226,7 @@ services:
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
+      - tmp_insaflu:/tmp/insaFlu
 
     expose:
       - "6818"
@@ -251,7 +254,8 @@ services:
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
-      - var_log_insaflu:/var/log/insaFlu
+      - var_log_insaflu:/var/log/insaflu
+      - tmp_insaflu:/tmp/insaFlu
 
     expose:
       - "6818"
