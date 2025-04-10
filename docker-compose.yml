@@ -272,7 +272,7 @@ services:
       - local-bin:/usr/local/bin
 
     expose:
-      - "6818"
+      - "6819"
     depends_on:
       - slurmctld
       - db_insaflu
