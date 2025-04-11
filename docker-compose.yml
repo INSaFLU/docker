@@ -244,7 +244,7 @@ services:
       - officer
     networks:
       insaflu_ubuntu_net:
-        ipv4_address: 10.1.0.7
+        ipv4_address: 10.1.0.6
       slurm-network:
 
   c2:
@@ -272,7 +272,7 @@ services:
       - local-bin:/usr/local/bin
 
     expose:
-      - "6819"
+      - "6818"
     depends_on:
       - slurmctld
       - db_insaflu
