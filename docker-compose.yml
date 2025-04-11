@@ -1,4 +1,3 @@
-version: '3.4'
 
 ### places where the most important data is
 volumes:
