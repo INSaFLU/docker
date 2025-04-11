@@ -1,4 +1,3 @@
-version: '3.4'
 
 ### this is necessary to set an ip to SGE in insaflu
 networks:
