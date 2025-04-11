@@ -11,6 +11,7 @@ volumes:
   insaflu-software:
   local-bin:
   etc_munge:
+  tmp_insaflu:
   insaflu_media:
   insaflu_static:
 
@@ -129,6 +130,7 @@ services:
       - etc_slurm:/etc/slurm
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
+      - tmp_insaflu:/tmp/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
       - local-bin:/usr/local/bin
@@ -229,6 +231,7 @@ services:
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
+      - tmp_insaflu:/tmp/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
       - local-bin:/usr/local/bin
@@ -241,7 +244,7 @@ services:
       - officer
     networks:
       insaflu_ubuntu_net:
-        ipv4_address: 10.1.0.6
+        ipv4_address: 10.1.0.7
       slurm-network:
 
   c2:
@@ -261,13 +264,15 @@ services:
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
+      - var_log_insaflu:/var/log/insaflu
+      - tmp_insaflu:/tmp/insaFlu
       - var_log_insaflu:/var/log/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
       - local-bin:/usr/local/bin
 
     expose:
-      - "6818"
+      - "6819"
     depends_on:
       - slurmctld
       - db_insaflu

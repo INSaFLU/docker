@@ -11,8 +11,10 @@ LABEL vendor=INSA\
       pt.insa.insaflu.version="1.7.0-beta" \
       pt.insa.insaflu.release-date="2023-06-13"
 
+
 RUN mkdir -p /tmp_install
 RUN mkdir -p /software
+RUN mkdir -p /tmp/insaFlu
 
 ADD configs/ /tmp_install/configs/
 ADD commands/ /tmp_install/commands/

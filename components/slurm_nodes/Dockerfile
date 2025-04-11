@@ -127,6 +127,7 @@ RUN set -x \
 ###### 
 
 RUN mkdir -p /tmp_install
+RUN mkdir -p /tmp/insaFlu
 
 ADD *.sh /tmp_install/
 
@@ -158,6 +159,8 @@ ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/ka
 #RUN set -x \
 #    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
 #    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
+
+ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}" 
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
