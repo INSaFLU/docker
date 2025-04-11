@@ -144,8 +144,13 @@ COPY configs/munge/munge.key /etc/munge/
 RUN chmod 400 /etc/munge/munge.key
 RUN chown munge:munge /etc/munge/munge.key
 
+RUN mkdir /tmp/insaFlu && chown ${APP_USER}:${APP_USER} /tmp/insaFlu
+
 RUN apt-get update \
     && apt-get install -y sudo
+
+ENV PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}" 
+
 #RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 #USER admin
 #ENV USER=admin
