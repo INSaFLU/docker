@@ -158,6 +158,8 @@ RUN apt-get update \
 #    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
 #    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
 
+RUN chown -R ${APP_USER}:${APP_USER} /software
+
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /home/${APP_USER}/.bashrc
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /root/.bashrc
 

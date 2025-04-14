@@ -9,7 +9,6 @@ volumes:
   var_lib_mysql:
   insaflu-website:
   insaflu-software:
-  local-bin:
   etc_munge:
   tmp_insaflu:
   insaflu_media:
@@ -133,7 +132,6 @@ services:
       - tmp_insaflu:/tmp/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
-      - local-bin:/usr/local/bin
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
@@ -234,7 +232,6 @@ services:
       - tmp_insaflu:/tmp/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
-      - local-bin:/usr/local/bin
 
     expose:
       - "6818"
@@ -269,7 +266,6 @@ services:
       - var_log_insaflu:/var/log/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
-      - local-bin:/usr/local/bin
 
     expose:
       - "6818"
