@@ -109,8 +109,11 @@ RUN set -x \
 ####
 RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
-USER root
 
+RUN sacctmgr users -i add $APP_USER
+RUN sacctmgr modify user $APP_USER set adminlevel=ALL
+
+USER root
 
 RUN sh /tmp_install/install_miniconda.sh
 RUN sh /tmp_install/install_software.sh
