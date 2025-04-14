@@ -30,7 +30,7 @@ class TelevirLayout:
     # host mappers
     install_bowtie2_remap = True
     install_bowtie2_depletion = True
-    install_bwa = True
+    install_bwa_host = True
 
     # classification software.
     install_centrifuge = True
