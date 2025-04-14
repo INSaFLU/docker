@@ -46,6 +46,7 @@ fi
 
 if [ "$1" = "slurmd" ]
 then
+    chown -R flu_user:flu_user /software
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     #service munge start
     gosu munge munged --pid-file=/var/run/munge/munged.pid
@@ -60,6 +61,7 @@ then
     
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dvvv
+
 fi
 
 exec "$@"

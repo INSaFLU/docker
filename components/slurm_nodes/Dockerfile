@@ -150,18 +150,13 @@ RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:${APP_USER} /tmp/insaFlu
 RUN apt-get update \
     && apt-get install -y sudo
 
-#RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-#USER admin
-#ENV USER=admin
-
-#RUN set -x \
-#    && groupadd --gid=${SHARED_GROUP_GID} ${SHARED_GROUP_NAME} \
-#    && useradd -g ${SHARED_GROUP_NAME} --uid=${SHARED_USER_UID} ${SHARED_USER_NAME}
-
-RUN chown -R ${APP_USER}:${APP_USER} /software
 
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /home/${APP_USER}/.bashrc
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /root/.bashrc
+RUN echo "export LC_CTYPE=en_US.UTF-8" >> /home/${APP_USER}/.bashrc
+RUN echo "export LC_ALL=en_US.UTF-8" >> /home/${APP_USER}/.bashrc
+
+
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
