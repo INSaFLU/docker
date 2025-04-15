@@ -147,7 +147,7 @@ RUN apt-get update \
 
 ADD entrypoint.sh /tmp_install/
 RUN sh /tmp_install/install_finish.sh
-RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:${APP_USER} /tmp/insaFlu
+RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:slurm /tmp/insaFlu
 
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /home/${APP_USER}/.bashrc
 

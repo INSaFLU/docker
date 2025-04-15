@@ -61,7 +61,7 @@ RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O telev
     unzip -q televir.zip && \
     rm televir.zip && \
     mv TELEVIR-main TELEVIR && \
-    chown -R ${APP_USER}:${APP_USER} TELEVIR
+    chown -R ${APP_USER}:slurm TELEVIR
 
 COPY configs/config_install.py /insaflu_web/TELEVIR/install_scripts/config.py
 COPY configs/config.py /insaflu_web/TELEVIR/config.py

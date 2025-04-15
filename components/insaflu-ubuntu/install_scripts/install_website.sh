@@ -19,7 +19,7 @@ setup_website() {
         exit 1
     fi
     
-    mkdir -p /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
+    mkdir -p /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:slurm * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:slurm /var/log/insaFlu
     if [ $? -ne 0 ]; then
         echo "Error setting up environment and changing ownership"
         exit 1

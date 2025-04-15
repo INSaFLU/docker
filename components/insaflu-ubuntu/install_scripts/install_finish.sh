@@ -7,7 +7,7 @@ mv /tmp_install/commands /insaflu_web/ && chmod a+x /insaflu_web/commands/*
 
 ### set all default insaflu data
 echo "--> set ownership <---"
-chown -R ${APP_USER}:${APP_USER} /software && rm -rf /var/lib/apt/lists/*
+chown -R ${APP_USER}:slurm /software && rm -rf /var/lib/apt/lists/*
 
 ## entry point
 echo "---> Set entrypoint  ..."

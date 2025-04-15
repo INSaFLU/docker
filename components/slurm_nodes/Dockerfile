@@ -148,7 +148,7 @@ COPY configs/munge/munge.key /etc/munge/
 RUN chmod 400 /etc/munge/munge.key
 RUN chown munge:munge /etc/munge/munge.key
 
-RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:${APP_USER} /tmp/insaFlu
+RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:slurm /tmp/insaFlu
 
 RUN apt-get update \
     && apt-get install -y sudo

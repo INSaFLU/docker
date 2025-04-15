@@ -48,7 +48,7 @@ fi
 
 if [ "$1" = "slurmd" ]
 then
-    chown -R flu_user:flu_user /software
+    chown -R flu_user:slurm /software
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     #service munge start
     gosu munge munged --pid-file=/var/run/munge/munged.pid
