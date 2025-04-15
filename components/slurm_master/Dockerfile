@@ -129,8 +129,10 @@ RUN chown munge:munge /etc/munge/munge.key
 RUN apt-get update \
     && apt-get install -y sudo
 
-RUN sacctmgr users -i add $APP_USER
+RUN sacctmgr create account -i $APP_USER
+RUN sacctmgr create user -i $APP_USER
 RUN sacctmgr modify user $APP_USER set adminlevel=ALL
+
 #RUN echo "admin:admin" | chpasswd && id -u admin || sudo adduser admin && echo "admin     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 #USER admin
 #ENV USER=admin

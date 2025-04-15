@@ -110,7 +110,8 @@ RUN set -x \
 RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
 
-RUN sacctmgr users -i add $APP_USER
+RUN sacctmgr create account -i $APP_USER
+RUN sacctmgr create user -i $APP_USER
 RUN sacctmgr modify user $APP_USER set adminlevel=ALL
 
 USER root

@@ -150,7 +150,8 @@ RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:${APP_USER} /tmp/insaFlu
 RUN apt-get update \
     && apt-get install -y sudo
 
-RUN sacctmgr users -i add $APP_USER
+RUN sacctmgr create account -i $APP_USER
+RUN sacctmgr create user -i $APP_USER
 RUN sacctmgr modify user $APP_USER set adminlevel=ALL
 
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /home/${APP_USER}/.bashrc
