@@ -71,9 +71,6 @@ COPY configs/televir.env /insaflu_web/TELEVIR/.env
 WORKDIR /
 COPY entrypoint.sh entrypoint_original.sh
 
-RUN sacctmgr users -i add $APP_USER
-RUN sacctmgr modify user $APP_USER set adminlevel=ALL
-
 RUN sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh; rm entrypoint_original.sh
 RUN chmod a+x entrypoint.sh
 
