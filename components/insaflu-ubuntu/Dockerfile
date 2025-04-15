@@ -32,9 +32,6 @@ ARG SHARED_GROUP_NAME=user
 ARG SHARED_GROUP_GID=1000
 
 
-ENV APP_USER=flu_user
-RUN useradd -ms /bin/bash ${APP_USER} --uid=${SHARED_USER_UID} 
-
 #### standardize munge and slurm users and groups across machines.
 RUN set -x \
       && groupadd -r --gid=990 slurm \
