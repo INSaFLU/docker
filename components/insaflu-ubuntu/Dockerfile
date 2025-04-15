@@ -44,9 +44,12 @@ RUN set -x \
       && groupadd -r --gid=102 munge \
       && useradd -r -g munge --uid=102 munge 
 
+ENV APP_USER=flu_user
+RUN useradd -ms /bin/bash ${APP_USER} -r -g slurm --uid=${SHARED_USER_UID} 
+
+
 # 
 RUN sh /tmp_install/install_system_pkgs.sh
-
 
 ## slurm configuration
 
