@@ -30,7 +30,7 @@ RUN set -x \
     && useradd -r -g munge --uid=102 munge 
 
 ENV APP_USER=flu_user
-RUN useradd -ms /bin/bash ${APP_USER} --uid=${SHARED_USER_UID} 
+RUN useradd -ms /bin/bash ${APP_USER} -r -g slurm --uid=${SHARED_USER_UID} 
 
 ####
 
