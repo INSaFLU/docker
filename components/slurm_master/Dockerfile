@@ -112,6 +112,9 @@ COPY configs/munge/munged.pid /var/run/munge/munged.pid
 RUN chown munge:munge /var/run/munge/munged.pid
 
 COPY configs/slurm/slurm.conf /etc/slurm/slurm.conf
+RUN chown slurm:slurm /etc/slurm/slurm.conf \
+    && chmod 644 /etc/slurm/slurm.conf
+
 COPY configs/slurm/cgroup.conf /etc/slurm/cgroup.conf 
 COPY configs/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \

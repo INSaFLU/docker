@@ -118,6 +118,9 @@ COPY configs/munge/munged.pid /var/run/munge/munged.pid
 RUN chown munge:munge /var/run/munge/munged.pid
 
 COPY configs/slurm/slurm.conf /etc/slurm/slurm.conf
+RUN chown slurm:slurm /etc/slurm/slurm.conf \
+    && chmod 644 /etc/slurm/slurm.conf
+
 COPY configs/slurm/cgroup.conf /etc/slurm/cgroup.conf 
 COPY configs/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
@@ -150,9 +153,9 @@ RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:${APP_USER} /tmp/insaFlu
 RUN apt-get update \
     && apt-get install -y sudo
 
-RUN sacctmgr create account -i $APP_USER
-RUN sacctmgr create user -i $APP_USER
-RUN sacctmgr modify user $APP_USER set adminlevel=ALL
+#RUN sacctmgr create account -i $APP_USER
+#RUN sacctmgr create user -i $APP_USER
+#RUN sacctmgr modify user $APP_USER set adminlevel=ALL
 
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /home/${APP_USER}/.bashrc
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /root/.bashrc

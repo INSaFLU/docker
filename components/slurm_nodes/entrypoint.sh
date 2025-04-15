@@ -35,6 +35,8 @@ then
         sleep 2
     done
     echo "-- slurmdbd is now active ..."
+
+    echo "---> create user and group for slurmctld ..."
     
     echo "---> Starting the Slurm Controller Daemon (slurmctld) ..."
     if /usr/sbin/slurmctld -V | grep -q '21.08.8-2' ; then
@@ -58,7 +60,15 @@ then
         sleep 2
     done
     echo "-- slurmctld is now active ..."
-    
+    echo "---> create user and group for slurmd ..."
+    APP_USER=flu_user
+    APP_GROUP=flu_user
+    APP_HOME=/home/$APP_USER
+    sacctmgr create account -i $APP_USER
+    sacctmgr create user -i $APP_USER
+    sacctmgr modify user $APP_USER set adminlevel=ALL
+    sacctmgr modify user $APP_USER set defaultaccount=$APP_USER
+
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dvvv
 

@@ -99,7 +99,10 @@ COPY configs/munge/munged.pid /var/run/munge/munged.pid
 RUN chown munge:munge /var/run/munge/munged.pid
 
 COPY configs/slurm/slurm.conf /etc/slurm/slurm.conf
-COPY configs/slurm/cgroup.conf /etc/slurm/cgroup.conf 
+RUN chown slurm:slurm /etc/slurm/slurm.conf \
+      && chmod 644 /etc/slurm/slurm.conf
+
+COPY configs/slurm/cgroup.conf /etc/slurm/cgroup.conf
 COPY configs/slurm/slurmdbd.conf /etc/slurm/slurmdbd.conf
 RUN set -x \
       && chown slurm:slurm /etc/slurm/slurmdbd.conf \
@@ -109,10 +112,6 @@ RUN set -x \
 ####
 RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
-
-RUN sacctmgr create account -i $APP_USER
-RUN sacctmgr create user -i $APP_USER
-RUN sacctmgr modify user $APP_USER set adminlevel=ALL
 
 USER root
 
