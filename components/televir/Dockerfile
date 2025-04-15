@@ -6,6 +6,10 @@ RUN useradd -ms /bin/bash ${APP_USER}
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
 
+RUN set -x \
+    && groupadd -r --gid=990 slurm \
+    && useradd -r -g slurm --uid=990 slurm
+
 RUN apt-get update
 RUN apt-get upgrade -y
 
