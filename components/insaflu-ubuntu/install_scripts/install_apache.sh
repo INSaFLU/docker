@@ -18,7 +18,7 @@ useradd apache
 
 ### apache server
 echo "Setup Apache httpd"
-usermod -a -G ${APP_USER} apache && mv /tmp_install/configs/insaflu.conf /etc/apache2/sites-available/000-default.conf
+usermod -a -G slurm apache && mv /tmp_install/configs/insaflu.conf /etc/apache2/sites-available/000-default.conf
 echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 sed 's~</IfModule>~\n    AddType application/octet-stream .bam\n\n</IfModule>~' /etc/apache2/mods-available/mime.conf > /etc/apache2/mods-available/mime.conf_temp
 mv /etc/apache2/mods-available/mime.conf_temp /etc/apache2/mods-available/mime.conf
