@@ -157,6 +157,8 @@ cd /software && git clone --branch v4.6.0 https://github.com/tseemann/snippy.git
 && mv /tmp_install/software/snippy/run_check_consensus /software/snippy/binaries/linux/ \
 && chmod a+x /software/snippy/binaries/linux/run_check_consensus \
 && mv /tmp_install/software/snippy/snippy /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy
+&& mv /tmp_install/software/snippy/vcf-consensus /software/snippy/binaries/noarch/vcf-consensus \
+&& chmod a+x /software/snippy/binaries/noarch/vcf-consensus 
 if [ $? -ne 0 ]; then
     echo "Error installing snippy"
     exit 1
