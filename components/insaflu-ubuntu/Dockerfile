@@ -61,7 +61,8 @@ RUN set -ex \
       munge \
       libmunge-dev \
       libhttp-parser-dev \
-      libjson-c-dev
+      libjson-c-dev \
+      ncbi-tools-bin
 
 
 RUN set -x \
@@ -150,6 +151,7 @@ RUN sh /tmp_install/install_finish.sh
 RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:slurm /tmp/insaFlu
 
 RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /home/${APP_USER}/.bashrc
+RUN echo 'PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /root/.bashrc
 RUN echo 'export PATH="/opt/sge/bin:/opt/sge/bin/lx-amd64:/insaflu_web/commands/:/software/kallisto_linux-v0.43.1/:/software/blast+/2.16.0/ncbi-blast-2.16.0+-src/c++/ReleaseMT/bin:${PATH}"' >> /etc/apache2/envvars
 RUN echo 'export USER=${APP_USER}' >> /etc/apache2/envvars
 RUN echo 'export HOME=/home/${APP_USER}' >> /etc/apache2/envvars

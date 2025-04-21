@@ -18,3 +18,11 @@ if [ $? -ne 0 ]; then
     echo "Error installing Bioperl"
     exit 1
 fi
+
+# make several links
+echo "Create snippy links"
+sh /tmp_install/software/make_links.sh
+if [ $? -ne 0 ]; then
+    echo "Error making snippy links"
+    exit 1
+fi

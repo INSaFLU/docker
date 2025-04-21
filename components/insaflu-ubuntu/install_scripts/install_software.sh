@@ -131,7 +131,8 @@ fi
 ################## ACTION NEEDED
 ################## new version, check if we still need to be copying tbl2asn script
 echo "Install prokka"
-cd /software && git clone --branch v1.14.5 https://github.com/tseemann/prokka.git && mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
+cd /software && git clone --branch v1.14.5 https://github.com/tseemann/prokka.git #&& mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
+conda create -n prokka -c conda-forge -c bioconda prokka=1.14.5 tbl2asn-forever
 if [ $? -ne 0 ]; then
     echo "Error installing prokka"
     exit 1
@@ -142,7 +143,7 @@ mv /tmp_install/software/scripts /software/
 
 ### snippy
 echo "Install snippy"
-cd /software && git clone --branch v3.2 https://github.com/tseemann/snippy.git \
+cd /software && git clone --branch v4.6.0 https://github.com/tseemann/snippy.git \
 && ln -s snippy/perl5 perl5 && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq /software/snippy/bin/ \
 && chmod a+x /software/snippy/bin/snippy-vcf_to_tab_add_freq \
 && mv /tmp_install/software/snippy/snippy-vcf_to_tab_add_freq_and_evidence /software/snippy/bin/ \

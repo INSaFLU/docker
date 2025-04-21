@@ -58,6 +58,7 @@ RUN set -ex \
     vim \
     libhttp-parser-dev \
     libjson-c-dev \
+    ncbi-tools-bin \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
