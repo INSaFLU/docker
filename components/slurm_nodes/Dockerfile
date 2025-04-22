@@ -18,8 +18,8 @@ ARG SHARED_GROUP_GID=1000
 
 RUN mkdir -p /tmp_install
 
-ADD configs/ /tmp_install/configs/
-ADD software/ /tmp_install/software/
+ADD configs /tmp_install/configs
+ADD software /tmp_install/software
 
 #### standardize munge and slurm users and groups across machines.
 RUN set -x \
