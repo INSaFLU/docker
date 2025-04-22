@@ -132,7 +132,7 @@ fi
 ################## new version, check if we still need to be copying tbl2asn script
 echo "Install prokka"
 cd /software && git clone --branch v1.14.5 https://github.com/tseemann/prokka.git #&& mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
-conda create -n prokka -c conda-forge -c bioconda prokka=1.14.5 tbl2asn-forever
+#conda create -n prokka -c conda-forge -c bioconda prokka=1.14.5 tbl2asn-forever
 if [ $? -ne 0 ]; then
     echo "Error installing prokka"
     exit 1
@@ -156,7 +156,8 @@ cd /software && git clone --branch v4.6.0 https://github.com/tseemann/snippy.git
 && chmod a+x /software/snippy/binaries/linux/bedtools \
 && mv /tmp_install/software/snippy/run_check_consensus /software/snippy/binaries/linux/ \
 && chmod a+x /software/snippy/binaries/linux/run_check_consensus \
-&& mv /tmp_install/software/snippy/snippy /software/snippy/bin/ && chmod a+x /software/snippy/bin/snippy
+&& mv /tmp_install/software/snippy/snippy /software/snippy/bin/ \
+&& chmod a+x /software/snippy/bin/snippy \
 && mv /tmp_install/software/snippy/vcf-consensus /software/snippy/binaries/noarch/vcf-consensus \
 && chmod a+x /software/snippy/binaries/noarch/vcf-consensus 
 if [ $? -ne 0 ]; then
