@@ -7,7 +7,8 @@ class TelevirLayout:
     install_virosaurus = True
     install_request_sequences = False
     install_ribo16s = True
-
+    install_refseq_16s = True
+    
     # hosts ### CHECK HOST LIBRARY FILE FOR AVAILABLE HOSTS ###
     HOSTS_TO_INSTALL = [
         "hg38",
@@ -35,7 +36,7 @@ class TelevirLayout:
     install_bwa_filter= True
 
     # classification software.
-    install_metaphlan = True
+    install_metaphlan = False
     install_voyager_viral = True
     install_centrifuge = True
     install_centrifuge_bacteria = False
