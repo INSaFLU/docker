@@ -109,6 +109,7 @@ RUN set -x \
       && chown slurm:slurm /etc/slurm/slurmdbd.conf \
       && chmod 600 /etc/slurm/slurmdbd.conf
 
+RUN chown -R www-data:www-data /var/log/insaFlu/
 
 ####
 RUN sh /tmp_install/install_apache.sh
