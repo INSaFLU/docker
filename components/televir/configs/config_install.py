@@ -6,8 +6,8 @@ class TelevirLayout:
     install_rvdb = False
     install_virosaurus = True
     install_request_sequences = False
-    install_ribo16s = True
-    install_refseq_16s = True
+    install_ribo16s = False
+    install_refseq_16s = False
     
     # hosts ### CHECK HOST LIBRARY FILE FOR AVAILABLE HOSTS ###
     HOSTS_TO_INSTALL = [
