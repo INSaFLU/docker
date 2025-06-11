@@ -56,10 +56,10 @@ RUN apt-get install zlib1g-dev make g++
 COPY taxdump.tar.gz /opt/
 
 WORKDIR /insaflu_web
-ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/develop version.json
-RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/develop.zip -O televir.zip && \
+ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/main version.json
+RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O televir.zip && \
     unzip -q televir.zip && \
-    rm televir.zip && \
+    rm main.zip && \
     mv TELEVIR-develop TELEVIR
 ##chown -R ${APP_USER}:${APP_USER} TELEVIR
 
