@@ -59,8 +59,8 @@ WORKDIR /insaflu_web
 ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/main version.json
 RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O televir.zip && \
     unzip -q televir.zip && \
-    rm main.zip && \
-    mv TELEVIR-develop TELEVIR
+    rm televir.zip && \
+    mv TELEVIR-main TELEVIR
 ##chown -R ${APP_USER}:${APP_USER} TELEVIR
 
 COPY configs/config_install.py /insaflu_web/TELEVIR/install_scripts/config.py
