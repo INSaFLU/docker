@@ -92,8 +92,8 @@ fi
 
 ### freebayes
 echo "Install freebayes"
-sudo apt-get update
-sudo apt-get install bc samtools parallel meson ninja-build libvcflib-tools vcftools -y
+apt-get update
+apt-get install bc samtools parallel meson ninja-build libvcflib-tools vcftools -y
 cd /software
 if [ -d /software/freebayes ]; then
     rm -rf /software/freebayes
