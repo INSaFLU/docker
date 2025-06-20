@@ -109,8 +109,6 @@ RUN set -x \
       && chown slurm:slurm /etc/slurm/slurmdbd.conf \
       && chmod 600 /etc/slurm/slurmdbd.conf
 
-RUN chown -R www-data:www-data /var/log/insaFlu/
-
 ####
 RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
@@ -139,6 +137,8 @@ RUN set -ex \
 COPY configs/munge/munge.key /etc/munge/
 RUN chmod 400 /etc/munge/munge.key
 RUN chown munge:munge /etc/munge/munge.key
+
+RUN chown -R www-data:www-data /var/log/insaFlu
 
 RUN apt-get update \
       && apt-get install -y sudo
