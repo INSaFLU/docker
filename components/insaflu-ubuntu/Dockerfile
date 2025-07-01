@@ -138,7 +138,6 @@ COPY configs/munge/munge.key /etc/munge/
 RUN chmod 400 /etc/munge/munge.key
 RUN chown munge:munge /etc/munge/munge.key
 
-RUN chown -R www-data:www-data /var/log/insaFlu
 
 RUN apt-get update \
       && apt-get install -y sudo
