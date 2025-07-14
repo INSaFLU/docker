@@ -18,6 +18,10 @@ fi
 if [ ! -d "${BASE_PATH_DATA}/insaflu/env" ]; then 
 	mkdir -p ${BASE_PATH_DATA}/insaflu/env
 fi
+if [ ! -d "${BASE_PATH_DATA}/insaflu/log" ]; then 
+	mkdir -p ${BASE_PATH_DATA}/insaflu/log
+	chmod 777 ${BASE_PATH_DATA}/insaflu/log
+fi
 if [ ! -d "${BASE_PATH_DATA}/insaflu/log/insaFlu" ]; then 
 	mkdir -p ${BASE_PATH_DATA}/insaflu/log/insaFlu
 	chmod 777 ${BASE_PATH_DATA}/insaflu/log/insaFlu
@@ -38,6 +42,6 @@ docker compose up $IMAGE
 
 echo "Registering references on file..."
 
-docker exec insaflu-ubuntu bash -c "/usr/bin/python3 /insaflu_web/INSaFLU/manage.py register_references_on_file --user_id 1 -o /tmp/register_references" 
+docker exec insaflu-server bash -c "/usr/bin/python3 /insaflu_web/INSaFLU/manage.py register_references_on_file --user_id 1 -o /tmp/insaFlu/register_references > /tmp/insaFlu/register_references.log 2>&1 &"
 
 echo "Registering references on file finished."
