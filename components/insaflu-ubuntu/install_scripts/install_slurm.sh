@@ -10,7 +10,7 @@ apt install software-properties-common -y
 #apt-get install  apache2 apache2-utils apache2-dev libexpat1 ssl-cert -y
 #service apache2 restart
 
-useradd apache
+#useradd apache
 
 #### create a apache
 # Create a group and user to run insaflu
