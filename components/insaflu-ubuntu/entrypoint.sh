@@ -19,10 +19,10 @@ if [ "$1" = "init_all" ]; then
 
     ### set owners
     echo "---> Set owners APP_USER ..."
-    chown -R APP_USER:APP_USER /insaflu_web/INSaFLU/media
-    chown -R APP_USER:APP_USER /var/log/insaFlu
+    chown -R APP_USER:slurm /insaflu_web/INSaFLU/media
+    chown -R APP_USER:slurm /var/log/insaFlu
     ### This is for televir
-    chown -R APP_USER:APP_USER /insaflu_web/INSaFLU/static_all
+    chown -R APP_USER:slurm /insaflu_web/INSaFLU/static_all
     
     ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
     if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then

@@ -72,8 +72,12 @@ then
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dvvv
 
-
-    
+    ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
+    if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+        mv /insaflu_web/INSaFLU/.env /insaflu_web/INSaFLU/env/insaflu.env
+        ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    fi
+        
     echo "---> Load default files  ..."
     if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
         echo "---> Set prokka default databases  ..."
