@@ -110,7 +110,7 @@ RUN set -x \
       && chmod 600 /etc/slurm/slurmdbd.conf
 
 ####
-RUN sh /tmp_install/install_slurm.sh
+RUN sh /tmp_install/install_apache.sh
 RUN sh /tmp_install/install_slurm.sh
 
 USER root
