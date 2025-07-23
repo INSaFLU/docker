@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+echo "---> Register televir references  ..."
+cd /insaflu_web/INSaFLU;
+if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
+    nohup python3 manage.py register_references_on_file -o /tmp/insaFlu/register_televir > /tmp/insaFlu/register_televir.log 2>&1 &
+
+else
+    echo "Televir database not found. Skipping reference registration."
+fi 
+
+echo "--> Registering references on file in the background. Check the INSaFLU References page to see the progress."

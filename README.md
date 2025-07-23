@@ -53,6 +53,8 @@ INSaFLU:
     ## (optional) to run the new viral detection module you need to set up the software and databases
     ## This step can take several hours
     $ ./up_televir.sh
+    ## register TELEVIR references in INSaFLU
+    $ docker exec -it insaflu-server register-televir-references
 
     ## Now run INSaFLU
     $ ./up.sh
@@ -90,6 +92,7 @@ Commands:
     * update-nextstrain_builds	## update the nextstrain builds to the latest information;
     * update-insaflu		## update insaflu software to a new version;
     * test-email-server		## test you smtp server, change parameters first in insaflu/env/insaflu.env file;
+    * register-televir-references	## register TELEVIR references in INSaFLU;
     * confirm-email-account
 
 Examples:
@@ -130,7 +133,11 @@ To configure installation, modify the file `components/televir/config_install.py
 
 #### Update TELEVIR databases
 
-To update TELEVIR databases, modify the file `components/televir/config_install.py` and set the variable UPDATE to `True`. Then run the commands "./build.sh" and "./up_televir.sh" to update the databases. This will update the centrifuge index and the refseq nucleotide reference database.
+To update TELEVIR databases, modify the file `components/televir/config_install.py` and set the variable UPDATE to `True`. Then run the commands "./build.sh" and "./up_televir.sh" to update the databases. This will update the centrifuge index and the refseq nucleotide reference database. Remember to `register-televir-references` after updating the databases to ensure that the references are correctly registered in INSaFLU.
+
+```bash
+$ docker exec -it insaflu-server update-televir-databases
+```
 
 ### TELEVIR+
 

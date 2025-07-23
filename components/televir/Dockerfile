@@ -42,6 +42,9 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 
 ENV PATH $CONDA_DIR/bin:$PATH
 
+## accept conda tos
+RUN conda tos accept
+
 ## install kallisto version
 RUN wget https://github.com/pachterlab/kallisto/releases/download/v0.43.1/kallisto_linux-v0.43.1.tar.gz
 RUN tar -xzf kallisto_linux-v0.43.1.tar.gz
