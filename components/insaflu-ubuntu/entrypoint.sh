@@ -25,10 +25,10 @@ if [ "$1" = "init_all" ]; then
     chown -R APP_USER:slurm /insaflu_web/INSaFLU/static_all
     
     ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
-    if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
-        mv /insaflu_web/INSaFLU/.env /insaflu_web/INSaFLU/env/insaflu.env
-        ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
-    fi
+    #if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+    #    mv /insaflu_web/INSaFLU/.env /insaflu_web/INSaFLU/env/insaflu.env
+    #    ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    #fi
     
     
     ### some files/paths are made by "root" account and need to be accessed by "flu_user"
