@@ -135,10 +135,7 @@ RUN set -x \
 
 ###### 
 
-RUN mkdir -p /tmp_install
-RUN mkdir -p /tmp/insaFlu
-
-ADD *.sh /tmp_install/
+ADD /tmp_install/install_scripts/*.sh /tmp_install/
 
 RUN sh /tmp_install/install_system_pkgs.sh
 RUN sh /tmp_install/install_software.sh

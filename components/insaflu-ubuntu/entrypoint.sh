@@ -30,6 +30,24 @@ if [ "$1" = "init_all" ]; then
     #    ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     #fi
     
+    ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
+    if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+        mv /insaflu_web/INSaFLU/.env /insaflu_web/INSaFLU/env/insaflu.env
+        ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    fi
+        
+    echo "---> Load default files  ..."
+    if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
+        echo "---> Set prokka default databases  ..."
+        ## for fresh prokka instalations
+        /software/prokka/bin/prokka --setupdb
+    fi
+    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_files;
+    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_settings;
+    
+    ## update pangolin if necessary
+    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py update_pangolin;
+
     
     ### some files/paths are made by "root" account and need to be accessed by "flu_user"
     ### It's done by tmpfiles.d
@@ -37,8 +55,13 @@ if [ "$1" = "init_all" ]; then
     if [ -d "/tmp/insaFlu" ]; then
         chmod -R 0777 /tmp/insaFlu
     fi
-    
+
+    chmod -R 0777 /insaflu_web/INSaFLU/media
+    chmod -R 0777 /insaflu_web/INSaFLU/static_all
+    chmod -R 0777 /var/log/insaFlu
+
     ## for televir
+    echo "--->  Set up TELEVIR software  ..."
     if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
         cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py generate_default_trees; #/usr/bin/python3 manage.py register_references_on_file -o /tmp/insaFlu/register
         
