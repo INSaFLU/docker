@@ -135,7 +135,7 @@ RUN set -x \
 
 ###### 
 
-ADD /tmp_install/install_scripts/*.sh /tmp_install/
+ADD install_scripts/*.sh /tmp_install/
 
 RUN sh /tmp_install/install_system_pkgs.sh
 RUN sh /tmp_install/install_software.sh
