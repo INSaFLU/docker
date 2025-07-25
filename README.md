@@ -53,7 +53,7 @@ INSaFLU:
     ## (optional) to run the new viral detection module you need to set up the software and databases
     ## This step can take several hours
     $ ./up_televir.sh
-    ## register TELEVIR references in INSaFLU
+    ## register TELEVIR references in INSaFLU. This step can take some time, consider running it in the background.
     $ docker exec -it insaflu-server register-televir-references
 
     ## Now run INSaFLU
@@ -138,6 +138,8 @@ To update TELEVIR databases, modify the file `components/televir/config_install.
 ```bash
 $ docker exec -it insaflu-server update-televir-databases
 ```
+
+This command will take some time to run, consider running it in the background (e.g. using the -d option of docker exec).
 
 ### TELEVIR+
 

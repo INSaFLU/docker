@@ -4,10 +4,19 @@ set -e
 echo "---> Register televir references  ..."
 cd /insaflu_web/INSaFLU;
 if [ -e /televir/mngs_benchmark/utility_docker.db ]; then
-    nohup python3 manage.py register_references_on_file -o /tmp/insaFlu/register_televir_references > /tmp/insaFlu/register_televir_references.log 2>&1 &
-
+    # if --force is passed as argument, pass it to the command
+    
+    cd /insaflu_web/INSaFLU;
+    echo "Televir database found. Preparing to register references..."
+    if [[ "$1" == "--force" ]]; then
+        echo "Force option detected. Registering references with force."
+        python3 manage.py register_references_on_file -o /tmp/insaFlu/register_televir_references --force
+    else
+        python3 manage.py register_references_on_file -o /tmp/insaFlu/register_televir_references 
+    fi
+    
 else
     echo "Televir database not found. Skipping reference registration."
 fi 
 
-echo "--> Registering references on file in the background. Check the INSaFLU References page to see the progress."
+echo "---> Registering references on file in the background. Check the INSaFLU References page to see the progress."
