@@ -5,6 +5,7 @@ set -e
 if [ "$1" = "init_all" ]; then
     echo "---> Starting the MUNGE Authentication service (munged) ..."
     #service munge start
+    
     gosu munge munged --pid-file=/var/run/munge/munged.pid
     
     echo "---> Wait 45 seconds for all pgsql services  ..."
@@ -25,30 +26,17 @@ if [ "$1" = "init_all" ]; then
     chown -R APP_USER:slurm /insaflu_web/INSaFLU/static_all
     
     ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
-    #if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
-    #    mv /insaflu_web/INSaFLU/.env /insaflu_web/INSaFLU/env/insaflu.env
-    #    ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
-    #fi
-    
-    ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
     if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
-        mv /insaflu_web/INSaFLU/.env /insaflu_web/INSaFLU/env/insaflu.env
+        rm -f /insaflu_web/INSaFLU/.env
         ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     fi
         
-    echo "---> Load default files  ..."
-    if [ ! -e "/software/prokka/db/hmm/HAMAP.hmm.h3f" ]; then
-        echo "---> Set prokka default databases  ..."
-        ## for fresh prokka instalations
-        /software/prokka/bin/prokka --setupdb
-    fi
-    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_files;
-    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py load_default_settings;
-    
-    ## update pangolin if necessary
-    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py update_pangolin;
+    ### set default files and settings, deploy using slurm
+    echo "---> Set default files and settings  ..."
+    cd /data/tmp/; \
+    sbatch /insaflu_web/commands/update_files_software.sh
+    cd /insaflu_web/INSaFLU; 
 
-    
     ### some files/paths are made by "root" account and need to be accessed by "flu_user"
     ### It's done by tmpfiles.d
     rm -rf /tmp/insaFlu/*

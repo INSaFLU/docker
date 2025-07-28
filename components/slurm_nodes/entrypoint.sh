@@ -61,13 +61,20 @@ then
     done
     echo "-- slurmctld is now active ..."
     echo "---> create user and group for slurmd ..."
-    APP_USER=flu_user
-    APP_GROUP=flu_user
-    APP_HOME=/home/$APP_USER
-    sacctmgr create account -i $APP_USER
-    sacctmgr create user -i $APP_USER
-    sacctmgr modify user $APP_USER set adminlevel=ALL
-    sacctmgr modify user $APP_USER set defaultaccount=$APP_USER
+    #APP_USER=flu_user
+    #APP_GROUP=flu_user
+    #APP_HOME=/home/$APP_USER
+    #sacctmgr create account -i $APP_USER
+    #sacctmgr create user -i $APP_USER
+    #sacctmgr modify user $APP_USER set adminlevel=ALL
+    #sacctmgr modify user $APP_USER set defaultaccount=$APP_USER
+
+    ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
+    if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+        rm -f /insaflu_web/INSaFLU/.env
+        ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    fi
+    
 
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dvvv
