@@ -34,7 +34,7 @@ if [ "$1" = "init_all" ]; then
     ### set default files and settings, deploy using slurm
     echo "---> Set default files and settings  ..."
     cd /data/tmp/; \
-    sbatch /insaflu_web/commands/update_files_software.sh
+    sbatch /insaflu_web/commands/load_defaults.sh
     cd /insaflu_web/INSaFLU; 
 
     ### some files/paths are made by "root" account and need to be accessed by "flu_user"
