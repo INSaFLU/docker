@@ -70,9 +70,13 @@ then
     #sacctmgr modify user $APP_USER set defaultaccount=$APP_USER
 
     ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
-    if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
-        rm -f /insaflu_web/INSaFLU/.env
-        ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    if [ -f "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+        echo "---> Linking insaflu.env to .env ..."
+        if [ -e "/insaflu_web/INSaFLU/.env" ]; then
+            echo "---> Removing existing .env file ..."
+            rm -f /insaflu_web/INSaFLU/.env
+        fi
+        cp /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     fi
     
 

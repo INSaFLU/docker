@@ -147,7 +147,11 @@ RUN apt-get update \
 #ENV USER=admin
 
 ADD entrypoint.sh /tmp_install/
-RUN sh /tmp_install/install_finish.sh
+#RUN sh /tmp_install/install_finish.sh
+
+RUN mv /tmp_install/commands /insaflu_web/ 
+RUN cd / && mv /tmp_install/entrypoint.sh entrypoint_original.sh && sed "s/APP_USER/${APP_USER}/g" entrypoint_original.sh > entrypoint.sh && rm entrypoint_original.sh && chmod a+x entrypoint.sh
+
 
 ADD load_defaults.sh /insaflu_web/commands/load_defaults.sh
 RUN chmod a+x /insaflu_web/commands/load_defaults.sh

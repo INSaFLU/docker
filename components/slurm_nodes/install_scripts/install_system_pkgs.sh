@@ -24,6 +24,17 @@ install_pyenv() {
     pip3  install --upgrade pip
 }
 
+
+install_python2() {
+    apt install -y python2
+    if [ $? -ne 0 ]; then
+        echo "Error installing python2"
+        exit 1
+    fi
+    
+    ln -s /usr/bin/python2 /usr/bin/python
+}
+
 install_python310() {
     apt install python3-pip -y
     if [ $? -ne 0 ]; then
@@ -83,6 +94,7 @@ install_system_packages() {
     
     #install_pyenv
     install_python310
+    install_python2
     
 }
 

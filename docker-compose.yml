@@ -267,7 +267,8 @@ services:
       - var_log_insaflu:/var/log/insaFlu
       - insaflu_media:/insaflu_web/INSaFLU/media
       - insaflu_static:/insaflu_web/INSaFLU/static_all
-
+      - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
+      
     expose:
       - "6818"
     depends_on:

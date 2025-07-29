@@ -26,15 +26,20 @@ if [ "$1" = "init_all" ]; then
     chown -R APP_USER:slurm /insaflu_web/INSaFLU/static_all
     
     ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
-    if [ ! -e "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
-        rm -f /insaflu_web/INSaFLU/.env
-        ln -s /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    if [ -f "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+        echo "---> Linking insaflu.env to .env ..."
+        if [ -e "/insaflu_web/INSaFLU/.env" ]; then
+            echo "---> Removing existing .env file ..."
+            rm -f /insaflu_web/INSaFLU/.env
+        fi
+        cp /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     fi
         
     ### set default files and settings, deploy using slurm
     echo "---> Set default files and settings  ..."
-    cd /data/tmp/; \
-    sbatch /insaflu_web/commands/load_defaults.sh
+    cd /data/tmp/; 
+    sudo -u flu_user cp /insaflu_web/commands/load_defaults.sh .
+    sudo -u flu_user sbatch load_defaults.sh
     cd /insaflu_web/INSaFLU; 
 
     ### some files/paths are made by "root" account and need to be accessed by "flu_user"
