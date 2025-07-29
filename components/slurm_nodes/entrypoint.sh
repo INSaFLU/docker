@@ -79,7 +79,6 @@ then
         cp /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     fi
     
-
     echo "---> Starting the Slurm Node Daemon (slurmd) ..."
     exec /usr/sbin/slurmd -Dvvv
 
