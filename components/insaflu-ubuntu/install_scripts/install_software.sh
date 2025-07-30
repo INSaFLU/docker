@@ -163,8 +163,8 @@ cd /software && git clone --branch v3.2  https://github.com/tseemann/snippy.git 
 && chmod a+x /software/snippy/bin/snippy \
 && mv /tmp_install/software/snippy/vcf-consensus /software/snippy/binaries/noarch/vcf-consensus \
 && chmod a+x /software/snippy/binaries/noarch/vcf-consensus \
-sed -i 's#/usr/bin/python#/usr/bin/python2#' /software/snippy/binaries/noarch/fasta_generate_regions.py \
-sed -i 's#/usr/bin/python#/usr/bin/python2#' /software/snippy/binaries/noarch/vcffirstheader 
+&& sed -i 's#/usr/bin/python#/usr/bin/python2#' /software/snippy/binaries/noarch/fasta_generate_regions.py \
+&& sed -i 's#/usr/bin/python#/usr/bin/python2#' /software/snippy/binaries/noarch/vcffirstheader 
 if [ $? -ne 0 ]; then
     echo "Error installing snippy"
     exit 1

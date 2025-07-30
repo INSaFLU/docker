@@ -38,7 +38,7 @@ if [ "$1" = "init_all" ]; then
     ### set default files and settings, deploy using slurm
     echo "---> Set default files and settings  ..."
     cd /data/tmp/; 
-    sudo -u flu_user cp /insaflu_web/commands/load_defaults.sh .
+    cp /insaflu_web/commands/load_defaults.sh .
     sudo -u flu_user sbatch load_defaults.sh
     cd /insaflu_web/INSaFLU; 
 
