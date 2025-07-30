@@ -32,7 +32,6 @@ install_python2() {
         exit 1
     fi
     
-    ln -s /usr/bin/python2 /usr/bin/python
 }
 
 install_python310() {
