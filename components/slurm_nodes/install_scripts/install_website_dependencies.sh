@@ -30,7 +30,7 @@ setup_website_requirements() {
         exit 1
     fi
     
-    git clone --branch ubuntu-develop https://github.com/SantosJGND/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt
+    git clone --branch ubuntu-develop https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt
     if [ $? -ne 0 ]; then
         echo "Error installing INSaFLU base"
         exit 1
