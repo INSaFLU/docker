@@ -22,6 +22,25 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+### fastq-tools
+echo "Install PCRE"
+apt install libpcre3 libpcre3-dev -y
+
+### Install EMBOSS
+echo "Install EMBOSS 6.6.0"
+#mv /tmp_install/software/EMBOSS-6.6.0/EMBOSS-6.6.0.tar.gz /software/extra_software && cd /software/extra_software && tar -zxvf EMBOSS-6.6.0.tar.gz
+#cd /software/extra_software/EMBOSS-6.6.0 && ./configure --without-x
+#/sbin/ldconfig
+#make
+#make install
+#ln -s /usr/local/bin/seqret /usr/bin/seqret && rm -rf /software/extra_software/EMBOSS-6.6.0.tar.gz
+apt install emboss -y
+if [ $? -ne 0 ]; then
+    echo "Error installing EMBOSS"
+    exit 1
+fi
+
+
 # make several links
 echo "Create snippy links"
 sh /tmp_install/software/make_links.sh
