@@ -7,7 +7,7 @@ volumes:
   var_log_insaflu:
   var_log_slurm:
   var_lib_mysql:
-  insaflu-website:
+  #insaflu-website:
   insaflu-software:
   etc_munge:
   tmp_insaflu:
@@ -123,7 +123,7 @@ services:
       - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
       - insaflu-ubuntu-log-insaflu:/var/log/insaFlu
       - insaflu-ubuntu-log-httpd:/var/log/httpd
-      - insaflu-website:/insaflu_web/INSaFLU
+      #- insaflu-website:/insaflu_web/INSaFLU
       - insaflu-software:/software
       - slurm_jobdir:/data
       - etc_slurm:/etc/slurm
@@ -225,7 +225,7 @@ services:
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       - insaflu-website:/insaflu_web/INSaFLU
-      - insaflu-software:/software
+      #- insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
@@ -259,7 +259,7 @@ services:
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       - insaflu-website:/insaflu_web/INSaFLU
-      - insaflu-software:/software
+      #- insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaflu

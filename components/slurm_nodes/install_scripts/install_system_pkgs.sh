@@ -94,7 +94,6 @@ install_system_packages() {
     #install_pyenv
     install_python310
     install_python2
-    
 }
 
 install_system_packages
