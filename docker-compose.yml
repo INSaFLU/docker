@@ -224,8 +224,8 @@ services:
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-      - insaflu-website:/insaflu_web/INSaFLU
-      #- insaflu-software:/software
+      #- insaflu-website:/insaflu_web/INSaFLU
+      - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
@@ -258,8 +258,8 @@ services:
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-      - insaflu-website:/insaflu_web/INSaFLU
-      #- insaflu-software:/software
+      #- insaflu-website:/insaflu_web/INSaFLU
+      - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaflu
