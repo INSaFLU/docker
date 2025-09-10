@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-### several commands
+### several  commands
 echo "---> Copy commands  ..."
 mv /tmp_install/commands /insaflu_web/ && chmod a+x /insaflu_web/commands/*
 
