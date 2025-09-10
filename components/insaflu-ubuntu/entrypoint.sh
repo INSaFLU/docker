@@ -11,6 +11,16 @@ if [ "$1" = "init_all" ]; then
     echo "---> Wait 45 seconds for all pgsql services  ..."
     sleep 45	## wait for postgis extension
     
+    ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
+    if [ -f "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
+        echo "---> Linking insaflu.env to .env ..."
+        if [ -e "/insaflu_web/INSaFLU/.env" ]; then
+            echo "---> Removing existing .env file ..."
+            rm -f /insaflu_web/INSaFLU/.env
+        fi
+        cp /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
+    fi
+
     ### set all default insaflu data
     echo "---> Collect static data  ..."
     cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py collectstatic --noinput;
@@ -25,15 +35,6 @@ if [ "$1" = "init_all" ]; then
     ### This is for televir
     chown -R APP_USER:slurm /insaflu_web/INSaFLU/static_all
     
-    ### need to link after the mount, otherwise all the data in "/insaflu_web/INSaFLU/env" is going to be masked (hided)
-    if [ -f "/insaflu_web/INSaFLU/env/insaflu.env" ]; then
-        echo "---> Linking insaflu.env to .env ..."
-        if [ -e "/insaflu_web/INSaFLU/.env" ]; then
-            echo "---> Removing existing .env file ..."
-            rm -f /insaflu_web/INSaFLU/.env
-        fi
-        cp /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
-    fi
         
     ### set default files and settings, deploy using slurm
     echo "---> Set default files and settings  ..."
