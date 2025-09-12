@@ -140,6 +140,7 @@ ADD install_scripts/*.sh /tmp_install/
 RUN sh /tmp_install/install_system_pkgs.sh
 RUN sh /tmp_install/install_software.sh
 RUN sh /tmp_install/install_website_dependencies.sh
+RUN sh /tmp_install/install_website.sh
 
 ######
 

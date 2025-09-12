@@ -24,7 +24,7 @@ setup_website_requirements() {
     echo `python3 --version`
     echo `pip3 --version`
     
-    mkdir /insaflu_web_proxy && cd /insaflu_web_proxy
+    mkdir /insaflu_web && cd /insaflu_web
     if [ $? -ne 0 ]; then
         echo "Error creating or changing to /insaflu_web directory"
         exit 1
