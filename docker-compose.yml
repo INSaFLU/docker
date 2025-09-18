@@ -225,6 +225,7 @@ services:
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       #- insaflu-website:/insaflu_web/INSaFLU
+      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
@@ -259,6 +260,7 @@ services:
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       #- insaflu-website:/insaflu_web/INSaFLU
+      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
