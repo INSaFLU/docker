@@ -25,4 +25,18 @@ fi
 # image name
 export IMAGE=insaflu-ubuntu
 
+echo "Starting INSaFLU services (without compute nodes)..."
 docker compose up ${IMAGE}
+
+echo ""
+echo "==================================================================="
+echo "INSaFLU is now running without compute nodes."
+echo "To add compute nodes dynamically, use:"
+echo "  ./scale-up.sh [number_of_nodes]"
+echo ""
+echo "To remove compute nodes, use:"
+echo "  ./scale-down.sh [number_of_nodes]"
+echo ""
+echo "To start with initial nodes, run:"
+echo "  ./scale-up.sh 2"
+echo "==================================================================="

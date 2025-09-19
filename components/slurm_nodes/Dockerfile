@@ -147,6 +147,11 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chown slurm:slurm /usr/local/bin/entrypoint.sh
 
+# Copy node management scripts
+COPY scripts /scripts
+RUN chmod +x /scripts/*.sh
+RUN chown -R slurm:slurm /scripts
+
 COPY configs/munge/munge.key /etc/munge/
 RUN chmod 400 /etc/munge/munge.key
 RUN chown munge:munge /etc/munge/munge.key
@@ -154,7 +159,7 @@ RUN chown munge:munge /etc/munge/munge.key
 RUN mkdir -p /tmp/insaFlu && chown ${APP_USER}:slurm /tmp/insaFlu
 
 RUN apt-get update \
-    && apt-get install -y sudo
+    && apt-get install -y sudo netcat-openbsd
 
 #RUN sacctmgr create account -i $APP_USER
 #RUN sacctmgr create user -i $APP_USER

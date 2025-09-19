@@ -1,0 +1,83 @@
+version: "3.4"
+
+# Template for dynamically creating SLURM compute nodes
+# Usage: docker-compose -f docker-compose-node-template.yml up --scale slurm-node=N
+
+services:
+  slurm-node:
+    image: slurm-docker-nodes:${IMAGE_TAG}
+    build:
+      context: components/slurm_nodes/.
+      args:
+        SLURM_TAG: ${SLURM_TAG}
+    command: ["slurmd"]
+    volumes:
+      - etc_slurm:/etc/slurm
+      - slurm_jobdir:/data
+      - var_log_slurm:/var/log/slurm
+      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
+      - insaflu-software:/software
+      - televir:/televir/mngs_benchmark
+      - etc_munge:/etc/munge
+      - var_log_insaflu:/var/log/insaFlu
+      - tmp_insaflu:/tmp/insaFlu
+      - insaflu_media:/insaflu_web/INSaFLU/media
+      - insaflu_static:/insaflu_web/INSaFLU/static_all
+      - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
+    expose:
+      - "6818"
+    depends_on:
+      - slurmctld
+    networks:
+      - slurm-network
+      - insaflu_ubuntu_net
+    environment:
+      - NODE_ID=${NODE_ID:-1}
+      - SLURM_CONTROLLER=slurmctld
+
+# External networks and volumes from main docker-compose.yml
+networks:
+  slurm-network:
+    external: true
+    name: docker_slurm-network
+  insaflu_ubuntu_net:
+    external: true
+    name: docker_insaflu_ubuntu_net
+
+volumes:
+  etc_slurm:
+    external: true
+    name: docker_etc_slurm
+  slurm_jobdir:
+    external: true
+    name: docker_slurm_jobdir
+  var_log_slurm:
+    external: true
+    name: docker_var_log_slurm
+  insaflu-ubuntu-predefined_dbs:
+    external: true
+    name: docker_insaflu-ubuntu-predefined_dbs
+  insaflu-software:
+    external: true
+    name: docker_insaflu-software
+  televir:
+    external: true
+    name: docker_televir
+  etc_munge:
+    external: true
+    name: docker_etc_munge
+  var_log_insaflu:
+    external: true
+    name: docker_var_log_insaflu
+  tmp_insaflu:
+    external: true
+    name: docker_tmp_insaflu
+  insaflu_media:
+    external: true
+    name: docker_insaflu_media
+  insaflu_static:
+    external: true
+    name: docker_insaflu_static
+  insaflu-ubuntu-env:
+    external: true
+    name: docker_insaflu-ubuntu-env
