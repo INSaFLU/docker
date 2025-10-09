@@ -21,12 +21,13 @@ if [ "$1" = "init_all" ]; then
         cp /insaflu_web/INSaFLU/env/insaflu.env /insaflu_web/INSaFLU/.env
     fi
 
+
     ### set all default insaflu data
     echo "---> Collect static data  ..."
     cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py collectstatic --noinput;
     
     echo "---> Create/Update database if necessary  ..."
-    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py migrate;
+    cd /insaflu_web/INSaFLU; /usr/bin/python3 manage.py makemigrations; /usr/bin/python3 manage.py migrate;
 
     ### set owners
     echo "---> Set owners APP_USER ..."
@@ -34,11 +35,10 @@ if [ "$1" = "init_all" ]; then
     chown -R APP_USER:slurm /var/log/insaFlu
     ### This is for televir
     chown -R APP_USER:slurm /insaflu_web/INSaFLU/static_all
-    
         
     ### set default files and settings, deploy using slurm
     echo "---> Set default files and settings  ..."
-    mkdir -p /data/tmp && cd /data/tmp/; 
+    mkdir -p /data/tmp && cd /data/tmp/;  chown -R APP_USER:slurm /data/;
     cp /insaflu_web/commands/load_defaults.sh .
     sudo -u flu_user sbatch load_defaults.sh
     cd /insaflu_web/INSaFLU; 

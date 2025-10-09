@@ -132,7 +132,7 @@ fi
 ################## ACTION NEEDED
 ################## new version, check if we still need to be copying tbl2asn script
 echo "Install prokka"
-cd /software && git clone --branch v1.14.5 https://github.com/tseemann/prokka.git #&& mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn
+cd /software && git clone --branch v1.14.5 https://github.com/tseemann/prokka.git #&& mv /tmp_install/software/prokka/tbl2asn /software/prokka/binaries/linux && chmod +x /software/prokka/binaries/linux/tbl2asn && /software/prokka/bin/prokka --setupdb
 #conda create -n prokka -c conda-forge -c bioconda prokka=1.14.5 tbl2asn-forever
 if [ $? -ne 0 ]; then
     echo "Error installing prokka"

@@ -1,5 +1,3 @@
-version: "3.4"
-
 ### places where the most important data is
 volumes:
   etc_slurm:
@@ -7,12 +5,9 @@ volumes:
   var_log_insaflu:
   var_log_slurm:
   var_lib_mysql:
-  #insaflu-website:
   insaflu-software:
   etc_munge:
   tmp_insaflu:
-  insaflu_media:
-  insaflu_static:
 
   pg_data:
     driver: local-persist
@@ -22,10 +17,10 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: ${BASE_PATH_DATA}/insaflu/data/all_data
-  insaflu-ubuntu-predefined_dbs:
+  insaflu-ubuntu-static:
     driver: local-persist
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/data/predefined_dbs
+      mountpoint: ${BASE_PATH_DATA}/insaflu/data/static
   insaflu-ubuntu-env:
     driver: local-persist
     driver_opts:
@@ -119,7 +114,7 @@ services:
     volumes:
       - televir:/televir/mngs_benchmark
       - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media
-      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
+      - insaflu-ubuntu-static:/insaflu_web/INSaFLU/static_all
       - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
       - insaflu-ubuntu-log-insaflu:/var/log/insaFlu
       - insaflu-ubuntu-log-httpd:/var/log/httpd
@@ -130,8 +125,6 @@ services:
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
       - tmp_insaflu:/tmp/insaFlu
-      - insaflu_media:/insaflu_web/INSaFLU/media
-      - insaflu_static:/insaflu_web/INSaFLU/static_all
     labels:
       deck-chores.update-pangolin.command: sh -c "/software/update_pangolin.sh"
       # weekly, daily, hourly, every minute and every second.
@@ -221,18 +214,16 @@ services:
     hostname: c1
     container_name: c1
     volumes:
+      - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media
+      - insaflu-ubuntu-static:/insaflu_web/INSaFLU/static_all
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-      #- insaflu-website:/insaflu_web/INSaFLU
-      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
       - var_log_insaflu:/var/log/insaFlu
       - tmp_insaflu:/tmp/insaFlu
-      - insaflu_media:/insaflu_web/INSaFLU/media
-      - insaflu_static:/insaflu_web/INSaFLU/static_all
       - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
 
     expose:
@@ -256,19 +247,16 @@ services:
     hostname: c2
     container_name: c2
     volumes:
+      - insaflu-ubuntu-data:/insaflu_web/INSaFLU/media
+      - insaflu-ubuntu-static:/insaflu_web/INSaFLU/static_all
       - etc_slurm:/etc/slurm
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
-      #- insaflu-website:/insaflu_web/INSaFLU
-      - insaflu-ubuntu-predefined_dbs:/insaflu_web/INSaFLU/static_all/db
       - insaflu-software:/software
       - televir:/televir/mngs_benchmark
       - etc_munge:/etc/munge
-      - var_log_insaflu:/var/log/insaflu
       - tmp_insaflu:/tmp/insaFlu
       - var_log_insaflu:/var/log/insaFlu
-      - insaflu_media:/insaflu_web/INSaFLU/media
-      - insaflu_static:/insaflu_web/INSaFLU/static_all
       - insaflu-ubuntu-env:/insaflu_web/INSaFLU/env
       
     expose:
