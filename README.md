@@ -203,3 +203,10 @@ For INSaFLU versions **before 1.5.2**
 It is necessary to install the last [INSaFLU docker](#update-insaflu-docker-installation--keeping-your-previous-data-).
 
 **_NOTE:_** When you make the update of **INSaFLU docker** you update all software and **INSaFLU website**. When you update only **INSaFLU website** you only update **INSaFLU**.
+
+## Funding 
+
+At an initial stage, this work was supported by funding from the European Union’s Horizon 2020 Research and Innovation programme under grant agreement No 773830: One Health European Joint Programme. INSaFLU-TELEVIR development and maintanance is currently supported by:
+
+The European Union through the [DURABLE “Research Network against Epidemics” project](https://durableproject.org/). DURABLE is co-funded by The European Commission Union under the EU4Health Programme (EU4H) [101102733]. However, views and opinions expressed are those of the authors only and do not necessarily reflect those of the European Union or the European Health and Digital Executive Agency. Neither the European Union nor the granting authority can be held responsible.
+The European Union through the [GENEO “Sustainable use and integration of enhanced infrastructure into routine genome-based surveillance and outbreak investigation activities in Portugal” project](https://www.insa.min-saude.pt/category/projectos/geneo/). GENEO is co-funded by The European Commission Union under the EU4Health Programme (EU4H) [101113460]. However, views and opinions expressed are those of the authors only and do not necessarily reflect those of the European Union or the European Health and Digital Executive Agency. Neither the European Union nor the granting authority can be held responsible.
