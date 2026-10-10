@@ -3,37 +3,53 @@
 volumes:
 
   pg_data:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/postgres/postgres_data
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/postgres/postgres_data
   pgbackups:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/postgres/backups
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/postgres/backups
   insaflu-server-data:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/data/all_data
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/insaflu/data/all_data
   insaflu-server-predefined_dbs:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/data/predefined_dbs
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/insaflu/data/predefined_dbs
   insaflu-server-env:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/env
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/insaflu/env
   insaflu-server-log-insaflu:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/log/insaFlu
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/insaflu/log/insaFlu
   insaflu-server-log-httpd:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/insaflu/log/httpd
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/insaflu/log/httpd
   televir:
-    driver: local-persist
+    driver: local
     driver_opts:
-      mountpoint: ${BASE_PATH_DATA}/televir/
+      type: none
+      o: bind
+      device: ${BASE_PATH_DATA}/televir/
 ### this is necessary to set an ip to SGE in insaflu
 networks:
   insaflu_net:
