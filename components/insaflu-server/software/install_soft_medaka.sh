@@ -2,17 +2,17 @@ set -e
 
 cd /software
 pip3 install virtualenv
-virtualenv medaka --python=python3 --prompt "(medaka 1.2.1) "
+virtualenv medaka --python=python3 --prompt "(medaka 1.2.6) "
 . medaka/bin/activate
 pip3 install --upgrade setuptools
-pip3 install --no-cache-dir medaka==1.2.1
+pip3 install --no-cache-dir medaka==1.2.6
 cd medaka
 
 #Install minimap
 # cd
 mkdir -p extra_software
 cd extra_software
-git clone https://github.com/lh3/minimap2.git
+git clone  --branch v2.17 https://github.com/lh3/minimap2.git
 cd minimap2/
 make
 
