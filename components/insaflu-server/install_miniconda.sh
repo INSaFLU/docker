@@ -16,7 +16,7 @@ fi
 
 # Aln2pheno
 echo "Install Aln2Pheno"
-eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.5 --quiet && conda deactivate && mv /tmp_install/software/aln2pheno /software/ && chmod u+x /software/aln2pheno/aln2pheno.sh
+eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3.9 && conda activate aln2pheno && pip install algn2pheno==1.1.5 --quiet && conda deactivate && mv /tmp_install/software/aln2pheno /software/ && chmod u+x /software/aln2pheno/aln2pheno.sh
 if [ $? -ne 0 ]; then
     echo "Error installing Aln2pheno"
     exit 1
@@ -47,7 +47,16 @@ if [ $? -ne 0 ]; then
 fi
 
 # LABEL for Nextstrain (avian flu)
-cd /software/nextstrain && wget https://wonder.cdc.gov/amd/flu/label/flu-amd-LABEL-202209.zip && unzip flu-amd-LABEL-202209.zip && rm -f flu-amd-LABEL-202209.zip
+# cd /software/nextstrain && wget https://wonder.cdc.gov/amd/flu/label/flu-amd-LABEL-202209.zip && unzip flu-amd-LABEL-202209.zip && rm -f flu-amd-LABEL-202209.zip
+# CDC retired the wonder.cdc.gov download; same file is the v0.6.4 release asset on GitHub. See: https://github.com/INSaFLU/docker/issues/46
+install_label() {
+    cd /software/nextstrain
+    wget https://github.com/CDCgov/label/releases/download/v0.6.4/flu-amd-LABEL-202209.zip
+    unzip flu-amd-LABEL-202209.zip
+    rm -f flu-amd-LABEL-202209.zip
+}
+
+install_label
 if [ $? -ne 0 ]; then
     echo "Error installing LABEL for Nextstrain"
     exit 1
@@ -79,10 +88,40 @@ fi
 
 # Nextstrain Dengue
 echo "Install Nextstrain Dengue"
-conda create --name=nextstrain_dengue -c conda-forge mamba python=3.10 --yes && conda activate nextstrain_dengue && mamba install -c conda-forge -c bioconda mafft iqtree seqkit --yes && pip install nextstrain-cli nextstrain-augur snakemake && pip install pulp==2.7 && pip install epiweeks && curl -fsSL "https://github.com/nextstrain/nextclade/releases/download/3.10.2/nextclade-x86_64-unknown-linux-gnu" -o "/software/nextclade" && chmod +x /software/nextclade && mv /software/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/ && ln -s /software/miniconda2/envs/nextstrain_dengue/bin/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/nextclade3  && conda deactivate 
+#conda create --name=nextstrain_dengue -c conda-forge mamba python=3.10 --yes && conda activate nextstrain_dengue && mamba install -c conda-forge -c bioconda mafft iqtree seqkit --yes && pip install nextstrain-cli nextstrain-augur snakemake && pip install pulp==2.7 && pip install epiweeks && curl -fsSL "https://github.com/nextstrain/nextclade/releases/download/3.10.2/nextclade-x86_64-unknown-linux-gnu" -o "/software/nextclade" && chmod +x /software/nextclade && mv /software/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/ && ln -s /software/miniconda2/envs/nextstrain_dengue/bin/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/nextclade3  && conda deactivate 
+# Pins: CentOS 7 has glibc 2.17. augur 23.1.1 constrains pandas/numpy/scipy to 1.*,
+# which still publish manylinux_2_17 wheels, so nothing is built from source.
+# See:      https://github.com/INSaFLU/docker/issues/48
+# See also: https://github.com/INSaFLU/docker/issues/50
+# See also: https://github.com/INSaFLU/docker/issues/52
+install_nextstrain_dengue() {
+    conda create --name=nextstrain_dengue -c conda-forge mamba python=3.10 --yes
+    conda activate nextstrain_dengue
+    mamba install -c conda-forge -c bioconda mafft iqtree seqkit --yes
+    export CVXOPT_LAPACK_LIB_DIR=/usr/lib64
+    export CVXOPT_BLAS_LIB_DIR=/usr/lib64
+    pip install nextstrain-cli==8.5.4
+    pip install numpy==1.26.4
+    pip install pandas==1.5.3
+    pip install pillow==12.2.0
+    pip install matplotlib==3.9.4
+    pip install phylo-treetime==0.11.5
+    pip install nextstrain-augur==23.1.1
+    pip install snakemake==7.32.2
+    pip install cvxopt==1.3.2
+    pip install pulp==2.7
+    pip install epiweeks==2.4.0
+    curl -fsSL "https://github.com/nextstrain/nextclade/releases/download/3.10.2/nextclade-x86_64-unknown-linux-gnu" -o "/software/nextclade"
+    chmod +x /software/nextclade
+    mv /software/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/
+    ln -s /software/miniconda2/envs/nextstrain_dengue/bin/nextclade /software/miniconda2/envs/nextstrain_dengue/bin/nextclade3
+    conda deactivate
+}
+
+install_nextstrain_dengue
 
 # Nextstrain builds
-cd /software/nextstrain/ && git clone https://github.com/INSaFLU/nextstrain_builds.git && cd nextstrain_builds && rm -R -f ncov && git clone https://github.com/INSaFLU/dengue.git && git clone https://github.com/INSaFLU/mpox.git && https://github.com/INSaFLU/ncov.git 
+cd /software/nextstrain/ && git clone https://github.com/INSaFLU/nextstrain_builds.git && cd nextstrain_builds && rm -R -f ncov && git clone https://github.com/INSaFLU/dengue.git && git clone https://github.com/INSaFLU/mpox.git && git clone https://github.com/INSaFLU/ncov.git 
 if [ $? -ne 0 ]; then
     echo "Error installing Nextstrain builds"
     exit 1
@@ -97,7 +136,7 @@ fi
 
 # raven
 echo "Install raven"
-conda create --name=raven -c conda-forge  -c bioconda raven-assembler=1.8.1 && mv /tmp_install/software/raven/ /software/ && chmod a+x /software/raven/raven.sh 
+conda create --name=raven -c conda-forge  -c bioconda raven-assembler=1.8.1 --yes && mv /tmp_install/software/raven/ /software/ && chmod a+x /software/raven/raven.sh 
 if [ $? -ne 0 ]; then
     echo "Error installing raven"
     exit 1
