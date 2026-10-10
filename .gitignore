@@ -4,3 +4,6 @@
 ## directories where data will be stay
 insaflu/
 postgres/
+
+# log files
+insaflu-build-*.log
