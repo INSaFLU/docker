@@ -16,7 +16,7 @@ fi
 
 # Aln2pheno
 echo "Install Aln2Pheno"
-eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3 && conda activate aln2pheno && pip install algn2pheno==1.1.5 --quiet && conda deactivate && mv /tmp_install/software/aln2pheno /software/ && chmod u+x /software/aln2pheno/aln2pheno.sh
+eval "$(/software/miniconda2/bin/conda shell.bash hook)" && conda create --name=aln2pheno python=3.9 && conda activate aln2pheno && pip install algn2pheno==1.1.5 --quiet && conda deactivate && mv /tmp_install/software/aln2pheno /software/ && chmod u+x /software/aln2pheno/aln2pheno.sh
 if [ $? -ne 0 ]; then
     echo "Error installing Aln2pheno"
     exit 1
