@@ -21,8 +21,29 @@ useradd -ms /bin/bash ${APP_USER}
 echo "Setup website code"
 pip3 install wheel
 pip3 install --upgrade setuptools
-mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch develop https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
-#mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch master https://github.com/SantosJGND/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
+# mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch develop https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
+
+function install_insaflu_base {
+    # set -e is active at the top of the function
+    mkdir /insaflu_web
+    cd /insaflu_web
+    pip3 install "Cython<3.0"
+    pip3 install pyyaml==6.0.1
+    git clone --branch develop https://github.com/INSaFLU/INSaFLU.git
+    cd INSaFLU
+    pip3 install -r requirements.txt
+    pip3 install mod_wsgi-standalone
+    rm /etc/httpd/modules/mod_wsgi.so
+    ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
+    mkdir /insaflu_web/INSaFLU/env
+    mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env
+    chown -R ${APP_USER}:${APP_USER} /insaflu_web/INSaFLU
+    mkdir /var/log/insaFlu
+    chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
+}
+
+install_insaflu_base
+
 if [ $? -ne 0 ]; then
     echo "Error installing INSaFLU base"
     exit 1
