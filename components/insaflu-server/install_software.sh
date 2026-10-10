@@ -144,8 +144,18 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-### 
-cd /software && wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip && unzip v0.0.1.zip && rm -f v0.0.1.zip && mv RabbitQC-0.0.1/ RabbitQC && cd RabbitQC && sed 's/ -static//' Makefile > temp.txt && mv -f temp.txt Makefile && make && pip3 install nanostat==1.5.0 && pip3 install nanofilt==2.7.1
+### RabbitQC
+echo "Install RabbitQC"
+cd /software
+wget https://github.com/ZekunYin/RabbitQC/archive/v0.0.1.zip
+unzip v0.0.1.zip
+rm -f v0.0.1.zip
+mv RabbitQC-0.0.1/ RabbitQC
+cd RabbitQC
+sed 's/ -static//' Makefile > temp.txt
+mv -f temp.txt Makefile
+make
+uv pip install --system nanostat==1.5.0 nanofilt==2.7.1
 
 ## medaka
 echo "Install medaka"
