@@ -6,7 +6,62 @@ sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /
 # Install package dependencies
 echo "Install package dependencies"
 yum -y install epel-release
-yum -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql httpd httpd-tools httpd-devel mod_wsgi bash file binutils gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* python38 python38-pip gcc zlib-devel bzip2-devel xz-devel python38-devel cmake cmake3 gcc-c++ autoconf bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+# yum -y install gdal gdal-devel dos2unix parallel postgis postgresql-devel postgresql httpd httpd-tools httpd-devel mod_wsgi bash file binutils gzip git unzip wget java perl perl-devel perl-Time-Piece perl-XML-Simple perl-Digest-MD5 perl-CPAN perl-Module-Build perl-File-Slurp perl-Test* python38 python38-pip gcc zlib-devel bzip2-devel xz-devel python38-devel cmake cmake3 gcc-c++ autoconf bzip2 automake libtool which https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+
+packages=(
+    gdal
+    gdal-devel
+    dos2unix
+    parallel
+    postgis
+    postgresql-devel
+    postgresql
+    httpd
+    httpd-tools
+    httpd-devel
+    mod_wsgi
+    bash
+    file
+    binutils
+    gzip
+    git
+    unzip
+    wget
+    java
+    perl
+    perl-devel
+    perl-Time-Piece
+    perl-XML-Simple
+    perl-Digest-MD5
+    perl-CPAN
+    perl-Module-Build
+    perl-File-Slurp
+    "perl-Test*"
+    python38
+    python38-pip
+    python3-devel
+    gcc
+    zlib-devel
+    bzip2-devel
+    xz-devel
+    python38-devel
+    cmake
+    cmake3
+    gcc-c++
+    autoconf
+    bzip2
+    automake
+    libtool
+    libjpeg-turbo-devel
+    lapack-devel
+    blas-devel
+    suitesparse-devel
+    which
+    https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.7.1/ncbi-blast-2.7.1+-1.x86_64.rpm
+)
+
+yum -y install "${packages[@]}"
+
 if [ $? -ne 0 ]; then
     echo "Error installing system packages"
     exit 1
@@ -21,8 +76,36 @@ useradd -ms /bin/bash ${APP_USER}
 echo "Setup website code"
 pip3 install wheel
 pip3 install --upgrade setuptools
-mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch develop https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
-#mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch master https://github.com/SantosJGND/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu
+# mkdir /insaflu_web && cd /insaflu_web && pip3 install Cython && git clone --branch develop https://github.com/INSaFLU/INSaFLU.git && cd INSaFLU && pip3 install -r requirements.txt && pip3 install mod_wsgi-standalone && rm /etc/httpd/modules/mod_wsgi.so &&  ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so && mkdir /insaflu_web/INSaFLU/env && mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env && chown -R ${APP_USER}:${APP_USER} * && mkdir /var/log/insaFlu && chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
+
+function install_insaflu_base {
+    # set -e is active at the top of the function
+    mkdir /insaflu_web
+    cd /insaflu_web
+    uv pip install --system "Cython<3.0" pyyaml==6.0.1 pysam==0.19.1
+    git clone --branch develop https://github.com/INSaFLU/INSaFLU.git
+    cd INSaFLU
+    # django-tables2 1.16.0 ships sdist only, and its tarball contains
+    # docs/pages/CHANGELOG.md as a symlink to an absolute path in the
+    # packager's home directory. uv refuses to unpack archives with external
+    # symlinks. Unpack it here, drop the symlink, install from the directory.
+    curl -fsSL -O https://files.pythonhosted.org/packages/source/d/django-tables2/django-tables2-1.16.0.tar.gz
+    tar -xzf django-tables2-1.16.0.tar.gz
+    rm -f django-tables2-1.16.0/docs/pages/CHANGELOG.md
+    uv pip install --system ./django-tables2-1.16.0
+    rm -rf django-tables2-1.16.0 django-tables2-1.16.0.tar.gz
+    uv pip install --system -r requirements.txt mod_wsgi-standalone
+    rm /etc/httpd/modules/mod_wsgi.so
+    ln -s /usr/local/lib64/python3.8/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so /etc/httpd/modules/mod_wsgi.so
+    mkdir /insaflu_web/INSaFLU/env
+    mv /tmp_install/configs/insaflu.env /insaflu_web/INSaFLU/.env
+    chown -R ${APP_USER}:${APP_USER} /insaflu_web/INSaFLU
+    mkdir /var/log/insaFlu
+    chown -R ${APP_USER}:${APP_USER} /var/log/insaFlu
+}
+
+install_insaflu_base
+
 if [ $? -ne 0 ]; then
     echo "Error installing INSaFLU base"
     exit 1

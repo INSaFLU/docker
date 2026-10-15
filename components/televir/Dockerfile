@@ -59,11 +59,11 @@ RUN apt-get install zlib1g-dev make g++
 COPY taxdump.tar.gz /opt/
 
 WORKDIR /insaflu_web
-ADD https://api.github.com/repos/SantosJGND/TELEVIR/git/refs/heads/main version.json
-RUN wget --quiet https://github.com/SantosJGND/TELEVIR/archive/main.zip -O televir.zip && \
+ADD https://api.github.com/repos/georgemarselis-nvi/televir/git/refs/heads/nvi-install version.json
+RUN wget --quiet https://github.com/georgemarselis-nvi/televir/archive/nvi-install.zip -O televir.zip && \
     unzip -q televir.zip && \
     rm televir.zip && \
-    mv TELEVIR-main TELEVIR
+    mv televir-nvi-install TELEVIR
 ##chown -R ${APP_USER}:${APP_USER} TELEVIR
 
 COPY configs/config_install.py /insaflu_web/TELEVIR/install_scripts/config.py
