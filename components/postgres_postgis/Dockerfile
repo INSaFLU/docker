@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.authors="Mike Dillon <mike@appropriate.io>"
 ENV POSTGIS_MAJOR 3
 ENV POSTGIS_VERSION 3.2.3+dfsg-1.pgdg110+1
 
-RUN sed -i 's|apt.postgresql.org|apt-archive.postgresql.org|' /etc/apt/sources.list.d/pgdg.list && apt-get update \
+RUN sed -i 's|apt.postgresql.org|apt-archive.postgresql.org|' /etc/apt/sources.list.d/pgdg.list && apt-get update && apt-get install -y --no-install-recommends ca-certificates && apt-get update \
       && apt install -y --no-install-recommends \
       postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR \
       postgresql-$PG_MAJOR-postgis-$POSTGIS_MAJOR-scripts \
